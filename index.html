@@ -2,568 +2,478 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>StudyNotes</title>
 
 <style>
-* {
-    box-sizing: border-box;
+*{box-sizing:border-box}
+
+:root{
+  --bg:#fff;
+  --panel:#f5f5f5;
+  --line:#ddd;
+  --text:#111;
+  --muted:#777;
+  --hover:#e9e9e9;
 }
 
-html,
-body {
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    background: #080808;
-    color: #f5f5f5;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+html,body{
+  margin:0;
+  width:100%;
+  height:100%;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  overflow:hidden;
 }
 
-body {
-    overflow: hidden;
+/* INTRO */
+
+#intro{
+  position:fixed;
+  inset:0;
+  z-index:1000;
+  background:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  animation:introOut 1s ease forwards;
+  animation-delay:2.4s;
 }
 
-/* =========================
-   INTRO SCREEN
-   ========================= */
-
-#intro {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: #080808;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    animation: introFade 0.9s ease 2.7s forwards;
+.logo{
+  width:150px;
+  height:150px;
+  position:relative;
 }
 
-.intro-content {
-    text-align: center;
-    animation: introContent 1.2s ease forwards;
+.logo:before,
+.logo:after{
+  content:"";
+  position:absolute;
+  inset:25px;
+  border:3px solid #111;
+  border-radius:50%;
+  transform:rotate(45deg);
 }
 
-.intro-logo {
-    width: 125px;
-    height: 125px;
-    margin-bottom: 22px;
+.logo:after{
+  transform:rotate(-45deg);
 }
 
-.intro-logo ellipse {
-    fill: none;
-    stroke: #ffffff;
-    stroke-width: 2.5;
+.logo-dot{
+  position:absolute;
+  width:30px;
+  height:30px;
+  border:3px solid #111;
+  border-radius:50%;
+  top:60px;
+  left:60px;
 }
 
-.intro-logo circle {
-    fill: #ffffff;
+.intro-title{
+  position:absolute;
+  margin-top:230px;
+  font-size:30px;
+  font-weight:700;
+  letter-spacing:-1px;
 }
 
-.intro-title {
-    margin: 0;
-    font-size: 42px;
-    font-weight: 700;
-    letter-spacing: -1.5px;
+@keyframes introOut{
+  to{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+  }
 }
 
-.intro-subtitle {
-    margin-top: 10px;
-    color: #888;
-    font-size: 15px;
-    letter-spacing: 0.2px;
+/* APP */
+
+#app{
+  width:100%;
+  height:100%;
+  display:flex;
+  overflow:hidden;
 }
 
-@keyframes introContent {
-    from {
-        opacity: 0;
-        transform: translateY(12px) scale(0.98);
-    }
+/* LEFT PANEL */
 
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
+#sidebar{
+  width:285px;
+  min-width:285px;
+  height:100%;
+  background:var(--panel);
+  border-right:1px solid var(--line);
+  display:flex;
+  flex-direction:column;
+  transition:width .25s ease,min-width .25s ease,transform .25s ease;
+  overflow:hidden;
 }
 
-@keyframes introFade {
-    to {
-        opacity: 0;
-        visibility: hidden;
-        pointer-events: none;
-    }
+#sidebar.collapsed{
+  width:0;
+  min-width:0;
+  border:0;
 }
 
-/* =========================
-   APP
-   ========================= */
-
-#app {
-    width: 100%;
-    height: 100%;
-    display: grid;
-    grid-template-columns: 270px minmax(0, 1fr) 320px;
-    opacity: 0;
-    animation: appAppear 0.8s ease 2.8s forwards;
+.sidebar-top{
+  padding:18px;
 }
 
-@keyframes appAppear {
-    to {
-        opacity: 1;
-    }
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:20px;
+  font-weight:700;
+  margin-bottom:16px;
 }
 
-/* =========================
-   SIDEBAR
-   ========================= */
-
-.sidebar {
-    height: 100%;
-    min-width: 0;
-    border-right: 1px solid #242424;
-    padding: 18px;
-    display: flex;
-    flex-direction: column;
-    background: #090909;
+.mini-logo{
+  width:25px;
+  height:25px;
+  border:2px solid #111;
+  border-radius:50%;
+  transform:rotate(45deg);
 }
 
-.brand {
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    font-size: 20px;
-    font-weight: 700;
-    margin-bottom: 18px;
+.search{
+  width:100%;
+  padding:10px 12px;
+  border:1px solid var(--line);
+  border-radius:9px;
+  background:#fff;
+  outline:none;
+  font-size:14px;
 }
 
-.brand-logo {
-    width: 32px;
-    height: 32px;
+.search:focus{
+  border-color:#111;
 }
 
-.brand-logo ellipse {
-    fill: none;
-    stroke: #ffffff;
-    stroke-width: 3;
+.new-note{
+  width:100%;
+  margin-top:10px;
+  padding:11px;
+  border:1px solid #111;
+  background:#111;
+  color:#fff;
+  border-radius:9px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:600;
 }
 
-.brand-logo circle {
-    fill: #ffffff;
-}
-
-.search {
-    width: 100%;
-    padding: 10px 11px;
-    border-radius: 9px;
-    border: 1px solid #292929;
-    background: #111111;
-    color: #ffffff;
-    outline: none;
-    margin-bottom: 10px;
-}
-
-.search:focus {
-    border-color: #555555;
-}
-
-.primary-button {
-    border: none;
-    background: #ffffff;
-    color: #000000;
-    border-radius: 9px;
-    padding: 11px;
-    font-weight: 700;
-    cursor: pointer;
-}
-
-.primary-button:hover {
-    opacity: 0.88;
-}
-
-.section-label {
-    color: #666666;
-    font-size: 10px;
-    letter-spacing: 1.3px;
-    text-transform: uppercase;
-    margin: 18px 4px 7px;
+.section{
+  padding:10px 12px 4px;
+  font-size:11px;
+  color:var(--muted);
+  text-transform:uppercase;
+  letter-spacing:.08em;
 }
 
 .folder,
-.note-item,
-.sidebar-button {
-    width: 100%;
-    border: none;
-    background: transparent;
-    color: #cccccc;
-    border-radius: 8px;
-    padding: 9px;
-    text-align: left;
-    cursor: pointer;
+.note-item{
+  margin:2px 10px;
+  padding:9px 10px;
+  border-radius:8px;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
 }
 
 .folder:hover,
-.note-item:hover,
-.sidebar-button:hover {
-    background: #171717;
+.note-item:hover{
+  background:var(--hover);
 }
 
-.folder.active {
-    background: #171717;
-    color: #ffffff;
+.note-item.active{
+  background:#ddd;
+  font-weight:600;
 }
 
-.folder-dot {
-    display: inline-block;
-    width: 9px;
-    height: 9px;
-    border-radius: 50%;
-    background: #777777;
-    margin-right: 8px;
+.folder-dot{
+  width:9px;
+  height:9px;
+  border:1px solid #111;
+  border-radius:50%;
 }
 
-.private-dot {
-    background: #ffffff;
-    border: 2px solid #666666;
+.note-list{
+  overflow:auto;
+  flex:1;
 }
 
-#noteList {
-    overflow-y: auto;
-    min-height: 0;
+.sidebar-bottom{
+  padding:12px;
+  border-top:1px solid var(--line);
 }
 
-.note-item {
-    margin-bottom: 2px;
+.small-button{
+  width:100%;
+  padding:9px;
+  background:transparent;
+  border:0;
+  text-align:left;
+  border-radius:7px;
+  cursor:pointer;
 }
 
-.sidebar-bottom {
-    margin-top: auto;
-    display: grid;
-    gap: 6px;
+.small-button:hover{
+  background:var(--hover);
 }
 
-.sidebar-button {
-    border: 1px solid #252525;
-    background: #111111;
+/* MAIN */
+
+#main{
+  flex:1;
+  min-width:0;
+  height:100%;
+  display:flex;
+  flex-direction:column;
 }
 
-/* =========================
-   MAIN EDITOR
-   ========================= */
-
-.main {
-    min-width: 0;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
+.topbar{
+  height:58px;
+  min-height:58px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:0 15px;
 }
 
-.topbar {
-    min-height: 60px;
-    border-bottom: 1px solid #242424;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 9px 13px;
+.icon-button{
+  width:36px;
+  height:36px;
+  border:0;
+  background:transparent;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:19px;
 }
 
-.title-input {
-    flex: 1;
-    min-width: 0;
-    background: transparent;
-    border: none;
-    outline: none;
-    color: #ffffff;
-    font-size: 18px;
-    font-weight: 600;
+.icon-button:hover{
+  background:var(--hover);
 }
 
-.icon-button {
-    border: 1px solid #292929;
-    background: #111111;
-    color: #dddddd;
-    border-radius: 8px;
-    padding: 8px 10px;
-    cursor: pointer;
+.note-status{
+  margin-left:auto;
+  font-size:12px;
+  color:var(--muted);
 }
 
-.icon-button:hover {
-    background: #1b1b1b;
+.editor{
+  flex:1;
+  min-height:0;
+  display:flex;
+  flex-direction:column;
 }
 
-.editor-area {
-    min-height: 0;
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+.title{
+  width:100%;
+  border:0;
+  outline:0;
+  padding:38px 7%;
+  padding-bottom:18px;
+  font-size:38px;
+  font-weight:700;
+  letter-spacing:-1px;
 }
 
-.toolbar {
-    min-height: 45px;
-    border-bottom: 1px solid #1c1c1c;
-    padding: 7px 12px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
+.toolbar{
+  margin:0 7%;
+  padding:8px 0;
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  display:flex;
+  gap:4px;
+  flex-wrap:wrap;
 }
 
-.tool {
-    border: 1px solid #292929;
-    background: #111111;
-    color: #dddddd;
-    border-radius: 6px;
-    padding: 6px 9px;
-    cursor: pointer;
+.tool{
+  border:0;
+  background:transparent;
+  min-width:35px;
+  height:32px;
+  padding:0 9px;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:14px;
 }
 
-.tool:hover {
-    background: #1a1a1a;
+.tool:hover{
+  background:var(--hover);
 }
 
-#editor {
-    width: 100%;
-    flex: 1;
-    min-height: 0;
-    resize: none;
-    border: none;
-    outline: none;
-    background: #080808;
-    color: #eeeeee;
-    padding: 25px;
-    font-size: 17px;
-    line-height: 1.7;
+.content{
+  flex:1;
+  overflow:auto;
+  padding:25px 7% 80px;
 }
 
-#preview {
-    display: none;
-    flex: 1;
-    overflow-y: auto;
-    padding: 25px;
-    line-height: 1.7;
+#editor{
+  min-height:500px;
+  outline:none;
+  font-size:17px;
+  line-height:1.7;
+  white-space:pre-wrap;
+  word-break:break-word;
 }
 
-#preview.visible {
-    display: block;
+#editor:empty:before{
+  content:"Start writing here...";
+  color:#aaa;
 }
 
-#preview h1,
-#preview h2,
-#preview h3 {
-    color: #ffffff;
+.stats{
+  border-top:1px solid var(--line);
+  padding:10px 7%;
+  color:var(--muted);
+  font-size:12px;
 }
 
-#preview code {
-    background: #181818;
-    padding: 2px 5px;
-    border-radius: 4px;
+/* PREVIEW */
+
+#preview{
+  display:none;
+  font-size:17px;
+  line-height:1.7;
 }
 
-#preview pre {
-    background: #111111;
-    border: 1px solid #252525;
-    border-radius: 9px;
-    padding: 14px;
-    overflow-x: auto;
+#preview h1,#preview h2,#preview h3{
+  line-height:1.25;
 }
 
-#preview blockquote {
-    border-left: 3px solid #555555;
-    padding-left: 14px;
-    color: #aaaaaa;
+#preview code{
+  background:#eee;
+  padding:2px 5px;
+  border-radius:4px;
 }
 
-#preview a {
-    color: #ffffff;
+#preview pre{
+  background:#111;
+  color:#fff;
+  padding:15px;
+  border-radius:8px;
+  overflow:auto;
 }
 
-.statusbar {
-    min-height: 31px;
-    border-top: 1px solid #1c1c1c;
-    padding: 6px 13px;
-    display: flex;
-    justify-content: space-between;
-    color: #666666;
-    font-size: 12px;
+#preview blockquote{
+  border-left:3px solid #111;
+  padding-left:15px;
+  color:#666;
 }
 
-/* =========================
-   RIGHT PANEL
-   ========================= */
+/* MODALS */
 
-.right-panel {
-    min-width: 0;
-    overflow-y: auto;
-    border-left: 1px solid #242424;
-    padding: 17px;
-    background: #090909;
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.35);
+  z-index:500;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
 }
 
-.card {
-    border: 1px solid #252525;
-    background: #101010;
-    border-radius: 12px;
-    padding: 14px;
-    margin-bottom: 12px;
+.modal.show{
+  display:flex;
 }
 
-.card-title {
-    color: #888888;
-    font-size: 11px;
-    letter-spacing: 1px;
-    margin-bottom: 10px;
+.modal-box{
+  width:min(500px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:#fff;
+  border:1px solid #111;
+  border-radius:14px;
+  padding:22px;
 }
 
-.stat-row {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 5px 0;
-    color: #999999;
+.modal-box h2{
+  margin-top:0;
 }
 
-.stat-row strong {
-    color: #ffffff;
-    text-align: right;
+.modal-input{
+  width:100%;
+  padding:11px;
+  border:1px solid var(--line);
+  border-radius:7px;
+  margin:7px 0 12px;
 }
 
-/* =========================
-   MODAL
-   ========================= */
-
-.modal {
-    position: fixed;
-    inset: 0;
-    z-index: 5000;
-    background: rgba(0, 0, 0, 0.78);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
+.modal-actions{
+  display:flex;
+  gap:8px;
+  justify-content:flex-end;
 }
 
-.modal.open {
-    display: flex;
+.modal-actions button{
+  padding:9px 14px;
+  border-radius:7px;
+  border:1px solid #111;
+  cursor:pointer;
+  background:#fff;
 }
 
-.modal-box {
-    width: min(500px, 100%);
-    background: #111111;
-    border: 1px solid #333333;
-    border-radius: 14px;
-    padding: 20px;
+.modal-actions .primary{
+  background:#111;
+  color:#fff;
 }
 
-.modal-box h2 {
-    margin-top: 0;
+/* DRAWING */
+
+#drawCanvas{
+  width:100%;
+  height:400px;
+  border:1px solid var(--line);
+  touch-action:none;
+  background:#fff;
 }
 
-.modal-input,
-.modal-select {
-    width: 100%;
-    padding: 10px;
-    background: #080808;
-    color: #ffffff;
-    border: 1px solid #333333;
-    border-radius: 8px;
-    margin: 10px 0;
-    outline: none;
-}
+/* MOBILE / IPAD */
 
-.modal-actions {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px;
-    margin-top: 15px;
-}
+@media(max-width:800px){
 
-.secondary-button {
-    background: #171717;
-    color: #ffffff;
-    border: 1px solid #333333;
-    border-radius: 8px;
-    padding: 10px 15px;
-    cursor: pointer;
-}
+  #sidebar{
+    position:fixed;
+    z-index:200;
+    left:0;
+    top:0;
+    bottom:0;
+    box-shadow:5px 0 20px rgba(0,0,0,.08);
+  }
 
-/* =========================
-   DRAWING
-   ========================= */
+  #sidebar.collapsed{
+    transform:translateX(-100%);
+    width:285px;
+    min-width:285px;
+  }
 
-#drawingCanvas {
-    position: fixed;
-    inset: 0;
-    z-index: 7000;
-    display: none;
-    width: 100%;
-    height: 100%;
-    background: #ffffff;
-    touch-action: none;
-}
+  .title{
+    font-size:30px;
+    padding-left:5%;
+    padding-right:5%;
+  }
 
-#drawingCanvas.open {
-    display: block;
-}
+  .toolbar{
+    margin-left:5%;
+    margin-right:5%;
+  }
 
-.drawing-toolbar {
-    position: fixed;
-    z-index: 7100;
-    top: 12px;
-    left: 50%;
-    transform: translateX(-50%);
-    display: none;
-    gap: 6px;
-    padding: 8px;
-    border-radius: 10px;
-    background: #111111;
-    border: 1px solid #333333;
-}
+  .content{
+    padding-left:5%;
+    padding-right:5%;
+  }
 
-.drawing-toolbar.open {
-    display: flex;
-}
-
-/* =========================
-   RESPONSIVE
-   ========================= */
-
-@media (max-width: 950px) {
-    #app {
-        grid-template-columns: 235px minmax(0, 1fr);
-    }
-
-    .right-panel {
-        display: none;
-    }
-}
-
-@media (max-width: 650px) {
-    #app {
-        grid-template-columns: 1fr;
-    }
-
-    .sidebar {
-        display: none;
-    }
-
-    .topbar {
-        padding: 8px;
-    }
-
-    .title-input {
-        font-size: 16px;
-    }
-
-    #editor {
-        padding: 18px;
-        font-size: 16px;
-    }
-
-    .statusbar {
-        font-size: 11px;
-    }
-
-    .intro-title {
-        font-size: 34px;
-    }
+  .stats{
+    padding-left:5%;
+    padding-right:5%;
+  }
 }
 </style>
 </head>
@@ -571,2685 +481,1363 @@ body {
 <body>
 
 <!-- INTRO -->
-
 <div id="intro">
-
-    <div class="intro-content">
-
-        <svg class="intro-logo" viewBox="0 0 120 120">
-
-            <ellipse
-                cx="60"
-                cy="60"
-                rx="48"
-                ry="18"
-                transform="rotate(30 60 60)"
-            ></ellipse>
-
-            <ellipse
-                cx="60"
-                cy="60"
-                rx="48"
-                ry="18"
-                transform="rotate(-30 60 60)"
-            ></ellipse>
-
-            <ellipse
-                cx="60"
-                cy="60"
-                rx="48"
-                ry="18"
-                transform="rotate(90 60 60)"
-            ></ellipse>
-
-            <circle
-                cx="60"
-                cy="60"
-                r="7"
-            ></circle>
-
-        </svg>
-
-        <h1 class="intro-title">
-            StudyNotes
-        </h1>
-
-        <div class="intro-subtitle">
-            A focused space for learning, thinking and writing.
-        </div>
-
-    </div>
-
+  <div class="logo">
+    <div class="logo-dot"></div>
+  </div>
+  <div class="intro-title">StudyNotes</div>
 </div>
 
-
-<!-- APPLICATION -->
-
+<!-- APP -->
 <div id="app">
 
-    <!-- SIDEBAR -->
-
-    <aside class="sidebar">
-
-        <div class="brand">
-
-            <svg
-                class="brand-logo"
-                viewBox="0 0 60 60"
-            >
-
-                <ellipse
-                    cx="30"
-                    cy="30"
-                    rx="24"
-                    ry="9"
-                    transform="rotate(30 30 30)"
-                ></ellipse>
-
-                <ellipse
-                    cx="30"
-                    cy="30"
-                    rx="24"
-                    ry="9"
-                    transform="rotate(-30 30 30)"
-                ></ellipse>
-
-                <ellipse
-                    cx="30"
-                    cy="30"
-                    rx="24"
-                    ry="9"
-                    transform="rotate(90 30 30)"
-                ></ellipse>
-
-                <circle
-                    cx="30"
-                    cy="30"
-                    r="4"
-                ></circle>
-
-            </svg>
-
-            StudyNotes
-
-        </div>
-
-
-        <input
-            id="search"
-            class="search"
-            type="search"
-            placeholder="Search notes…"
-            autocomplete="off"
-        >
-
-
-        <button
-            id="newNote"
-            class="primary-button"
-            type="button"
-        >
-            ＋ New note
-        </button>
-
-
-        <div class="section-label">
-            Folders
-        </div>
-
-        <div id="folders"></div>
-
-
-        <div class="section-label">
-            Notes
-        </div>
-
-        <div id="noteList"></div>
-
-
-        <div class="sidebar-bottom">
-
-            <button
-                id="newFolder"
-                class="sidebar-button"
-                type="button"
-            >
-                ＋ New folder
-            </button>
-
-            <button
-                id="templates"
-                class="sidebar-button"
-                type="button"
-            >
-                Templates
-            </button>
-
-            <button
-                id="settings"
-                class="sidebar-button"
-                type="button"
-            >
-                Settings
-            </button>
-
-            <button
-                id="help"
-                class="sidebar-button"
-                type="button"
-            >
-                ? Help & shortcuts
-            </button>
-
-            <button
-                id="draw"
-                class="sidebar-button"
-                type="button"
-            >
-                ✎ Drawing board
-            </button>
-
-        </div>
-
-    </aside>
-
-
-    <!-- MAIN -->
-
-    <main class="main">
-
-        <div class="topbar">
-
-            <input
-                id="title"
-                class="title-input"
-                type="text"
-                placeholder="Untitled note"
-            >
-
-            <button
-                id="pin"
-                class="icon-button"
-                type="button"
-                title="Pin note"
-            >
-                ☆
-            </button>
-
-            <button
-                id="duplicate"
-                class="icon-button"
-                type="button"
-                title="Duplicate note"
-            >
-                ⧉
-            </button>
-
-            <button
-                id="move"
-                class="icon-button"
-                type="button"
-                title="Move note"
-            >
-                ↗
-            </button>
-
-            <button
-                id="delete"
-                class="icon-button"
-                type="button"
-                title="Delete note"
-            >
-                ⌫
-            </button>
-
-            <button
-                id="previewButton"
-                class="icon-button"
-                type="button"
-            >
-                Preview
-            </button>
-
-        </div>
-
-
-        <div class="editor-area">
-
-            <div class="toolbar">
-
-                <button
-                    class="tool"
-                    data-format="bold"
-                    type="button"
-                >
-                    <b>B</b>
-                </button>
-
-                <button
-                    class="tool"
-                    data-format="italic"
-                    type="button"
-                >
-                    <i>I</i>
-                </button>
-
-                <button
-                    class="tool"
-                    data-format="h2"
-                    type="button"
-                >
-                    H2
-                </button>
-
-                <button
-                    class="tool"
-                    data-format="check"
-                    type="button"
-                >
-                    ☑
-                </button>
-
-                <button
-                    class="tool"
-                    data-format="code"
-                    type="button"
-                >
-                    Code
-                </button>
-
-                <button
-                    class="tool"
-                    data-format="link"
-                    type="button"
-                >
-                    Link
-                </button>
-
-                <button
-                    class="tool"
-                    data-format="quote"
-                    type="button"
-                >
-                    Quote
-                </button>
-
-            </div>
-
-
-            <textarea
-                id="editor"
-                placeholder="Start writing…"
-                spellcheck="true"
-            ></textarea>
-
-
-            <article
-                id="preview"
-            ></article>
-
-
-            <div class="statusbar">
-
-                <span id="saveStatus">
-                    Ready
-                </span>
-
-                <span id="stats">
-                    0 words · 0 characters · 0 min
-                </span>
-
-            </div>
-
-        </div>
-
-    </main>
-
-
-    <!-- RIGHT PANEL -->
-
-    <aside class="right-panel">
-
-        <div class="card">
-
-            <div class="card-title">
-                NOTE INFO
-            </div>
-
-            <div class="stat-row">
-                <span>Folder</span>
-                <strong id="infoFolder">General</strong>
-            </div>
-
-            <div class="stat-row">
-                <span>Created</span>
-                <strong id="infoCreated">—</strong>
-            </div>
-
-            <div class="stat-row">
-                <span>Updated</span>
-                <strong id="infoUpdated">—</strong>
-            </div>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="card-title">
-                QUICK ACTIONS
-            </div>
-
-            <button
-                id="privateFolder"
-                class="sidebar-button"
-                type="button"
-                style="margin-bottom:7px"
-            >
-                🔒 Private folder
-            </button>
-
-            <button
-                id="clearSearch"
-                class="sidebar-button"
-                type="button"
-            >
-                Clear search
-            </button>
-
-        </div>
-
-
-        <div class="card">
-
-            <div class="card-title">
-                STUDY
-            </div>
-
-            <div class="stat-row">
-                <span>Total notes</span>
-                <strong id="totalNotes">0</strong>
-            </div>
-
-            <div class="stat-row">
-                <span>Total words</span>
-                <strong id="totalWords">0</strong>
-            </div>
-
-        </div>
-
-    </aside>
-
-</div>
-
-
-<!-- MODAL -->
-
-<div
-    id="modal"
-    class="modal"
->
-
-    <div class="modal-box">
-
-        <h2 id="modalTitle">
-            StudyNotes
-        </h2>
-
-        <div id="modalBody"></div>
-
-        <div class="modal-actions">
-
-            <button
-                id="modalCancel"
-                class="secondary-button"
-                type="button"
-            >
-                Cancel
-            </button>
-
-            <button
-                id="modalConfirm"
-                class="primary-button"
-                type="button"
-            >
-                OK
-            </button>
-
-        </div>
+  <!-- LEFT PANEL -->
+  <aside id="sidebar">
+
+    <div class="sidebar-top">
+
+      <div class="brand">
+        <div class="mini-logo"></div>
+        StudyNotes
+      </div>
+
+      <input
+        id="search"
+        class="search"
+        type="text"
+        placeholder="Search notes..."
+      >
+
+      <button class="new-note" data-action="new">
+        + New note
+      </button>
 
     </div>
 
+    <div class="section">Folders</div>
+
+    <div id="folders">
+      <div class="folder" data-folder="General">
+        <span class="folder-dot"></span>
+        General
+      </div>
+
+      <div class="folder" data-folder="Biology">
+        <span class="folder-dot"></span>
+        Biology
+      </div>
+
+      <div class="folder" data-folder="Math">
+        <span class="folder-dot"></span>
+        Math
+      </div>
+
+      <div class="folder" data-folder="History">
+        <span class="folder-dot"></span>
+        History
+      </div>
+
+      <div class="folder" data-folder="Private">
+        <span class="folder-dot"></span>
+        Private
+      </div>
+    </div>
+
+    <div class="section">Notes</div>
+
+    <div id="noteList" class="note-list"></div>
+
+    <div class="sidebar-bottom">
+
+      <button class="small-button" data-action="templates">
+        Templates
+      </button>
+
+      <button class="small-button" data-action="draw">
+        Drawing
+      </button>
+
+      <button class="small-button" data-action="settings">
+        Settings
+      </button>
+
+      <button class="small-button" data-action="help">
+        ? Help
+      </button>
+
+    </div>
+
+  </aside>
+
+  <!-- MAIN WRITING AREA -->
+  <main id="main">
+
+    <div class="topbar">
+
+      <button
+        class="icon-button"
+        data-action="toggle-sidebar"
+        title="Show / hide sidebar"
+      >
+        ☰
+      </button>
+
+      <button
+        class="icon-button"
+        data-action="preview"
+        title="Preview"
+      >
+        ◉
+      </button>
+
+      <button
+        class="icon-button"
+        data-action="pin"
+        title="Pin note"
+      >
+        ☆
+      </button>
+
+      <button
+        class="icon-button"
+        data-action="duplicate"
+        title="Duplicate note"
+      >
+        ⧉
+      </button>
+
+      <button
+        class="icon-button"
+        data-action="delete"
+        title="Delete note"
+      >
+        ×
+      </button>
+
+      <div id="status" class="note-status">
+        Saved
+      </div>
+
+    </div>
+
+    <div class="editor">
+
+      <input
+        id="title"
+        class="title"
+        placeholder="Note title"
+      >
+
+      <div class="toolbar">
+
+        <button class="tool" data-format="bold"><b>B</b></button>
+        <button class="tool" data-format="italic"><i>I</i></button>
+        <button class="tool" data-format="heading">H2</button>
+        <button class="tool" data-format="check">☑</button>
+        <button class="tool" data-format="code">&lt;/&gt;</button>
+        <button class="tool" data-format="link">Link</button>
+        <button class="tool" data-format="quote">❝</button>
+        <button class="tool" data-format="bullet">• List</button>
+
+      </div>
+
+      <div class="content">
+
+        <div id="editor" contenteditable="true"></div>
+
+        <div id="preview"></div>
+
+      </div>
+
+      <div id="stats" class="stats">
+        0 words · 0 characters · 0 min read
+      </div>
+
+    </div>
+
+  </main>
+
 </div>
 
 
-<!-- DRAWING -->
+<!-- GENERIC MODAL -->
 
-<canvas id="drawingCanvas"></canvas>
+<div id="modal" class="modal">
 
-<div
-    id="drawingToolbar"
-    class="drawing-toolbar"
->
+  <div class="modal-box">
 
-    <button
-        id="blackPen"
-        class="secondary-button"
-        type="button"
-    >
-        Black pen
-    </button>
+    <h2 id="modalTitle"></h2>
 
-    <button
-        id="greyPen"
-        class="secondary-button"
-        type="button"
-    >
-        Grey pen
-    </button>
+    <div id="modalContent"></div>
 
-    <button
-        id="eraser"
-        class="secondary-button"
-        type="button"
-    >
-        Eraser
-    </button>
+    <div class="modal-actions">
 
-    <button
-        id="clearCanvas"
-        class="secondary-button"
-        type="button"
-    >
-        Clear
-    </button>
+      <button data-action="close-modal">
+        Close
+      </button>
 
-    <button
-        id="closeDrawing"
-        class="primary-button"
-        type="button"
-    >
-        Done
-    </button>
+    </div>
+
+  </div>
 
 </div>
 
 
 <script>
 
-(function () {
+const STORAGE_KEY = "studynotes_v3";
 
-    "use strict";
-
-
-    /* =========================
-       STORAGE
-       ========================= */
-
-    const STORAGE_KEY = "studynotes-v1";
+let state = {
+  notes: [],
+  currentId: null,
+  folder: "General"
+};
 
 
-    let data = null;
+/* -------------------------
+   LOAD
+------------------------- */
 
-    let currentNoteId = null;
+function load(){
 
-    let currentFolder = "all";
+  try{
+    const saved = localStorage.getItem(STORAGE_KEY);
 
-    let searchQuery = "";
-
-    let previewMode = false;
-
-    let drawingMode = false;
-
-    let drawing = false;
-
-    let erasing = false;
-
-
-    /* =========================
-       HELPERS
-       ========================= */
-
-    function createId() {
-
-        return (
-            Date.now().toString(36) +
-            Math.random().toString(36).slice(2, 9)
-        );
-
+    if(saved){
+      state = JSON.parse(saved);
     }
 
+  }catch(e){
+    console.log(e);
+  }
 
-    function escapeHtml(value) {
+  if(!state.notes || !state.notes.length){
 
-        return String(value).replace(
-            /[&<>"']/g,
-            function (character) {
+    state.notes = [
 
-                if (character === "&") return "&amp;";
-                if (character === "<") return "&lt;";
-                if (character === ">") return "&gt;";
-                if (character === '"') return "&quot;";
-                return "&#39;";
+      {
+        id: Date.now(),
+        title:"Welcome",
+        content:"Welcome to StudyNotes.\\n\\nStart writing here...",
+        folder:"General",
+        pinned:false,
+        created:Date.now(),
+        updated:Date.now()
+      },
 
-            }
-        );
+      {
+        id:Date.now()+1,
+        title:"Biology revision",
+        content:"Cell structure\\n\\n• Cell membrane\\n• Cytoplasm\\n• Nucleus",
+        folder:"Biology",
+        pinned:false,
+        created:Date.now(),
+        updated:Date.now()
+      },
 
+      {
+        id:Date.now()+2,
+        title:"Exam notes",
+        content:"Important topics for the next exam.",
+        folder:"General",
+        pinned:true,
+        created:Date.now(),
+        updated:Date.now()
+      }
+
+    ];
+
+  }
+
+  if(!state.currentId){
+    state.currentId = state.notes[0].id;
+  }
+
+  save();
+
+}
+
+
+/* -------------------------
+   SAVE
+------------------------- */
+
+function save(){
+
+  localStorage.setItem(
+    STORAGE_KEY,
+    JSON.stringify(state)
+  );
+
+}
+
+
+/* -------------------------
+   CURRENT NOTE
+------------------------- */
+
+function currentNote(){
+
+  return state.notes.find(
+    n => n.id === state.currentId
+  );
+
+}
+
+
+/* -------------------------
+   RENDER NOTES
+------------------------- */
+
+function renderNotes(){
+
+  const list = document.getElementById("noteList");
+
+  const search =
+    document.getElementById("search").value
+    .toLowerCase();
+
+  list.innerHTML = "";
+
+  let notes = state.notes.filter(n => {
+
+    const folderMatch =
+      state.folder === "All" ||
+      n.folder === state.folder;
+
+    const searchMatch =
+      !search ||
+      n.title.toLowerCase().includes(search) ||
+      n.content.toLowerCase().includes(search);
+
+    return folderMatch && searchMatch;
+
+  });
+
+  notes.sort((a,b)=>{
+
+    if(a.pinned !== b.pinned){
+      return a.pinned ? -1 : 1;
     }
 
+    return b.updated - a.updated;
 
-    function saveData() {
+  });
 
-        localStorage.setItem(
-            STORAGE_KEY,
-            JSON.stringify(data)
-        );
+  notes.forEach(note=>{
 
-        document.getElementById(
-            "saveStatus"
-        ).textContent = "Saved just now";
+    const item = document.createElement("div");
 
-    }
+    item.className =
+      "note-item" +
+      (note.id === state.currentId ? " active" : "");
 
+    item.dataset.noteId = note.id;
 
-    function loadData() {
+    item.innerHTML =
+      (note.pinned ? "★ " : "") +
+      escapeHTML(note.title || "Untitled");
 
-        try {
+    list.appendChild(item);
 
-            const saved =
-                localStorage.getItem(STORAGE_KEY);
+  });
 
-            if (saved) {
+}
 
-                data = JSON.parse(saved);
 
-            }
+/* -------------------------
+   LOAD NOTE INTO EDITOR
+------------------------- */
 
-        } catch (error) {
+function renderEditor(){
 
-            data = null;
+  const note = currentNote();
 
-        }
+  if(!note) return;
 
+  document.getElementById("title").value =
+    note.title || "";
 
-        if (!data || !Array.isArray(data.notes)) {
+  document.getElementById("editor").innerText =
+    note.content || "";
 
-            const firstNoteId = createId();
+  updateStats();
 
-            data = {
+  document.getElementById("status").textContent =
+    "Saved";
 
-                folders: [
-                    {
-                        id: "general",
-                        name: "General",
-                        private: false
-                    }
-                ],
+}
 
-                notes: [
-                    {
-                        id: firstNoteId,
-                        title: "Welcome to StudyNotes",
-                        body:
-                            "# Welcome\n\n" +
-                            "This is your first note. Start writing here.",
-                        folder: "general",
-                        pinned: true,
-                        created: Date.now(),
-                        updated: Date.now()
-                    }
-                ],
 
-                privateFolder: null,
+/* -------------------------
+   NEW NOTE
+------------------------- */
 
-                privateUnlocked: false
+function newNote(){
 
-            };
+  const note = {
 
-        }
+    id:Date.now(),
 
-    }
+    title:"Untitled note",
 
+    content:"",
 
-    function getCurrentNote() {
+    folder:state.folder === "All"
+      ? "General"
+      : state.folder,
 
-        return data.notes.find(
-            function (item) {
+    pinned:false,
 
-                return item.id === currentNoteId;
+    created:Date.now(),
 
-            }
-        ) || null;
+    updated:Date.now()
 
-    }
+  };
 
+  state.notes.unshift(note);
 
-    function getFolder(id) {
+  state.currentId = note.id;
 
-        return data.folders.find(
-            function (folder) {
+  save();
 
-                return folder.id === id;
+  renderNotes();
 
-            }
-        ) || null;
+  renderEditor();
 
-    }
+  document.getElementById("title").focus();
 
+}
 
-    function getFolderName(id) {
 
-        const folder = getFolder(id);
+/* -------------------------
+   DELETE
+------------------------- */
 
-        return folder
-            ? folder.name
-            : "General";
+function deleteNote(){
 
-    }
+  const note = currentNote();
 
+  if(!note) return;
 
-    function formatDate(timestamp) {
-
-        if (!timestamp) return "—";
-
-        return new Date(timestamp).toLocaleString();
-
-    }
-
-
-    function countWords(text) {
-
-        const clean = text.trim();
-
-        if (!clean) return 0;
-
-        return clean.split(/\s+/).length;
-
-    }
-
-
-    /* =========================
-       MARKDOWN
-       ========================= */
-
-    function renderMarkdown(text) {
-
-        let html = escapeHtml(text);
-
-
-        html = html.replace(
-            /```([\s\S]*?)```/g,
-            function (match, code) {
-
-                return "<pre><code>" +
-                    code +
-                    "</code></pre>";
-
-            }
-        );
-
-
-        html = html.replace(
-            /^### (.*)$/gm,
-            "<h3>$1</h3>"
-        );
-
-
-        html = html.replace(
-            /^## (.*)$/gm,
-            "<h2>$1</h2>"
-        );
-
-
-        html = html.replace(
-            /^# (.*)$/gm,
-            "<h1>$1</h1>"
-        );
-
-
-        html = html.replace(
-            /\*\*(.+?)\*\*/g,
-            "<strong>$1</strong>"
-        );
-
-
-        html = html.replace(
-            /\*(.+?)\*/g,
-            "<em>$1</em>"
-        );
-
-
-        html = html.replace(
-            /`([^`]+)`/g,
-            "<code>$1</code>"
-        );
-
-
-        html = html.replace(
-            /^> (.*)$/gm,
-            "<blockquote>$1</blockquote>"
-        );
-
-
-        html = html.replace(
-            /^- $begin:math:display$ $end:math:display$ (.*)$/gm,
-            "☐ $1"
-        );
-
-
-        html = html.replace(
-            /^- $begin:math:display$x$end:math:display$ (.*)$/gmi,
-            "☑ $1"
-        );
-
-
-        html = html.replace(
-            /$begin:math:display$\(\[\^$end:math:display$]+)\]$begin:math:text$\(https\?\:\\\/\\\/\[\^\)\]\+\)$end:math:text$/g,
-            '<a href="$2" target="_blank" rel="noopener">$1</a>'
-        );
-
-
-        html = html.replace(
-            /\n/g,
-            "<br>"
-        );
-
-
-        return html;
-
-    }
-
-
-    /* =========================
-       RENDER
-       ========================= */
-
-    function render() {
-
-        renderFolders();
-
-        renderNotes();
-
-        updateEditor();
-
-        updateStatistics();
-
-    }
-
-
-    function renderFolders() {
-
-        const container =
-            document.getElementById("folders");
-
-        container.innerHTML = "";
-
-
-        const allButton =
-            document.createElement("button");
-
-        allButton.className =
-            "folder" +
-            (
-                currentFolder === "all"
-                    ? " active"
-                    : ""
-            );
-
-        allButton.type = "button";
-
-        allButton.innerHTML =
-            '<span class="folder-dot"></span>' +
-            "All notes";
-
-
-        allButton.addEventListener(
-            "click",
-            function () {
-
-                currentFolder = "all";
-
-                render();
-
-            }
-        );
-
-
-        container.appendChild(allButton);
-
-
-        data.folders.forEach(
-            function (folder) {
-
-                if (
-                    folder.private &&
-                    !data.privateUnlocked
-                ) {
-
-                    return;
-
-                }
-
-
-                const button =
-                    document.createElement("button");
-
-                button.type = "button";
-
-                button.className =
-                    "folder" +
-                    (
-                        currentFolder === folder.id
-                            ? " active"
-                            : ""
-                    );
-
-
-                button.innerHTML =
-                    '<span class="folder-dot ' +
-                    (
-                        folder.private
-                            ? "private-dot"
-                            : ""
-                    ) +
-                    '"></span>' +
-                    escapeHtml(folder.name);
-
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        currentFolder =
-                            folder.id;
-
-                        render();
-
-                    }
-                );
-
-
-                container.appendChild(button);
-
-            }
-        );
-
-    }
-
-
-    function renderNotes() {
-
-        const container =
-            document.getElementById("noteList");
-
-        container.innerHTML = "";
-
-
-        let notes =
-            data.notes.filter(
-                function (item) {
-
-                    const folder =
-                        getFolder(item.folder);
-
-
-                    const correctFolder =
-                        currentFolder === "all" ||
-                        item.folder === currentFolder;
-
-
-                    const visible =
-                        !folder ||
-                        !folder.private ||
-                        data.privateUnlocked;
-
-
-                    return (
-                        correctFolder &&
-                        visible
-                    );
-
-                }
-            );
-
-
-        if (searchQuery) {
-
-            const search =
-                searchQuery.toLowerCase();
-
-
-            notes =
-                notes.filter(
-                    function (item) {
-
-                        return (
-                            item.title +
-                            " " +
-                            item.body
-                        )
-                        .toLowerCase()
-                        .includes(search);
-
-                    }
-                );
-
-        }
-
-
-        notes.sort(
-            function (a, b) {
-
-                if (a.pinned !== b.pinned) {
-
-                    return b.pinned - a.pinned;
-
-                }
-
-                return b.updated - a.updated;
-
-            }
-        );
-
-
-        if (!notes.length) {
-
-            const empty =
-                document.createElement("div");
-
-            empty.className = "empty";
-
-            empty.textContent =
-                "No notes yet.";
-
-            container.appendChild(empty);
-
-            return;
-
-        }
-
-
-        notes.forEach(
-            function (item) {
-
-                const button =
-                    document.createElement("button");
-
-                button.type = "button";
-
-                button.className = "note-item";
-
-                button.innerHTML =
-                    (
-                        item.pinned
-                            ? "★ "
-                            : ""
-                    ) +
-                    escapeHtml(
-                        item.title ||
-                        "Untitled note"
-                    );
-
-
-                button.addEventListener(
-                    "click",
-                    function () {
-
-                        currentNoteId =
-                            item.id;
-
-                        previewMode = false;
-
-                        updatePreviewState();
-
-                        render();
-
-                    }
-                );
-
-
-                container.appendChild(button);
-
-            }
-        );
-
-    }
-
-
-    function updateEditor() {
-
-        const note =
-            getCurrentNote();
-
-
-        const title =
-            document.getElementById("title");
-
-        const editor =
-            document.getElementById("editor");
-
-
-        if (!note) {
-
-            title.value = "";
-
-            editor.value = "";
-
-            document.getElementById(
-                "pin"
-            ).textContent = "☆";
-
-            return;
-
-        }
-
-
-        title.value =
-            note.title;
-
-
-        editor.value =
-            note.body;
-
-
-        document.getElementById(
-            "pin"
-        ).textContent =
-            note.pinned
-                ? "★"
-                : "☆";
-
-
-        document.getElementById(
-            "infoFolder"
-        ).textContent =
-            getFolderName(note.folder);
-
-
-        document.getElementById(
-            "infoCreated"
-        ).textContent =
-            formatDate(note.created);
-
-
-        document.getElementById(
-            "infoUpdated"
-        ).textContent =
-            formatDate(note.updated);
-
-
-        updateStatistics();
-
-    }
-
-
-    function updateStatistics() {
-
-        const editor =
-            document.getElementById("editor");
-
-        const text =
-            editor.value;
-
-
-        const words =
-            countWords(text);
-
-
-        const minutes =
-            words === 0
-                ? 0
-                : Math.max(
-                    1,
-                    Math.ceil(words / 200)
-                );
-
-
-        document.getElementById(
-            "stats"
-        ).textContent =
-            words +
-            " words · " +
-            text.length +
-            " characters · " +
-            minutes +
-            " min";
-
-
-        document.getElementById(
-            "totalNotes"
-        ).textContent =
-            data.notes.length;
-
-
-        const totalWords =
-            data.notes.reduce(
-                function (total, item) {
-
-                    return total +
-                        countWords(item.body);
-
-                },
-                0
-            );
-
-
-        document.getElementById(
-            "totalWords"
-        ).textContent =
-            totalWords;
-
-    }
-
-
-    /* =========================
-       NOTES
-       ========================= */
-
-    function createNote() {
-
-        const folder =
-            currentFolder !== "all"
-                ? currentFolder
-                : "general";
-
-
-        const item = {
-
-            id: createId(),
-
-            title: "Untitled note",
-
-            body: "",
-
-            folder: folder,
-
-            pinned: false,
-
-            created: Date.now(),
-
-            updated: Date.now()
-
-        };
-
-
-        data.notes.unshift(item);
-
-        currentNoteId =
-            item.id;
-
-
-        saveData();
-
-        render();
-
-
-        document.getElementById(
-            "title"
-        ).focus();
-
-    }
-
-
-    function deleteCurrentNote() {
-
-        const note =
-            getCurrentNote();
-
-
-        if (!note) return;
-
-
-        showModal(
-            "Delete note",
-            "<p>Delete <strong>" +
-            escapeHtml(note.title) +
-            "</strong>?</p>" +
-            "<p style='color:#888'>This cannot be undone.</p>",
-            "Delete",
-            function () {
-
-                data.notes =
-                    data.notes.filter(
-                        function (item) {
-
-                            return item.id !== note.id;
-
-                        }
-                    );
-
-
-                currentNoteId =
-                    data.notes.length
-                        ? data.notes[0].id
-                        : null;
-
-
-                saveData();
-
-                closeModal();
-
-                render();
-
-            }
-        );
-
-    }
-
-
-    function duplicateCurrentNote() {
-
-        const note =
-            getCurrentNote();
-
-
-        if (!note) return;
-
-
-        const duplicate = {
-
-            id: createId(),
-
-            title:
-                (note.title || "Untitled note") +
-                " copy",
-
-            body: note.body,
-
-            folder: note.folder,
-
-            pinned: note.pinned,
-
-            created: Date.now(),
-
-            updated: Date.now()
-
-        };
-
-
-        data.notes.unshift(duplicate);
-
-        currentNoteId =
-            duplicate.id;
-
-
-        saveData();
-
-        render();
-
-    }
-
-
-    function togglePin() {
-
-        const note =
-            getCurrentNote();
-
-
-        if (!note) return;
-
-
-        note.pinned =
-            !note.pinned;
-
-
-        note.updated =
-            Date.now();
-
-
-        saveData();
-
-        render();
-
-    }
-
-
-    function moveCurrentNote() {
-
-        const note =
-            getCurrentNote();
-
-
-        if (!note) return;
-
-
-        let options = "";
-
-
-        data.folders.forEach(
-            function (folder) {
-
-                if (
-                    folder.private &&
-                    !data.privateUnlocked
-                ) {
-
-                    return;
-
-                }
-
-
-                options +=
-                    "<option value='" +
-                    escapeHtml(folder.id) +
-                    "'" +
-                    (
-                        folder.id === note.folder
-                            ? " selected"
-                            : ""
-                    ) +
-                    ">" +
-                    escapeHtml(folder.name) +
-                    "</option>";
-
-            }
-        );
-
-
-        showModal(
-            "Move note",
-            "<select id='moveSelect' class='modal-select'>" +
-            options +
-            "</select>",
-            "Move",
-            function () {
-
-                const select =
-                    document.getElementById(
-                        "moveSelect"
-                    );
-
-
-                note.folder =
-                    select.value;
-
-
-                note.updated =
-                    Date.now();
-
-
-                saveData();
-
-                closeModal();
-
-                render();
-
-            }
-        );
-
-    }
-
-
-    /* =========================
-       FOLDERS
-       ========================= */
-
-    function createFolder() {
-
-        showModal(
-            "New folder",
-            "<input id='folderInput' class='modal-input' placeholder='Folder name' autofocus>",
-            "Create",
-            function () {
-
-                const input =
-                    document.getElementById(
-                        "folderInput"
-                    );
-
-
-                const name =
-                    input.value.trim();
-
-
-                if (!name) return;
-
-
-                const folder = {
-
-                    id: createId(),
-
-                    name: name,
-
-                    private: false
-
-                };
-
-
-                data.folders.push(folder);
-
-                currentFolder =
-                    folder.id;
-
-
-                saveData();
-
-                closeModal();
-
-                render();
-
-            }
-        );
-
-    }
-
-
-    /* =========================
-       PRIVATE FOLDER
-       ========================= */
-
-    function privateFolder() {
-
-        let folder =
-            data.folders.find(
-                function (item) {
-
-                    return item.private;
-
-                }
-            );
-
-
-        if (!folder) {
-
-            showModal(
-                "Create private folder",
-                "<input id='privateCode' class='modal-input' type='password' placeholder='Create a code'>",
-                "Create",
-                function () {
-
-                    const input =
-                        document.getElementById(
-                            "privateCode"
-                        );
-
-
-                    const code =
-                        input.value;
-
-
-                    if (!code) return;
-
-
-                    folder = {
-
-                        id: createId(),
-
-                        name: "Private",
-
-                        private: true
-
-                    };
-
-
-                    data.folders.push(folder);
-
-
-                    /*
-                       Client-side lock.
-                       This is not secure encryption.
-                    */
-
-                    data.privateCode =
-                        btoa(code);
-
-
-                    data.privateUnlocked =
-                        true;
-
-
-                    currentFolder =
-                        folder.id;
-
-
-                    saveData();
-
-                    closeModal();
-
-                    render();
-
-                }
-            );
-
-
-            return;
-
-        }
-
-
-        if (data.privateUnlocked) {
-
-            currentFolder =
-                folder.id;
-
-            render();
-
-            return;
-
-        }
-
-
-        showModal(
-            "Private folder",
-            "<input id='privateCode' class='modal-input' type='password' placeholder='Enter code'>",
-            "Unlock",
-            function () {
-
-                const input =
-                    document.getElementById(
-                        "privateCode"
-                    );
-
-
-                if (
-                    btoa(input.value) !==
-                    data.privateCode
-                ) {
-
-                    alert("Wrong code");
-
-                    return;
-
-                }
-
-
-                data.privateUnlocked =
-                    true;
-
-
-                currentFolder =
-                    folder.id;
-
-
-                saveData();
-
-                closeModal();
-
-                render();
-
-            }
-        );
-
-    }
-
-
-    /* =========================
-       MODAL
-       ========================= */
-
-    function showModal(
-        title,
-        body,
-        confirmText,
-        action
-    ) {
-
-        document.getElementById(
-            "modalTitle"
-        ).textContent =
-            title;
-
-
-        document.getElementById(
-            "modalBody"
-        ).innerHTML =
-            body;
-
-
-        document.getElementById(
-            "modalConfirm"
-        ).textContent =
-            confirmText;
-
-
-        document.getElementById(
-            "modal"
-        ).classList.add("open");
-
-
-        document.getElementById(
-            "modalConfirm"
-        ).onclick =
-            function () {
-
-                action();
-
-            };
-
-
-        document.getElementById(
-            "modalCancel"
-        ).onclick =
-            closeModal;
-
-    }
-
-
-    function closeModal() {
-
-        document.getElementById(
-            "modal"
-        ).classList.remove("open");
-
-    }
-
-
-    /* =========================
-       TEMPLATES
-       ========================= */
-
-    function showTemplates() {
-
-        showModal(
-            "Student templates",
-
-            "<button id='lectureTemplate' class='sidebar-button' style='width:100%;margin-bottom:7px'>Lecture notes</button>" +
-
-            "<button id='examTemplate' class='sidebar-button' style='width:100%;margin-bottom:7px'>Exam revision</button>" +
-
-            "<button id='projectTemplate' class='sidebar-button' style='width:100%'>Project</button>",
-
-            "Close",
-
-            closeModal
-        );
-
-
-        document.getElementById(
-            "lectureTemplate"
-        ).onclick =
-            function () {
-
-                createTemplate(
-                    "Lecture notes",
-                    "# Lecture notes\n\n## Topic\n\n## Key ideas\n\n## Questions\n\n## Summary"
-                );
-
-            };
-
-
-        document.getElementById(
-            "examTemplate"
-        ).onclick =
-            function () {
-
-                createTemplate(
-                    "Exam revision",
-                    "# Exam revision\n\n## What I need to know\n\n## Definitions\n\n## Practice questions\n\n## Last-minute summary"
-                );
-
-            };
-
-
-        document.getElementById(
-            "projectTemplate"
-        ).onclick =
-            function () {
-
-                createTemplate(
-                    "Project",
-                    "# Project\n\n## Goal\n\n## Research\n\n## Tasks\n\n## Sources\n\n## Conclusion"
-                );
-
-            };
-
-    }
-
-
-    function createTemplate(
-        title,
-        body
-    ) {
-
-        const folder =
-            currentFolder !== "all"
-                ? currentFolder
-                : "general";
-
-
-        const item = {
-
-            id: createId(),
-
-            title: title,
-
-            body: body,
-
-            folder: folder,
-
-            pinned: false,
-
-            created: Date.now(),
-
-            updated: Date.now()
-
-        };
-
-
-        data.notes.unshift(item);
-
-        currentNoteId =
-            item.id;
-
-
-        saveData();
-
-        closeModal();
-
-        render();
-
-    }
-
-
-    /* =========================
-       SETTINGS
-       ========================= */
-
-    function showSettings() {
-
-        showModal(
-            "Settings",
-
-            "<p style='color:#999'>Your notes are stored locally in this browser.</p>" +
-
-            "<button id='exportData' class='sidebar-button' style='width:100%;margin-bottom:7px'>Export backup</button>" +
-
-            "<button id='resetData' class='sidebar-button' style='width:100%'>Reset all data</button>",
-
-            "Close",
-
-            closeModal
-        );
-
-
-        document.getElementById(
-            "exportData"
-        ).onclick =
-            exportBackup;
-
-
-        document.getElementById(
-            "resetData"
-        ).onclick =
-            resetData;
-
-    }
-
-
-    function exportBackup() {
-
-        const json =
-            JSON.stringify(
-                data,
-                null,
-                2
-            );
-
-
-        const blob =
-            new Blob(
-                [json],
-                {
-                    type:
-                        "application/json"
-                }
-            );
-
-
-        const url =
-            URL.createObjectURL(blob);
-
-
-        const link =
-            document.createElement("a");
-
-
-        link.href = url;
-
-        link.download =
-            "studynotes-backup.json";
-
-
-        document.body.appendChild(link);
-
-        link.click();
-
-        link.remove();
-
-        URL.revokeObjectURL(url);
-
-    }
-
-
-    function resetData() {
-
-        const confirmed =
-            window.confirm(
-                "Delete all StudyNotes data?"
-            );
-
-
-        if (!confirmed) return;
-
-
-        localStorage.removeItem(
-            STORAGE_KEY
-        );
-
-
-        window.location.reload();
-
-    }
-
-
-    /* =========================
-       HELP
-       ========================= */
-
-    function showHelp() {
-
-        showModal(
-            "Help & shortcuts",
-
-            "<p><strong>Cmd/Ctrl + N</strong> — New note</p>" +
-
-            "<p><strong>Cmd/Ctrl + F</strong> — Search</p>" +
-
-            "<p><strong>Cmd/Ctrl + B</strong> — Bold</p>" +
-
-            "<p><strong>Cmd/Ctrl + I</strong> — Italic</p>" +
-
-            "<p style='color:#888'>Markdown is supported. Notes are saved locally in your browser.</p>",
-
-            "Close",
-
-            closeModal
-        );
-
-    }
-
-
-    /* =========================
-       FORMATTING
-       ========================= */
-
-    function formatSelection(type) {
-
-        const editor =
-            document.getElementById(
-                "editor"
-            );
-
-
-        const start =
-            editor.selectionStart;
-
-
-        const end =
-            editor.selectionEnd;
-
-
-        const selected =
-            editor.value.slice(
-                start,
-                end
-            )
-            || "text";
-
-
-        let before = "";
-
-        let after = "";
-
-
-        if (type === "bold") {
-
-            before = "**";
-            after = "**";
-
-        }
-
-
-        if (type === "italic") {
-
-            before = "*";
-            after = "*";
-
-        }
-
-
-        if (type === "h2") {
-
-            before = "## ";
-
-        }
-
-
-        if (type === "check") {
-
-            before = "- [ ] ";
-
-        }
-
-
-        if (type === "code") {
-
-            before = "`";
-            after = "`";
-
-        }
-
-
-        if (type === "link") {
-
-            before = "[";
-            after = "](https://example.com)";
-
-        }
-
-
-        if (type === "quote") {
-
-            before = "> ";
-
-        }
-
-
-        editor.setRangeText(
-            before +
-            selected +
-            after,
-            start,
-            end,
-            "select"
-        );
-
-
-        editor.dispatchEvent(
-            new Event("input")
-        );
-
-
-        editor.focus();
-
-    }
-
-
-    /* =========================
-       PREVIEW
-       ========================= */
-
-    function updatePreviewState() {
-
-        const editor =
-            document.getElementById(
-                "editor"
-            );
-
-
-        const preview =
-            document.getElementById(
-                "preview"
-            );
-
-
-        const button =
-            document.getElementById(
-                "previewButton"
-            );
-
-
-        if (previewMode) {
-
-            preview.innerHTML =
-                renderMarkdown(
-                    editor.value
-                );
-
-
-            preview.classList.add(
-                "visible"
-            );
-
-
-            editor.style.display =
-                "none";
-
-
-            button.textContent =
-                "Edit";
-
-        } else {
-
-            preview.classList.remove(
-                "visible"
-            );
-
-
-            editor.style.display =
-                "block";
-
-
-            button.textContent =
-                "Preview";
-
-        }
-
-    }
-
-
-    /* =========================
-       DRAWING
-       ========================= */
-
-    const canvas =
-        document.getElementById(
-            "drawingCanvas"
-        );
-
-
-    const ctx =
-        canvas.getContext(
-            "2d"
-        );
-
-
-    function resizeCanvas() {
-
-        canvas.width =
-            window.innerWidth;
-
-        canvas.height =
-            window.innerHeight;
-
-    }
-
-
-    function openDrawing() {
-
-        resizeCanvas();
-
-        drawingMode = true;
-
-        canvas.classList.add(
-            "open"
-        );
-
-
-        document.getElementById(
-            "drawingToolbar"
-        ).classList.add(
-            "open"
-        );
-
-    }
-
-
-    function closeDrawing() {
-
-        drawingMode = false;
-
-        drawing = false;
-
-        canvas.classList.remove(
-            "open"
-        );
-
-
-        document.getElementById(
-            "drawingToolbar"
-        ).classList.remove(
-            "open"
-        );
-
-    }
-
-
-    function getPointerPosition(event) {
-
-        return {
-
-            x: event.clientX,
-
-            y: event.clientY
-
-        };
-
-    }
-
-
-    canvas.addEventListener(
-        "pointerdown",
-        function (event) {
-
-            drawing = true;
-
-            canvas.setPointerCapture(
-                event.pointerId
-            );
-
-
-            const point =
-                getPointerPosition(event);
-
-
-            ctx.beginPath();
-
-            ctx.moveTo(
-                point.x,
-                point.y
-            );
-
-        }
+  if(!confirm("Delete this note?")) return;
+
+  state.notes =
+    state.notes.filter(
+      n => n.id !== note.id
     );
 
+  if(!state.notes.length){
 
-    canvas.addEventListener(
-        "pointermove",
-        function (event) {
+    newNote();
+    return;
 
-            if (!drawing) return;
+  }
 
+  state.currentId =
+    state.notes[0].id;
 
-            const point =
-                getPointerPosition(event);
+  save();
 
+  renderNotes();
 
-            ctx.lineWidth =
-                erasing
-                    ? 25
-                    : 4;
+  renderEditor();
 
-
-            ctx.lineCap =
-                "round";
+}
 
 
-            ctx.strokeStyle =
-                erasing
-                    ? "#ffffff"
-                    : "#000000";
+/* -------------------------
+   DUPLICATE
+------------------------- */
+
+function duplicateNote(){
+
+  const note = currentNote();
+
+  if(!note) return;
+
+  const copy = {
+
+    ...note,
+
+    id:Date.now(),
+
+    title:(note.title || "Untitled") + " copy",
+
+    created:Date.now(),
+
+    updated:Date.now(),
+
+    pinned:false
+
+  };
+
+  state.notes.unshift(copy);
+
+  state.currentId = copy.id;
+
+  save();
+
+  renderNotes();
+
+  renderEditor();
+
+}
 
 
-            ctx.lineTo(
-                point.x,
-                point.y
-            );
+/* -------------------------
+   PIN
+------------------------- */
+
+function pinNote(){
+
+  const note = currentNote();
+
+  if(!note) return;
+
+  note.pinned = !note.pinned;
+
+  note.updated = Date.now();
+
+  save();
+
+  renderNotes();
+
+}
 
 
-            ctx.stroke();
+/* -------------------------
+   SIDEBAR
+------------------------- */
 
-        }
+function toggleSidebar(){
+
+  document
+    .getElementById("sidebar")
+    .classList.toggle("collapsed");
+
+}
+
+
+/* -------------------------
+   AUTOSAVE
+------------------------- */
+
+function updateNote(){
+
+  const note = currentNote();
+
+  if(!note) return;
+
+  note.title =
+    document.getElementById("title").value;
+
+  note.content =
+    document.getElementById("editor").innerText;
+
+  note.updated = Date.now();
+
+  save();
+
+  document.getElementById("status").textContent =
+    "Saved";
+
+  renderNotes();
+
+  updateStats();
+
+}
+
+
+/* -------------------------
+   STATS
+------------------------- */
+
+function updateStats(){
+
+  const text =
+    document.getElementById("editor").innerText.trim();
+
+  const words =
+    text ? text.split(/\s+/).length : 0;
+
+  const chars = text.length;
+
+  const minutes =
+    Math.max(0,Math.ceil(words / 200));
+
+  document.getElementById("stats").textContent =
+    `${words} words · ${chars} characters · ${minutes} min read`;
+
+}
+
+
+/* -------------------------
+   FORMATTING
+------------------------- */
+
+function format(type){
+
+  const editor =
+    document.getElementById("editor");
+
+  editor.focus();
+
+  const selection =
+    window.getSelection();
+
+  const selected =
+    selection.toString();
+
+  let replacement = "";
+
+  if(type === "bold")
+    replacement = `**${selected || "bold text"}**`;
+
+  if(type === "italic")
+    replacement = `*${selected || "italic text"}*`;
+
+  if(type === "heading")
+    replacement = `## ${selected || "Heading"}`;
+
+  if(type === "check")
+    replacement = `- [ ] ${selected || "Task"}`;
+
+  if(type === "code")
+    replacement = `\`\`\`\\n${selected || "code"}\\n\`\`\``;
+
+  if(type === "quote")
+    replacement = `> ${selected || "Quote"}`;
+
+  if(type === "bullet")
+    replacement = `• ${selected || "List item"}`;
+
+  if(type === "link")
+    replacement =
+      `[${selected || "Link text"}](https://example.com)`;
+
+  document.execCommand(
+    "insertText",
+    false,
+    replacement
+  );
+
+  updateNote();
+
+}
+
+
+/* -------------------------
+   PREVIEW
+------------------------- */
+
+function showPreview(){
+
+  const editor =
+    document.getElementById("editor");
+
+  const preview =
+    document.getElementById("preview");
+
+  if(preview.style.display === "block"){
+
+    preview.style.display = "none";
+
+    editor.style.display = "block";
+
+    return;
+
+  }
+
+  preview.innerHTML =
+    markdownToHTML(editor.innerText);
+
+  editor.style.display = "none";
+
+  preview.style.display = "block";
+
+}
+
+
+/* -------------------------
+   SIMPLE MARKDOWN
+------------------------- */
+
+function markdownToHTML(text){
+
+  let html =
+    escapeHTML(text);
+
+  html =
+    html.replace(
+      /```([\s\S]*?)```/g,
+      "<pre>$1</pre>"
     );
 
-
-    canvas.addEventListener(
-        "pointerup",
-        function () {
-
-            drawing = false;
-
-        }
+  html =
+    html.replace(
+      /^### (.*)$/gm,
+      "<h3>$1</h3>"
     );
 
-
-    canvas.addEventListener(
-        "pointercancel",
-        function () {
-
-            drawing = false;
-
-        }
+  html =
+    html.replace(
+      /^## (.*)$/gm,
+      "<h2>$1</h2>"
     );
 
+  html =
+    html.replace(
+      /^# (.*)$/gm,
+      "<h1>$1</h1>"
+    );
 
-    /* =========================
-       INITIALIZE
-       ========================= */
+  html =
+    html.replace(
+      /\*\*(.*?)\*\*/g,
+      "<strong>$1</strong>"
+    );
 
-    function initializeApp() {
+  html =
+    html.replace(
+      /\*(.*?)\*/g,
+      "<em>$1</em>"
+    );
 
-        loadData();
+  html =
+    html.replace(
+      /\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g,
+      '<a href="$2" target="_blank">$1</a>'
+    );
+
+  html =
+    html.replace(
+      /^> (.*)$/gm,
+      "<blockquote>$1</blockquote>"
+    );
+
+  html =
+    html.replace(
+      /^• (.*)$/gm,
+      "<li>$1</li>"
+    );
+
+  html =
+    html.replace(
+      /^- \[ \] (.*)$/gm,
+      "☐ $1"
+    );
+
+  html =
+    html.replace(
+      /\n/g,
+      "<br>"
+    );
+
+  return html;
+
+}
 
 
-        if (!currentNoteId && data.notes.length) {
+/* -------------------------
+   MODAL
+------------------------- */
 
-            currentNoteId =
-                data.notes[0].id;
+function openModal(title,html){
 
-        }
+  document.getElementById("modalTitle")
+    .textContent = title;
+
+  document.getElementById("modalContent")
+    .innerHTML = html;
+
+  document.getElementById("modal")
+    .classList.add("show");
+
+}
 
 
-        /* New note */
+function closeModal(){
 
-        document.getElementById(
-            "newNote"
-        ).addEventListener(
-            "click",
-            createNote
+  document.getElementById("modal")
+    .classList.remove("show");
+
+}
+
+
+/* -------------------------
+   TEMPLATES
+------------------------- */
+
+function templates(){
+
+  openModal(
+    "Student templates",
+
+    `
+    <button class="small-button" data-template="Cornell Notes">
+      Cornell Notes
+    </button>
+
+    <button class="small-button" data-template="Exam Revision">
+      Exam Revision
+    </button>
+
+    <button class="small-button" data-template="Lecture Notes">
+      Lecture Notes
+    </button>
+
+    <button class="small-button" data-template="Essay Plan">
+      Essay Plan
+    </button>
+    `
+
+  );
+
+}
+
+
+/* -------------------------
+   APPLY TEMPLATE
+------------------------- */
+
+function applyTemplate(name){
+
+  const templates = {
+
+    "Cornell Notes":
+`# Topic
+
+## Questions
+
+## Notes
+
+## Summary
+`,
+
+    "Exam Revision":
+`# Exam Revision
+
+## Key concepts
+
+## Important facts
+
+## Questions I still have
+
+## Quick summary
+`,
+
+    "Lecture Notes":
+`# Lecture
+
+## Main ideas
+
+## Details
+
+## Questions
+
+## Summary
+`,
+
+    "Essay Plan":
+`# Essay
+
+## Thesis
+
+## Argument 1
+
+## Argument 2
+
+## Argument 3
+
+## Conclusion
+`
+
+  };
+
+  const note = currentNote();
+
+  if(!note) return;
+
+  note.title = name;
+
+  note.content =
+    templates[name] || "";
+
+  note.updated = Date.now();
+
+  save();
+
+  renderNotes();
+
+  renderEditor();
+
+  closeModal();
+
+}
+
+
+/* -------------------------
+   SETTINGS
+------------------------- */
+
+function settings(){
+
+  openModal(
+
+    "Settings",
+
+    `
+    <p><b>StudyNotes</b></p>
+
+    <button class="small-button" data-action="export">
+      Export notes
+    </button>
+
+    <button class="small-button" data-action="clear">
+      Reset all notes
+    </button>
+
+    <p style="color:#777;font-size:13px">
+      Notes are stored locally in this browser.
+    </p>
+    `
+
+  );
+
+}
+
+
+/* -------------------------
+   EXPORT
+------------------------- */
+
+function exportNotes(){
+
+  const data =
+    JSON.stringify(state.notes,null,2);
+
+  const blob =
+    new Blob([data],{type:"application/json"});
+
+  const url =
+    URL.createObjectURL(blob);
+
+  const a =
+    document.createElement("a");
+
+  a.href = url;
+
+  a.download =
+    "studynotes-backup.json";
+
+  a.click();
+
+  URL.revokeObjectURL(url);
+
+}
+
+
+/* -------------------------
+   RESET
+------------------------- */
+
+function resetNotes(){
+
+  if(!confirm("Delete all StudyNotes data?"))
+    return;
+
+  localStorage.removeItem(STORAGE_KEY);
+
+  location.reload();
+
+}
+
+
+/* -------------------------
+   HELP
+------------------------- */
+
+function help(){
+
+  openModal(
+
+    "StudyNotes Help",
+
+    `
+    <p><b>Ctrl / Cmd + N</b> — New note</p>
+    <p><b>Ctrl / Cmd + S</b> — Save</p>
+    <p><b>Ctrl / Cmd + F</b> — Search</p>
+    <p><b>Ctrl / Cmd + B</b> — Bold</p>
+    <p><b>Ctrl / Cmd + I</b> — Italic</p>
+    <p><b>Esc</b> — Close window</p>
+    <p>Use ☰ to hide or show the left panel.</p>
+    `
+
+  );
+
+}
+
+
+/* -------------------------
+   DRAWING
+------------------------- */
+
+function drawing(){
+
+  openModal(
+
+    "Drawing",
+
+    `
+    <canvas id="drawCanvas"></canvas>
+
+    <div style="margin-top:10px;display:flex;gap:6px">
+
+      <button class="small-button" data-action="clear-drawing">
+        Clear
+      </button>
+
+      <button class="small-button" data-action="save-drawing">
+        Save drawing
+      </button>
+
+    </div>
+    `
+
+  );
+
+  setTimeout(initCanvas,50);
+
+}
+
+
+function initCanvas(){
+
+  const canvas =
+    document.getElementById("drawCanvas");
+
+  if(!canvas) return;
+
+  const ctx =
+    canvas.getContext("2d");
+
+  const rect =
+    canvas.getBoundingClientRect();
+
+  canvas.width = rect.width * 2;
+  canvas.height = rect.height * 2;
+
+  ctx.scale(2,2);
+
+  let drawing = false;
+
+  function position(e){
+
+    const r =
+      canvas.getBoundingClientRect();
+
+    const p =
+      e.touches ? e.touches[0] : e;
+
+    return {
+      x:p.clientX-r.left,
+      y:p.clientY-r.top
+    };
+
+  }
+
+  function start(e){
+
+    drawing = true;
+
+    const p = position(e);
+
+    ctx.beginPath();
+
+    ctx.moveTo(p.x,p.y);
+
+  }
+
+  function move(e){
+
+    if(!drawing) return;
+
+    const p = position(e);
+
+    ctx.lineWidth = 3;
+
+    ctx.lineCap = "round";
+
+    ctx.strokeStyle = "#111";
+
+    ctx.lineTo(p.x,p.y);
+
+    ctx.stroke();
+
+  }
+
+  function stop(){
+
+    drawing = false;
+
+  }
+
+  canvas.addEventListener("mousedown",start);
+  canvas.addEventListener("mousemove",move);
+  canvas.addEventListener("mouseup",stop);
+  canvas.addEventListener("mouseleave",stop);
+
+  canvas.addEventListener("touchstart",start);
+  canvas.addEventListener("touchmove",move);
+  canvas.addEventListener("touchend",stop);
+
+}
+
+
+/* -------------------------
+   EVENT DELEGATION
+   ALL BUTTONS WORK HERE
+------------------------- */
+
+document.addEventListener("click",function(e){
+
+  const button =
+    e.target.closest("[data-action]");
+
+  if(button){
+
+    const action =
+      button.dataset.action;
+
+    if(action === "new")
+      newNote();
+
+    if(action === "toggle-sidebar")
+      toggleSidebar();
+
+    if(action === "preview")
+      showPreview();
+
+    if(action === "pin")
+      pinNote();
+
+    if(action === "duplicate")
+      duplicateNote();
+
+    if(action === "delete")
+      deleteNote();
+
+    if(action === "templates")
+      templates();
+
+    if(action === "settings")
+      settings();
+
+    if(action === "help")
+      help();
+
+    if(action === "draw")
+      drawing();
+
+    if(action === "close-modal")
+      closeModal();
+
+    if(action === "export")
+      exportNotes();
+
+    if(action === "clear")
+      resetNotes();
+
+    if(action === "clear-drawing"){
+
+      const canvas =
+        document.getElementById("drawCanvas");
+
+      if(canvas){
+
+        const ctx =
+          canvas.getContext("2d");
+
+        ctx.clearRect(
+          0,0,
+          canvas.width,
+          canvas.height
         );
 
-
-        /* New folder */
-
-        document.getElementById(
-            "newFolder"
-        ).addEventListener(
-            "click",
-            createFolder
-        );
-
-
-        /* Templates */
-
-        document.getElementById(
-            "templates"
-        ).addEventListener(
-            "click",
-            showTemplates
-        );
-
-
-        /* Settings */
-
-        document.getElementById(
-            "settings"
-        ).addEventListener(
-            "click",
-            showSettings
-        );
-
-
-        /* Help */
-
-        document.getElementById(
-            "help"
-        ).addEventListener(
-            "click",
-            showHelp
-        );
-
-
-        /* Drawing */
-
-        document.getElementById(
-            "draw"
-        ).addEventListener(
-            "click",
-            openDrawing
-        );
-
-
-        document.getElementById(
-            "closeDrawing"
-        ).addEventListener(
-            "click",
-            closeDrawing
-        );
-
-
-        document.getElementById(
-            "clearCanvas"
-        ).addEventListener(
-            "click",
-            function () {
-
-                ctx.clearRect(
-                    0,
-                    0,
-                    canvas.width,
-                    canvas.height
-                );
-
-            }
-        );
-
-
-        document.getElementById(
-            "blackPen"
-        ).addEventListener(
-            "click",
-            function () {
-
-                erasing = false;
-
-            }
-        );
-
-
-        document.getElementById(
-            "greyPen"
-        ).addEventListener(
-            "click",
-            function () {
-
-                erasing = false;
-
-                ctx.strokeStyle =
-                    "#888888";
-
-            }
-        );
-
-
-        document.getElementById(
-            "eraser"
-        ).addEventListener(
-            "click",
-            function () {
-
-                erasing = true;
-
-            }
-        );
-
-
-        /* Private */
-
-        document.getElementById(
-            "privateFolder"
-        ).addEventListener(
-            "click",
-            privateFolder
-        );
-
-
-        /* Search */
-
-        document.getElementById(
-            "search"
-        ).addEventListener(
-            "input",
-            function (event) {
-
-                searchQuery =
-                    event.target.value;
-
-                render();
-
-            }
-        );
-
-
-        /* Clear search */
-
-        document.getElementById(
-            "clearSearch"
-        ).addEventListener(
-            "click",
-            function () {
-
-                searchQuery = "";
-
-                document.getElementById(
-                    "search"
-                ).value = "";
-
-                render();
-
-            }
-        );
-
-
-        /* Title */
-
-        document.getElementById(
-            "title"
-        ).addEventListener(
-            "input",
-            function (event) {
-
-                const note =
-                    getCurrentNote();
-
-
-                if (!note) return;
-
-
-                note.title =
-                    event.target.value;
-
-
-                note.updated =
-                    Date.now();
-
-
-                saveData();
-
-                renderNotes();
-
-            }
-        );
-
-
-        /* Editor */
-
-        document.getElementById(
-            "editor"
-        ).addEventListener(
-            "input",
-            function (event) {
-
-                const note =
-                    getCurrentNote();
-
-
-                if (!note) return;
-
-
-                note.body =
-                    event.target.value;
-
-
-                note.updated =
-                    Date.now();
-
-
-                saveData();
-
-                updateStatistics();
-
-            }
-        );
-
-
-        /* Pin */
-
-        document.getElementById(
-            "pin"
-        ).addEventListener(
-            "click",
-            togglePin
-        );
-
-
-        /* Duplicate */
-
-        document.getElementById(
-            "duplicate"
-        ).addEventListener(
-            "click",
-            duplicateCurrentNote
-        );
-
-
-        /* Move */
-
-        document.getElementById(
-            "move"
-        ).addEventListener(
-            "click",
-            moveCurrentNote
-        );
-
-
-        /* Delete */
-
-        document.getElementById(
-            "delete"
-        ).addEventListener(
-            "click",
-            deleteCurrentNote
-        );
-
-
-        /* Preview */
-
-        document.getElementById(
-            "previewButton"
-        ).addEventListener(
-            "click",
-            function () {
-
-                previewMode =
-                    !previewMode;
-
-                updatePreviewState();
-
-            }
-        );
-
-
-        /* Toolbar */
-
-        document
-            .querySelectorAll(".tool")
-            .forEach(
-                function (button) {
-
-                    button.addEventListener(
-                        "click",
-                        function () {
-
-                            formatSelection(
-                                button.dataset.format
-                            );
-
-                        }
-                    );
-
-                }
-            );
-
-
-        /* Keyboard shortcuts */
-
-        document.addEventListener(
-            "keydown",
-            function (event) {
-
-                const modifier =
-                    event.ctrlKey ||
-                    event.metaKey;
-
-
-                if (
-                    modifier &&
-                    event.key.toLowerCase() === "n"
-                ) {
-
-                    event.preventDefault();
-
-                    createNote();
-
-                }
-
-
-                if (
-                    modifier &&
-                    event.key.toLowerCase() === "f"
-                ) {
-
-                    event.preventDefault();
-
-                    document.getElementById(
-                        "search"
-                    ).focus();
-
-                }
-
-
-                if (
-                    modifier &&
-                    event.key.toLowerCase() === "b"
-                ) {
-
-                    event.preventDefault();
-
-                    formatSelection("bold");
-
-                }
-
-
-                if (
-                    modifier &&
-                    event.key.toLowerCase() === "i"
-                ) {
-
-                    event.preventDefault();
-
-                    formatSelection("italic");
-
-                }
-
-            }
-        );
-
-
-        /* Modal background */
-
-        document.getElementById(
-            "modal"
-        ).addEventListener(
-            "click",
-            function (event) {
-
-                if (
-                    event.target ===
-                    document.getElementById("modal")
-                ) {
-
-                    closeModal();
-
-                }
-
-            }
-        );
-
-
-        /* Resize drawing canvas */
-
-        window.addEventListener(
-            "resize",
-            function () {
-
-                if (drawingMode) {
-
-                    resizeCanvas();
-
-                }
-
-            }
-        );
-
-
-        /* First render */
-
-        render();
+      }
 
     }
 
+  }
 
-    /* =========================
-       START
-       ========================= */
+  const note =
+    e.target.closest(".note-item");
 
-    document.addEventListener(
-        "DOMContentLoaded",
-        initializeApp
+  if(note){
+
+    state.currentId =
+      Number(note.dataset.noteId);
+
+    save();
+
+    renderNotes();
+
+    renderEditor();
+
+  }
+
+  const folder =
+    e.target.closest(".folder");
+
+  if(folder){
+
+    state.folder =
+      folder.dataset.folder;
+
+    renderNotes();
+
+  }
+
+  const tool =
+    e.target.closest("[data-format]");
+
+  if(tool){
+
+    format(tool.dataset.format);
+
+  }
+
+  const template =
+    e.target.closest("[data-template]");
+
+  if(template){
+
+    applyTemplate(
+      template.dataset.template
     );
 
-})();
+  }
+
+});
+
+
+/* -------------------------
+   EDITOR EVENTS
+------------------------- */
+
+document
+  .getElementById("title")
+  .addEventListener(
+    "input",
+    updateNote
+  );
+
+
+document
+  .getElementById("editor")
+  .addEventListener(
+    "input",
+    updateNote
+  );
+
+
+document
+  .getElementById("search")
+  .addEventListener(
+    "input",
+    renderNotes
+  );
+
+
+/* -------------------------
+   KEYBOARD SHORTCUTS
+------------------------- */
+
+document.addEventListener(
+  "keydown",
+  function(e){
+
+    const modifier =
+      e.ctrlKey || e.metaKey;
+
+    if(modifier && e.key.toLowerCase() === "n"){
+
+      e.preventDefault();
+
+      newNote();
+
+    }
+
+    if(modifier && e.key.toLowerCase() === "s"){
+
+      e.preventDefault();
+
+      updateNote();
+
+    }
+
+    if(modifier && e.key.toLowerCase() === "f"){
+
+      e.preventDefault();
+
+      document
+        .getElementById("search")
+        .focus();
+
+    }
+
+    if(modifier && e.key.toLowerCase() === "b"){
+
+      e.preventDefault();
+
+      format("bold");
+
+    }
+
+    if(modifier && e.key.toLowerCase() === "i"){
+
+      e.preventDefault();
+
+      format("italic");
+
+    }
+
+    if(e.key === "Escape"){
+
+      closeModal();
+
+    }
+
+  }
+);
+
+
+/* -------------------------
+   ESCAPE HTML
+------------------------- */
+
+function escapeHTML(text){
+
+  return String(text)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#039;");
+
+}
+
+
+/* -------------------------
+   START
+------------------------- */
+
+load();
+
+renderNotes();
+
+renderEditor();
 
 </script>
 

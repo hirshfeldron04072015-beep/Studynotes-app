@@ -2,521 +2,623 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>StudyNotes</title>
 
 <style>
-*{
-  box-sizing:border-box;
+* {
+    box-sizing: border-box;
 }
 
-html,body{
-  margin:0;
-  width:100%;
-  height:100%;
-  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-  background:#080808;
-  color:#f5f5f5;
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background: #080808;
+    color: #f5f5f5;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
 }
 
-button,input,textarea,select{
-  font:inherit;
+body {
+    overflow: hidden;
 }
 
-button{
-  cursor:pointer;
+/* =========================
+   INTRO SCREEN
+   ========================= */
+
+#intro {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: #080808;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: introFade 0.9s ease 2.7s forwards;
 }
 
-#startup{
-  position:fixed;
-  inset:0;
-  z-index:1000;
-  background:#080808;
-  display:flex;
-  align-items:center;
-  justify-content:center;
+.intro-content {
+    text-align: center;
+    animation: introContent 1.2s ease forwards;
 }
 
-.startbox{
-  text-align:center;
-  padding:30px;
+.intro-logo {
+    width: 125px;
+    height: 125px;
+    margin-bottom: 22px;
 }
 
-.logo{
-  width:110px;
-  height:110px;
-  margin:auto auto 25px;
+.intro-logo ellipse {
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 2.5;
 }
 
-.logo ellipse,
-.logo circle{
-  fill:none;
-  stroke:#fff;
-  stroke-width:3;
+.intro-logo circle {
+    fill: #ffffff;
 }
 
-.logo circle{
-  fill:#fff;
-  stroke:none;
+.intro-title {
+    margin: 0;
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: -1.5px;
 }
 
-.startbox h1{
-  font-size:38px;
-  margin:0 0 10px;
+.intro-subtitle {
+    margin-top: 10px;
+    color: #888;
+    font-size: 15px;
+    letter-spacing: 0.2px;
 }
 
-.startbox p{
-  color:#999;
-  margin:0 0 28px;
+@keyframes introContent {
+    from {
+        opacity: 0;
+        transform: translateY(12px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
-.startbtn{
-  border:1px solid #fff;
-  background:#fff;
-  color:#000;
-  padding:14px 28px;
-  border-radius:12px;
-  font-weight:700;
+@keyframes introFade {
+    to {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
 }
 
-#app{
-  display:none;
-  height:100%;
-  grid-template-columns:270px 1fr 330px;
-  overflow:hidden;
+/* =========================
+   APP
+   ========================= */
+
+#app {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 270px minmax(0, 1fr) 320px;
+    opacity: 0;
+    animation: appAppear 0.8s ease 2.8s forwards;
 }
 
-#app.visible{
-  display:grid;
+@keyframes appAppear {
+    to {
+        opacity: 1;
+    }
 }
 
-.sidebar{
-  border-right:1px solid #242424;
-  padding:18px;
-  display:flex;
-  flex-direction:column;
-  min-width:0;
+/* =========================
+   SIDEBAR
+   ========================= */
+
+.sidebar {
+    height: 100%;
+    min-width: 0;
+    border-right: 1px solid #242424;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    background: #090909;
 }
 
-.brand{
-  font-weight:800;
-  font-size:20px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-  margin-bottom:18px;
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-size: 20px;
+    font-weight: 700;
+    margin-bottom: 18px;
 }
 
-.mini-logo{
-  width:30px;
-  height:30px;
+.brand-logo {
+    width: 32px;
+    height: 32px;
 }
 
-.mini-logo ellipse{
-  fill:none;
-  stroke:#fff;
-  stroke-width:4;
+.brand-logo ellipse {
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 3;
 }
 
-.mini-logo circle{
-  fill:#fff;
+.brand-logo circle {
+    fill: #ffffff;
 }
 
-.search{
-  width:100%;
-  background:#111;
-  border:1px solid #292929;
-  color:#fff;
-  border-radius:9px;
-  padding:10px;
-  margin-bottom:12px;
-  outline:none;
+.search {
+    width: 100%;
+    padding: 10px 11px;
+    border-radius: 9px;
+    border: 1px solid #292929;
+    background: #111111;
+    color: #ffffff;
+    outline: none;
+    margin-bottom: 10px;
 }
 
-.section-title{
-  font-size:11px;
-  color:#777;
-  text-transform:uppercase;
-  letter-spacing:1px;
-  margin:14px 4px 7px;
+.search:focus {
+    border-color: #555555;
+}
+
+.primary-button {
+    border: none;
+    background: #ffffff;
+    color: #000000;
+    border-radius: 9px;
+    padding: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.primary-button:hover {
+    opacity: 0.88;
+}
+
+.section-label {
+    color: #666666;
+    font-size: 10px;
+    letter-spacing: 1.3px;
+    text-transform: uppercase;
+    margin: 18px 4px 7px;
 }
 
 .folder,
-.note-row{
-  display:flex;
-  align-items:center;
-  gap:9px;
-  border:0;
-  background:none;
-  color:#ddd;
-  width:100%;
-  text-align:left;
-  padding:8px;
-  border-radius:8px;
+.note-item,
+.sidebar-button {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: #cccccc;
+    border-radius: 8px;
+    padding: 9px;
+    text-align: left;
+    cursor: pointer;
 }
 
 .folder:hover,
-.note-row:hover,
-.folder.active{
-  background:#171717;
+.note-item:hover,
+.sidebar-button:hover {
+    background: #171717;
 }
 
-.dot{
-  width:10px;
-  height:10px;
-  border-radius:50%;
-  background:#888;
-  flex:none;
+.folder.active {
+    background: #171717;
+    color: #ffffff;
 }
 
-.dot.private{
-  background:#fff;
-  border:2px solid #777;
+.folder-dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #777777;
+    margin-right: 8px;
 }
 
-.sidebar-bottom{
-  margin-top:auto;
-  display:grid;
-  gap:7px;
+.private-dot {
+    background: #ffffff;
+    border: 2px solid #666666;
 }
 
-.sidebtn{
-  background:#111;
-  border:1px solid #292929;
-  color:#ddd;
-  border-radius:8px;
-  padding:9px;
-  text-align:left;
+#noteList {
+    overflow-y: auto;
+    min-height: 0;
 }
 
-.main{
-  min-width:0;
-  display:flex;
-  flex-direction:column;
+.note-item {
+    margin-bottom: 2px;
 }
 
-.topbar{
-  height:58px;
-  border-bottom:1px solid #242424;
-  display:flex;
-  align-items:center;
-  gap:8px;
-  padding:8px 14px;
+.sidebar-bottom {
+    margin-top: auto;
+    display: grid;
+    gap: 6px;
 }
 
-.topbar input{
-  flex:1;
-  background:transparent;
-  border:0;
-  color:#fff;
-  font-size:17px;
-  outline:none;
+.sidebar-button {
+    border: 1px solid #252525;
+    background: #111111;
 }
 
-.iconbtn{
-  background:#111;
-  border:1px solid #292929;
-  color:#ddd;
-  border-radius:8px;
-  padding:8px 10px;
+/* =========================
+   MAIN EDITOR
+   ========================= */
+
+.main {
+    min-width: 0;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
-.editor-wrap{
-  flex:1;
-  display:flex;
-  flex-direction:column;
-  min-height:0;
+.topbar {
+    min-height: 60px;
+    border-bottom: 1px solid #242424;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 9px 13px;
 }
 
-.toolbar{
-  display:flex;
-  gap:5px;
-  padding:8px 12px;
-  border-bottom:1px solid #1d1d1d;
-  flex-wrap:wrap;
+.title-input {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 600;
 }
 
-.tool{
-  background:#111;
-  border:1px solid #292929;
-  color:#ddd;
-  border-radius:6px;
-  padding:6px 9px;
+.icon-button {
+    border: 1px solid #292929;
+    background: #111111;
+    color: #dddddd;
+    border-radius: 8px;
+    padding: 8px 10px;
+    cursor: pointer;
 }
 
-#editor{
-  flex:1;
-  width:100%;
-  resize:none;
-  border:0;
-  outline:none;
-  background:#080808;
-  color:#eee;
-  padding:25px;
-  font-size:17px;
-  line-height:1.65;
+.icon-button:hover {
+    background: #1b1b1b;
 }
 
-.preview{
-  display:none;
-  flex:1;
-  overflow:auto;
-  padding:25px;
-  line-height:1.65;
+.editor-area {
+    min-height: 0;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
 }
 
-.preview.show{
-  display:block;
+.toolbar {
+    min-height: 45px;
+    border-bottom: 1px solid #1c1c1c;
+    padding: 7px 12px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
 }
 
-.preview h1,
-.preview h2,
-.preview h3{
-  color:#fff;
+.tool {
+    border: 1px solid #292929;
+    background: #111111;
+    color: #dddddd;
+    border-radius: 6px;
+    padding: 6px 9px;
+    cursor: pointer;
 }
 
-.preview code{
-  background:#171717;
-  padding:2px 5px;
-  border-radius:4px;
+.tool:hover {
+    background: #1a1a1a;
 }
 
-.preview pre{
-  background:#111;
-  padding:14px;
-  border-radius:9px;
-  overflow:auto;
+#editor {
+    width: 100%;
+    flex: 1;
+    min-height: 0;
+    resize: none;
+    border: none;
+    outline: none;
+    background: #080808;
+    color: #eeeeee;
+    padding: 25px;
+    font-size: 17px;
+    line-height: 1.7;
 }
 
-.preview a{
-  color:#fff;
+#preview {
+    display: none;
+    flex: 1;
+    overflow-y: auto;
+    padding: 25px;
+    line-height: 1.7;
 }
 
-.status{
-  border-top:1px solid #1d1d1d;
-  padding:7px 14px;
-  color:#777;
-  font-size:12px;
-  display:flex;
-  justify-content:space-between;
+#preview.visible {
+    display: block;
 }
 
-.right{
-  border-left:1px solid #242424;
-  padding:18px;
-  overflow:auto;
+#preview h1,
+#preview h2,
+#preview h3 {
+    color: #ffffff;
 }
 
-.card{
-  border:1px solid #252525;
-  background:#101010;
-  border-radius:12px;
-  padding:14px;
-  margin-bottom:12px;
+#preview code {
+    background: #181818;
+    padding: 2px 5px;
+    border-radius: 4px;
 }
 
-.card h3{
-  margin:0 0 10px;
-  font-size:13px;
-  color:#aaa;
+#preview pre {
+    background: #111111;
+    border: 1px solid #252525;
+    border-radius: 9px;
+    padding: 14px;
+    overflow-x: auto;
 }
 
-.stat{
-  display:flex;
-  justify-content:space-between;
-  color:#aaa;
-  padding:5px 0;
+#preview blockquote {
+    border-left: 3px solid #555555;
+    padding-left: 14px;
+    color: #aaaaaa;
 }
 
-.stat b{
-  color:#fff;
+#preview a {
+    color: #ffffff;
 }
 
-.empty{
-  color:#666;
-  text-align:center;
-  padding:40px 10px;
+.statusbar {
+    min-height: 31px;
+    border-top: 1px solid #1c1c1c;
+    padding: 6px 13px;
+    display: flex;
+    justify-content: space-between;
+    color: #666666;
+    font-size: 12px;
 }
 
-.modal{
-  position:fixed;
-  inset:0;
-  background:#000b;
-  z-index:2000;
-  display:none;
-  align-items:center;
-  justify-content:center;
-  padding:20px;
+/* =========================
+   RIGHT PANEL
+   ========================= */
+
+.right-panel {
+    min-width: 0;
+    overflow-y: auto;
+    border-left: 1px solid #242424;
+    padding: 17px;
+    background: #090909;
 }
 
-.modal.open{
-  display:flex;
+.card {
+    border: 1px solid #252525;
+    background: #101010;
+    border-radius: 12px;
+    padding: 14px;
+    margin-bottom: 12px;
 }
 
-.modalbox{
-  width:min(520px,100%);
-  background:#111;
-  border:1px solid #333;
-  border-radius:14px;
-  padding:20px;
+.card-title {
+    color: #888888;
+    font-size: 11px;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
 }
 
-.modalbox h2{
-  margin-top:0;
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 5px 0;
+    color: #999999;
 }
 
-.modalbox input,
-.modalbox select{
-  width:100%;
-  background:#080808;
-  border:1px solid #333;
-  color:#fff;
-  padding:10px;
-  border-radius:8px;
-  margin:8px 0 14px;
+.stat-row strong {
+    color: #ffffff;
+    text-align: right;
 }
 
-.modal-actions{
-  display:flex;
-  justify-content:flex-end;
-  gap:8px;
+/* =========================
+   MODAL
+   ========================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 5000;
+    background: rgba(0, 0, 0, 0.78);
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
 }
 
-.primary{
-  background:#fff;
-  color:#000;
-  border:0;
-  border-radius:8px;
-  padding:10px 15px;
-  font-weight:700;
+.modal.open {
+    display: flex;
 }
 
-.secondary{
-  background:#171717;
-  color:#fff;
-  border:1px solid #333;
-  border-radius:8px;
-  padding:10px 15px;
+.modal-box {
+    width: min(500px, 100%);
+    background: #111111;
+    border: 1px solid #333333;
+    border-radius: 14px;
+    padding: 20px;
 }
 
-#drawCanvas{
-  position:fixed;
-  inset:0;
-  z-index:1500;
-  background:#fff;
-  display:none;
-  touch-action:none;
+.modal-box h2 {
+    margin-top: 0;
 }
 
-#drawCanvas.open{
-  display:block;
+.modal-input,
+.modal-select {
+    width: 100%;
+    padding: 10px;
+    background: #080808;
+    color: #ffffff;
+    border: 1px solid #333333;
+    border-radius: 8px;
+    margin: 10px 0;
+    outline: none;
 }
 
-.drawbar{
-  position:fixed;
-  z-index:1600;
-  top:12px;
-  left:50%;
-  transform:translateX(-50%);
-  display:none;
-  gap:6px;
-  background:#111;
-  border:1px solid #333;
-  padding:8px;
-  border-radius:10px;
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    margin-top: 15px;
 }
 
-.drawbar.open{
-  display:flex;
+.secondary-button {
+    background: #171717;
+    color: #ffffff;
+    border: 1px solid #333333;
+    border-radius: 8px;
+    padding: 10px 15px;
+    cursor: pointer;
 }
 
-@media(max-width:950px){
-  #app{
-    grid-template-columns:230px 1fr;
-  }
+/* =========================
+   DRAWING
+   ========================= */
 
-  .right{
-    display:none;
-  }
+#drawingCanvas {
+    position: fixed;
+    inset: 0;
+    z-index: 7000;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    touch-action: none;
 }
 
-@media(max-width:650px){
-  #app{
-    grid-template-columns:1fr;
-  }
+#drawingCanvas.open {
+    display: block;
+}
 
-  .sidebar{
-    display:none;
-  }
+.drawing-toolbar {
+    position: fixed;
+    z-index: 7100;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+    gap: 6px;
+    padding: 8px;
+    border-radius: 10px;
+    background: #111111;
+    border: 1px solid #333333;
+}
 
-  .topbar{
-    padding-left:8px;
-  }
+.drawing-toolbar.open {
+    display: flex;
+}
 
-  .editor-wrap{
-    min-height:0;
-  }
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 950px) {
+    #app {
+        grid-template-columns: 235px minmax(0, 1fr);
+    }
+
+    .right-panel {
+        display: none;
+    }
+}
+
+@media (max-width: 650px) {
+    #app {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .topbar {
+        padding: 8px;
+    }
+
+    .title-input {
+        font-size: 16px;
+    }
+
+    #editor {
+        padding: 18px;
+        font-size: 16px;
+    }
+
+    .statusbar {
+        font-size: 11px;
+    }
+
+    .intro-title {
+        font-size: 34px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- START SCREEN -->
+<!-- INTRO -->
 
-<div id="startup">
+<div id="intro">
 
-  <div class="startbox">
+    <div class="intro-content">
 
-    <svg class="logo" viewBox="0 0 120 120">
+        <svg class="intro-logo" viewBox="0 0 120 120">
 
-      <ellipse
-        cx="60"
-        cy="60"
-        rx="49"
-        ry="19"
-        transform="rotate(30 60 60)"
-      />
+            <ellipse
+                cx="60"
+                cy="60"
+                rx="48"
+                ry="18"
+                transform="rotate(30 60 60)"
+            ></ellipse>
 
-      <ellipse
-        cx="60"
-        cy="60"
-        rx="49"
-        ry="19"
-        transform="rotate(-30 60 60)"
-      />
+            <ellipse
+                cx="60"
+                cy="60"
+                rx="48"
+                ry="18"
+                transform="rotate(-30 60 60)"
+            ></ellipse>
 
-      <ellipse
-        cx="60"
-        cy="60"
-        rx="49"
-        ry="19"
-        transform="rotate(90 60 60)"
-      />
+            <ellipse
+                cx="60"
+                cy="60"
+                rx="48"
+                ry="18"
+                transform="rotate(90 60 60)"
+            ></ellipse>
 
-      <circle
-        cx="60"
-        cy="60"
-        r="7"
-      />
+            <circle
+                cx="60"
+                cy="60"
+                r="7"
+            ></circle>
 
-    </svg>
+        </svg>
 
-    <h1>StudyNotes</h1>
+        <h1 class="intro-title">
+            StudyNotes
+        </h1>
 
-    <p>
-      A focused space for learning, thinking and writing.
-    </p>
+        <div class="intro-subtitle">
+            A focused space for learning, thinking and writing.
+        </div>
 
-    <button
-      id="startButton"
-      class="startbtn"
-      type="button"
-    >
-      Start studying
-    </button>
-
-  </div>
+    </div>
 
 </div>
 
@@ -525,344 +627,358 @@ button{
 
 <div id="app">
 
-  <!-- SIDEBAR -->
+    <!-- SIDEBAR -->
 
-  <aside class="sidebar">
+    <aside class="sidebar">
 
-    <div class="brand">
+        <div class="brand">
 
-      <svg
-        class="mini-logo"
-        viewBox="0 0 60 60"
-      >
+            <svg
+                class="brand-logo"
+                viewBox="0 0 60 60"
+            >
 
-        <ellipse
-          cx="30"
-          cy="30"
-          rx="25"
-          ry="9"
-          transform="rotate(30 30 30)"
-        />
+                <ellipse
+                    cx="30"
+                    cy="30"
+                    rx="24"
+                    ry="9"
+                    transform="rotate(30 30 30)"
+                ></ellipse>
 
-        <ellipse
-          cx="30"
-          cy="30"
-          rx="25"
-          ry="9"
-          transform="rotate(-30 30 30)"
-        />
+                <ellipse
+                    cx="30"
+                    cy="30"
+                    rx="24"
+                    ry="9"
+                    transform="rotate(-30 30 30)"
+                ></ellipse>
 
-        <ellipse
-          cx="30"
-          cy="30"
-          rx="25"
-          ry="9"
-          transform="rotate(90 30 30)"
-        />
+                <ellipse
+                    cx="30"
+                    cy="30"
+                    rx="24"
+                    ry="9"
+                    transform="rotate(90 30 30)"
+                ></ellipse>
 
-        <circle
-          cx="30"
-          cy="30"
-          r="4"
-        />
+                <circle
+                    cx="30"
+                    cy="30"
+                    r="4"
+                ></circle>
 
-      </svg>
+            </svg>
 
-      StudyNotes
+            StudyNotes
 
-    </div>
-
-
-    <input
-      id="search"
-      class="search"
-      placeholder="Search notes…"
-      autocomplete="off"
-    >
+        </div>
 
 
-    <button
-      id="newNote"
-      class="primary"
-      type="button"
-    >
-      ＋ New note
-    </button>
+        <input
+            id="search"
+            class="search"
+            type="search"
+            placeholder="Search notes…"
+            autocomplete="off"
+        >
 
-
-    <div class="section-title">
-      Folders
-    </div>
-
-    <div id="folders"></div>
-
-
-    <div class="section-title">
-      Notes
-    </div>
-
-    <div id="noteList"></div>
-
-
-    <div class="sidebar-bottom">
-
-      <button
-        id="newFolder"
-        class="sidebtn"
-        type="button"
-      >
-        ＋ New folder
-      </button>
-
-      <button
-        id="templates"
-        class="sidebtn"
-        type="button"
-      >
-        Templates
-      </button>
-
-      <button
-        id="settings"
-        class="sidebtn"
-        type="button"
-      >
-        Settings
-      </button>
-
-      <button
-        id="help"
-        class="sidebtn"
-        type="button"
-      >
-        ? Help & shortcuts
-      </button>
-
-      <button
-        id="draw"
-        class="sidebtn"
-        type="button"
-      >
-        ✎ Drawing board
-      </button>
-
-    </div>
-
-  </aside>
-
-
-  <!-- MAIN -->
-
-  <main class="main">
-
-    <div class="topbar">
-
-      <input
-        id="title"
-        placeholder="Untitled note"
-      >
-
-      <button
-        id="pin"
-        class="iconbtn"
-        title="Pin"
-      >
-        ☆
-      </button>
-
-      <button
-        id="duplicate"
-        class="iconbtn"
-        title="Duplicate"
-      >
-        ⧉
-      </button>
-
-      <button
-        id="move"
-        class="iconbtn"
-        title="Move"
-      >
-        ↗
-      </button>
-
-      <button
-        id="delete"
-        class="iconbtn"
-        title="Delete"
-      >
-        ⌫
-      </button>
-
-      <button
-        id="previewBtn"
-        class="iconbtn"
-        title="Preview"
-      >
-        Preview
-      </button>
-
-    </div>
-
-
-    <div class="editor-wrap">
-
-      <div class="toolbar">
 
         <button
-          class="tool"
-          data-fmt="bold"
+            id="newNote"
+            class="primary-button"
+            type="button"
         >
-          <b>B</b>
+            ＋ New note
         </button>
 
-        <button
-          class="tool"
-          data-fmt="italic"
-        >
-          <i>I</i>
-        </button>
 
-        <button
-          class="tool"
-          data-fmt="h2"
-        >
-          H2
-        </button>
+        <div class="section-label">
+            Folders
+        </div>
 
-        <button
-          class="tool"
-          data-fmt="check"
-        >
-          ☑
-        </button>
-
-        <button
-          class="tool"
-          data-fmt="code"
-        >
-          Code
-        </button>
-
-        <button
-          class="tool"
-          data-fmt="link"
-        >
-          Link
-        </button>
-
-        <button
-          class="tool"
-          data-fmt="quote"
-        >
-          Quote
-        </button>
-
-      </div>
+        <div id="folders"></div>
 
 
-      <textarea
-        id="editor"
-        spellcheck="true"
-        placeholder="Start writing…"
-      ></textarea>
+        <div class="section-label">
+            Notes
+        </div>
+
+        <div id="noteList"></div>
 
 
-      <article
-        id="preview"
-        class="preview"
-      ></article>
+        <div class="sidebar-bottom">
+
+            <button
+                id="newFolder"
+                class="sidebar-button"
+                type="button"
+            >
+                ＋ New folder
+            </button>
+
+            <button
+                id="templates"
+                class="sidebar-button"
+                type="button"
+            >
+                Templates
+            </button>
+
+            <button
+                id="settings"
+                class="sidebar-button"
+                type="button"
+            >
+                Settings
+            </button>
+
+            <button
+                id="help"
+                class="sidebar-button"
+                type="button"
+            >
+                ? Help & shortcuts
+            </button>
+
+            <button
+                id="draw"
+                class="sidebar-button"
+                type="button"
+            >
+                ✎ Drawing board
+            </button>
+
+        </div>
+
+    </aside>
 
 
-      <div class="status">
+    <!-- MAIN -->
 
-        <span id="saveStatus">
-          Ready
-        </span>
+    <main class="main">
 
-        <span id="stats">
-          0 words · 0 characters · 0 min
-        </span>
+        <div class="topbar">
 
-      </div>
+            <input
+                id="title"
+                class="title-input"
+                type="text"
+                placeholder="Untitled note"
+            >
 
-    </div>
+            <button
+                id="pin"
+                class="icon-button"
+                type="button"
+                title="Pin note"
+            >
+                ☆
+            </button>
 
-  </main>
+            <button
+                id="duplicate"
+                class="icon-button"
+                type="button"
+                title="Duplicate note"
+            >
+                ⧉
+            </button>
 
+            <button
+                id="move"
+                class="icon-button"
+                type="button"
+                title="Move note"
+            >
+                ↗
+            </button>
 
-  <!-- RIGHT PANEL -->
+            <button
+                id="delete"
+                class="icon-button"
+                type="button"
+                title="Delete note"
+            >
+                ⌫
+            </button>
 
-  <aside class="right">
+            <button
+                id="previewButton"
+                class="icon-button"
+                type="button"
+            >
+                Preview
+            </button>
 
-    <div class="card">
-
-      <h3>
-        NOTE INFO
-      </h3>
-
-      <div class="stat">
-        <span>Folder</span>
-        <b id="infoFolder">General</b>
-      </div>
-
-      <div class="stat">
-        <span>Created</span>
-        <b id="infoCreated">—</b>
-      </div>
-
-      <div class="stat">
-        <span>Updated</span>
-        <b id="infoUpdated">—</b>
-      </div>
-
-    </div>
-
-
-    <div class="card">
-
-      <h3>
-        QUICK ACTIONS
-      </h3>
-
-      <button
-        class="sidebtn"
-        style="width:100%;margin-bottom:7px"
-        id="private"
-      >
-        🔒 Private folder
-      </button>
-
-      <button
-        class="sidebtn"
-        style="width:100%"
-        id="clearSearch"
-      >
-        Clear search
-      </button>
-
-    </div>
+        </div>
 
 
-    <div class="card">
+        <div class="editor-area">
 
-      <h3>
-        STUDY
-      </h3>
+            <div class="toolbar">
 
-      <div class="stat">
-        <span>Total notes</span>
-        <b id="totalNotes">0</b>
-      </div>
+                <button
+                    class="tool"
+                    data-format="bold"
+                    type="button"
+                >
+                    <b>B</b>
+                </button>
 
-      <div class="stat">
-        <span>Words</span>
-        <b id="totalWords">0</b>
-      </div>
+                <button
+                    class="tool"
+                    data-format="italic"
+                    type="button"
+                >
+                    <i>I</i>
+                </button>
 
-    </div>
+                <button
+                    class="tool"
+                    data-format="h2"
+                    type="button"
+                >
+                    H2
+                </button>
 
-  </aside>
+                <button
+                    class="tool"
+                    data-format="check"
+                    type="button"
+                >
+                    ☑
+                </button>
+
+                <button
+                    class="tool"
+                    data-format="code"
+                    type="button"
+                >
+                    Code
+                </button>
+
+                <button
+                    class="tool"
+                    data-format="link"
+                    type="button"
+                >
+                    Link
+                </button>
+
+                <button
+                    class="tool"
+                    data-format="quote"
+                    type="button"
+                >
+                    Quote
+                </button>
+
+            </div>
+
+
+            <textarea
+                id="editor"
+                placeholder="Start writing…"
+                spellcheck="true"
+            ></textarea>
+
+
+            <article
+                id="preview"
+            ></article>
+
+
+            <div class="statusbar">
+
+                <span id="saveStatus">
+                    Ready
+                </span>
+
+                <span id="stats">
+                    0 words · 0 characters · 0 min
+                </span>
+
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- RIGHT PANEL -->
+
+    <aside class="right-panel">
+
+        <div class="card">
+
+            <div class="card-title">
+                NOTE INFO
+            </div>
+
+            <div class="stat-row">
+                <span>Folder</span>
+                <strong id="infoFolder">General</strong>
+            </div>
+
+            <div class="stat-row">
+                <span>Created</span>
+                <strong id="infoCreated">—</strong>
+            </div>
+
+            <div class="stat-row">
+                <span>Updated</span>
+                <strong id="infoUpdated">—</strong>
+            </div>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+                QUICK ACTIONS
+            </div>
+
+            <button
+                id="privateFolder"
+                class="sidebar-button"
+                type="button"
+                style="margin-bottom:7px"
+            >
+                🔒 Private folder
+            </button>
+
+            <button
+                id="clearSearch"
+                class="sidebar-button"
+                type="button"
+            >
+                Clear search
+            </button>
+
+        </div>
+
+
+        <div class="card">
+
+            <div class="card-title">
+                STUDY
+            </div>
+
+            <div class="stat-row">
+                <span>Total notes</span>
+                <strong id="totalNotes">0</strong>
+            </div>
+
+            <div class="stat-row">
+                <span>Total words</span>
+                <strong id="totalWords">0</strong>
+            </div>
+
+        </div>
+
+    </aside>
 
 </div>
 
@@ -870,2134 +986,2271 @@ button{
 <!-- MODAL -->
 
 <div
-  id="modal"
-  class="modal"
+    id="modal"
+    class="modal"
 >
 
-  <div class="modalbox">
+    <div class="modal-box">
 
-    <h2 id="modalTitle"></h2>
+        <h2 id="modalTitle">
+            StudyNotes
+        </h2>
 
-    <div id="modalBody"></div>
+        <div id="modalBody"></div>
 
-    <div class="modal-actions">
+        <div class="modal-actions">
 
-      <button
-        id="modalCancel"
-        class="secondary"
-        type="button"
-      >
-        Cancel
-      </button>
+            <button
+                id="modalCancel"
+                class="secondary-button"
+                type="button"
+            >
+                Cancel
+            </button>
 
-      <button
-        id="modalConfirm"
-        class="primary"
-        type="button"
-      >
-        OK
-      </button>
+            <button
+                id="modalConfirm"
+                class="primary-button"
+                type="button"
+            >
+                OK
+            </button>
+
+        </div>
 
     </div>
-
-  </div>
 
 </div>
 
 
-<!-- DRAWING BOARD -->
+<!-- DRAWING -->
 
-<canvas id="drawCanvas"></canvas>
+<canvas id="drawingCanvas"></canvas>
 
 <div
-  id="drawbar"
-  class="drawbar"
+    id="drawingToolbar"
+    class="drawing-toolbar"
 >
 
-  <button
-    class="secondary"
-    id="penBlack"
-  >
-    Black pen
-  </button>
+    <button
+        id="blackPen"
+        class="secondary-button"
+        type="button"
+    >
+        Black pen
+    </button>
 
-  <button
-    class="secondary"
-    id="penGray"
-  >
-    Grey pen
-  </button>
+    <button
+        id="greyPen"
+        class="secondary-button"
+        type="button"
+    >
+        Grey pen
+    </button>
 
-  <button
-    class="secondary"
-    id="erase"
-  >
-    Eraser
-  </button>
+    <button
+        id="eraser"
+        class="secondary-button"
+        type="button"
+    >
+        Eraser
+    </button>
 
-  <button
-    class="secondary"
-    id="clearCanvas"
-  >
-    Clear
-  </button>
+    <button
+        id="clearCanvas"
+        class="secondary-button"
+        type="button"
+    >
+        Clear
+    </button>
 
-  <button
-    class="primary"
-    id="closeDraw"
-  >
-    Done
-  </button>
+    <button
+        id="closeDrawing"
+        class="primary-button"
+        type="button"
+    >
+        Done
+    </button>
 
 </div>
 
 
 <script>
 
-(function(){
+(function () {
 
-"use strict";
-
-
-/* STORAGE */
-
-const KEY = "studynotes-v1";
+    "use strict";
 
 
-/* UNIQUE ID */
+    /* =========================
+       STORAGE
+       ========================= */
 
-function uid(){
-
-  return Date.now().toString(36)
-    +
-    Math.random()
-      .toString(36)
-      .slice(2,8);
-
-}
+    const STORAGE_KEY = "studynotes-v1";
 
 
-/* LOAD DATA */
+    let data = null;
 
-let data =
-  JSON.parse(
-    localStorage.getItem(KEY) || "null"
-  );
+    let currentNoteId = null;
 
+    let currentFolder = "all";
 
-if(!data){
+    let searchQuery = "";
 
-  const firstId = uid();
+    let previewMode = false;
 
-  data = {
+    let drawingMode = false;
 
-    folders:[
-      {
-        id:"general",
-        name:"General",
-        private:false
-      }
-    ],
+    let drawing = false;
 
-    notes:[
-      {
-        id:firstId,
-        title:"Welcome to StudyNotes",
-        body:
-"# Welcome\n\n" +
-"This is your first note. Start writing here.",
-        folder:"general",
-        pinned:true,
-        created:Date.now(),
-        updated:Date.now()
-      }
-    ],
-
-    privateUnlocked:false
-
-  };
-
-}
+    let erasing = false;
 
 
-/* STATE */
+    /* =========================
+       HELPERS
+       ========================= */
 
-let current =
-  data.notes[0]
-    ? data.notes[0].id
-    : null;
+    function createId() {
 
-let currentFolder = "all";
-
-let query = "";
-
-let preview = false;
-
-
-/* SAVE */
-
-function save(){
-
-  localStorage.setItem(
-    KEY,
-    JSON.stringify(data)
-  );
-
-  document.getElementById(
-    "saveStatus"
-  ).textContent =
-    "Saved just now";
-
-}
-
-
-/* CURRENT NOTE */
-
-function note(){
-
-  return data.notes.find(
-    n => n.id === current
-  );
-
-}
-
-
-/* ESCAPE HTML */
-
-function esc(s){
-
-  return String(s).replace(
-    /[&<>"']/g,
-    function(c){
-
-      return {
-
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#39;"
-
-      }[c];
+        return (
+            Date.now().toString(36) +
+            Math.random().toString(36).slice(2, 9)
+        );
 
     }
-  );
-
-}
 
 
-/* FOLDER NAME */
+    function escapeHtml(value) {
 
-function folderName(id){
+        return String(value).replace(
+            /[&<>"']/g,
+            function (character) {
 
-  const f =
-    data.folders.find(
-      x => x.id === id
-    );
+                if (character === "&") return "&amp;";
+                if (character === "<") return "&lt;";
+                if (character === ">") return "&gt;";
+                if (character === '"') return "&quot;";
+                return "&#39;";
 
-  return f
-    ? f.name
-    : "General";
-
-}
-
-
-/* DATE */
-
-function fmtDate(t){
-
-  return t
-    ? new Date(t).toLocaleString()
-    : "—";
-
-}
-
-
-/* RENDER EVERYTHING */
-
-function render(){
-
-  const folders =
-    document.getElementById(
-      "folders"
-    );
-
-  const list =
-    document.getElementById(
-      "noteList"
-    );
-
-
-  folders.innerHTML = "";
-
-
-  /* ALL NOTES */
-
-  const all =
-    document.createElement(
-      "button"
-    );
-
-  all.className =
-    "folder"
-    +
-    (
-      currentFolder === "all"
-      ? " active"
-      : ""
-    );
-
-  all.innerHTML =
-    '<span class="dot"></span>' +
-    'All notes';
-
-  all.onclick = function(){
-
-    currentFolder = "all";
-
-    render();
-
-  };
-
-  folders.appendChild(all);
-
-
-  /* FOLDERS */
-
-  data.folders.forEach(
-    function(f){
-
-      if(
-        f.private &&
-        !data.privateUnlocked
-      ){
-
-        return;
-
-      }
-
-
-      const b =
-        document.createElement(
-          "button"
+            }
         );
-
-      b.className =
-        "folder"
-        +
-        (
-          currentFolder === f.id
-          ? " active"
-          : ""
-        );
-
-
-      b.innerHTML =
-        '<span class="dot ' +
-        (
-          f.private
-          ? "private"
-          : ""
-        ) +
-        '"></span>' +
-        esc(f.name);
-
-
-      b.onclick = function(){
-
-        currentFolder = f.id;
-
-        render();
-
-      };
-
-
-      folders.appendChild(b);
 
     }
-  );
 
 
-  /* NOTES */
+    function saveData() {
 
-  let notes =
-    data.notes.filter(
-      function(n){
-
-        const folder =
-          data.folders.find(
-            f => f.id === n.folder
-          );
-
-
-        const rightFolder =
-          currentFolder === "all"
-          ||
-          n.folder === currentFolder;
-
-
-        const visible =
-          !folder ||
-          !folder.private ||
-          data.privateUnlocked;
-
-
-        return rightFolder && visible;
-
-      }
-    );
-
-
-  /* SEARCH */
-
-  if(query){
-
-    notes =
-      notes.filter(
-        function(n){
-
-          return (
-            n.title +
-            " " +
-            n.body
-          )
-          .toLowerCase()
-          .includes(
-            query.toLowerCase()
-          );
-
-        }
-      );
-
-  }
-
-
-  /* SORT */
-
-  notes.sort(
-    function(a,b){
-
-      return (
-        b.pinned - a.pinned
-      )
-      ||
-      (
-        b.updated -
-        a.updated
-      );
-
-    }
-  );
-
-
-  list.innerHTML = "";
-
-
-  notes.forEach(
-    function(n){
-
-      const b =
-        document.createElement(
-          "button"
+        localStorage.setItem(
+            STORAGE_KEY,
+            JSON.stringify(data)
         );
-
-      b.className =
-        "note-row";
-
-
-      b.innerHTML =
-        (
-          n.pinned
-          ? "★ "
-          : ""
-        )
-        +
-        esc(
-          n.title ||
-          "Untitled"
-        );
-
-
-      b.onclick = function(){
-
-        select(n.id);
-
-      };
-
-
-      list.appendChild(b);
-
-    }
-  );
-
-
-  /* STATS */
-
-  document.getElementById(
-    "totalNotes"
-  ).textContent =
-    data.notes.length;
-
-
-  document.getElementById(
-    "totalWords"
-  ).textContent =
-    data.notes.reduce(
-      function(total,n){
-
-        return total +
-          n.body
-            .trim()
-            .split(/\s+/)
-            .filter(Boolean)
-            .length;
-
-      },
-      0
-    );
-
-
-  updateEditor();
-
-}
-
-
-/* SELECT NOTE */
-
-function select(id){
-
-  current = id;
-
-  preview = false;
-
-  document.getElementById(
-    "preview"
-  ).classList.remove(
-    "show"
-  );
-
-  document.getElementById(
-    "editor"
-  ).style.display =
-    "block";
-
-  render();
-
-}
-
-
-/* UPDATE EDITOR */
-
-function updateEditor(){
-
-  const n = note();
-
-
-  if(!n){
-
-    document.getElementById(
-      "title"
-    ).value = "";
-
-    document.getElementById(
-      "editor"
-    ).value = "";
-
-    updateStats();
-
-    return;
-
-  }
-
-
-  document.getElementById(
-    "title"
-  ).value =
-    n.title;
-
-
-  document.getElementById(
-    "editor"
-  ).value =
-    n.body;
-
-
-  document.getElementById(
-    "pin"
-  ).textContent =
-    n.pinned
-    ? "★"
-    : "☆";
-
-
-  document.getElementById(
-    "infoFolder"
-  ).textContent =
-    folderName(n.folder);
-
-
-  document.getElementById(
-    "infoCreated"
-  ).textContent =
-    fmtDate(n.created);
-
-
-  document.getElementById(
-    "infoUpdated"
-  ).textContent =
-    fmtDate(n.updated);
-
-
-  updateStats();
-
-}
-
-
-/* STATS */
-
-function updateStats(){
-
-  const s =
-    document.getElementById(
-      "editor"
-    ).value;
-
-
-  const w =
-    s.trim()
-      ? s.trim()
-          .split(/\s+/)
-          .length
-      : 0;
-
-
-  document.getElementById(
-    "stats"
-  ).textContent =
-    w +
-    " words · " +
-    s.length +
-    " characters · " +
-    Math.max(
-      1,
-      Math.ceil(w / 200)
-    ) +
-    " min";
-
-}
-
-
-/* ENSURE NOTE */
-
-function ensureNote(){
-
-  if(note()){
-
-    return note();
-
-  }
-
-
-  const n = {
-
-    id:uid(),
-
-    title:"Untitled note",
-
-    body:"",
-
-    folder:
-      currentFolder === "all"
-      ? "general"
-      : currentFolder,
-
-    pinned:false,
-
-    created:Date.now(),
-
-    updated:Date.now()
-
-  };
-
-
-  data.notes.unshift(n);
-
-  current = n.id;
-
-
-  return n;
-
-}
-
-
-/* NEW NOTE */
-
-function newNote(){
-
-  const n = {
-
-    id:uid(),
-
-    title:"Untitled note",
-
-    body:"",
-
-    folder:
-      currentFolder === "all"
-      ? "general"
-      : currentFolder,
-
-    pinned:false,
-
-    created:Date.now(),
-
-    updated:Date.now()
-
-  };
-
-
-  data.notes.unshift(n);
-
-  current = n.id;
-
-  save();
-
-  render();
-
-  document.getElementById(
-    "title"
-  ).focus();
-
-}
-
-
-/* MODAL */
-
-function showModal(
-  title,
-  body,
-  confirmAction
-){
-
-  document.getElementById(
-    "modalTitle"
-  ).textContent =
-    title;
-
-
-  document.getElementById(
-    "modalBody"
-  ).innerHTML =
-    body;
-
-
-  document.getElementById(
-    "modal"
-  ).classList.add(
-    "open"
-  );
-
-
-  document.getElementById(
-    "modalConfirm"
-  ).onclick =
-    function(){
-
-      confirmAction();
-
-      closeModal();
-
-    };
-
-
-  document.getElementById(
-    "modalCancel"
-  ).onclick =
-    closeModal;
-
-}
-
-
-/* CLOSE MODAL */
-
-function closeModal(){
-
-  document.getElementById(
-    "modal"
-  ).classList.remove(
-    "open"
-  );
-
-}
-
-
-/* MARKDOWN */
-
-function markdown(s){
-
-  let x = esc(s);
-
-
-  x =
-    x.replace(
-      /```([\s\S]*?)```/g,
-      "<pre><code>$1</code></pre>"
-    );
-
-
-  x =
-    x.replace(
-      /^### (.*)$/gm,
-      "<h3>$1</h3>"
-    );
-
-
-  x =
-    x.replace(
-      /^## (.*)$/gm,
-      "<h2>$1</h2>"
-    );
-
-
-  x =
-    x.replace(
-      /^# (.*)$/gm,
-      "<h1>$1</h1>"
-    );
-
-
-  x =
-    x.replace(
-      /\*\*(.+?)\*\*/g,
-      "<strong>$1</strong>"
-    );
-
-
-  x =
-    x.replace(
-      /\*(.+?)\*/g,
-      "<em>$1</em>"
-    );
-
-
-  x =
-    x.replace(
-      /`([^`]+)`/g,
-      "<code>$1</code>"
-    );
-
-
-  x =
-    x.replace(
-      /^- $begin:math:display$ $end:math:display$ (.*)$/gm,
-      "☐ $1"
-    );
-
-
-  x =
-    x.replace(
-      /^- $begin:math:display$x$end:math:display$ (.*)$/gmi,
-      "☑ $1"
-    );
-
-
-  x =
-    x.replace(
-      /^> (.*)$/gm,
-      "<blockquote>$1</blockquote>"
-    );
-
-
-  x =
-    x.replace(
-      /$begin:math:display$\(\[\^$end:math:display$]+)\]$begin:math:text$\(https\?\:\\\/\\\/\[\^\)\]\+\)$end:math:text$/g,
-      '<a href="$2" target="_blank" rel="noopener">$1</a>'
-    );
-
-
-  x =
-    x.replace(
-      /\n/g,
-      "<br>"
-    );
-
-
-  return x;
-
-}
-
-
-/* FORMAT TEXT */
-
-function format(type){
-
-  const e =
-    document.getElementById(
-      "editor"
-    );
-
-
-  const a =
-    e.selectionStart;
-
-  const b =
-    e.selectionEnd;
-
-  const v =
-    e.value;
-
-  const selected =
-    v.slice(a,b)
-    ||
-    "text";
-
-
-  let before = "";
-
-  let after = "";
-
-
-  if(type === "bold"){
-
-    before = "**";
-
-    after = "**";
-
-  }
-
-
-  if(type === "italic"){
-
-    before = "*";
-
-    after = "*";
-
-  }
-
-
-  if(type === "h2"){
-
-    before = "## ";
-
-  }
-
-
-  if(type === "check"){
-
-    before = "- [ ] ";
-
-  }
-
-
-  if(type === "code"){
-
-    before = "`";
-
-    after = "`";
-
-  }
-
-
-  if(type === "quote"){
-
-    before = "> ";
-
-  }
-
-
-  if(type === "link"){
-
-    before = "[";
-
-    after =
-      "](https://example.com)";
-
-  }
-
-
-  e.setRangeText(
-    before +
-    selected +
-    after,
-    a,
-    b,
-    "select"
-  );
-
-
-  e.dispatchEvent(
-    new Event("input")
-  );
-
-
-  e.focus();
-
-}
-
-
-/* MOVE NOTE */
-
-function moveNote(){
-
-  const n = note();
-
-  if(!n)return;
-
-
-  const options =
-    data.folders
-      .filter(
-        f =>
-          !f.private ||
-          data.privateUnlocked
-      )
-      .map(
-        f =>
-          '<option value="' +
-          f.id +
-          '" ' +
-          (
-            f.id === n.folder
-            ? "selected"
-            : ""
-          ) +
-          ">" +
-          esc(f.name) +
-          "</option>"
-      )
-      .join("");
-
-
-  showModal(
-    "Move note",
-    '<select id="moveSelect">' +
-    options +
-    "</select>",
-    function(){
-
-      n.folder =
-        document.getElementById(
-          "moveSelect"
-        ).value;
-
-      n.updated =
-        Date.now();
-
-      save();
-
-      render();
-
-    }
-  );
-
-}
-
-
-/* DUPLICATE */
-
-function duplicate(){
-
-  const n = note();
-
-  if(!n)return;
-
-
-  const c = {
-
-    ...n,
-
-    id:uid(),
-
-    title:
-      n.title +
-      " copy",
-
-    created:
-      Date.now(),
-
-    updated:
-      Date.now()
-
-  };
-
-
-  data.notes.unshift(c);
-
-  current = c.id;
-
-  save();
-
-  render();
-
-}
-
-
-/* DELETE */
-
-function deleteNote(){
-
-  const n = note();
-
-  if(!n)return;
-
-
-  showModal(
-    "Delete note",
-    "Delete <b>" +
-    esc(n.title) +
-    "</b>? This cannot be undone.",
-    function(){
-
-      data.notes =
-        data.notes.filter(
-          x =>
-            x.id !== n.id
-        );
-
-
-      current =
-        data.notes[0]
-        ? data.notes[0].id
-        : null;
-
-
-      save();
-
-      render();
-
-    }
-  );
-
-}
-
-
-/* NEW FOLDER */
-
-function newFolder(){
-
-  showModal(
-    "New folder",
-    '<input id="folderNameInput" placeholder="Folder name">',
-    function(){
-
-      const name =
-        document.getElementById(
-          "folderNameInput"
-        ).value.trim();
-
-
-      if(!name)return;
-
-
-      const f = {
-
-        id:uid(),
-
-        name:name,
-
-        private:false
-
-      };
-
-
-      data.folders.push(f);
-
-      currentFolder =
-        f.id;
-
-      save();
-
-      render();
-
-    }
-  );
-
-}
-
-
-/* PRIVATE FOLDER */
-
-function privateFolder(){
-
-  let f =
-    data.folders.find(
-      x => x.private
-    );
-
-
-  /* CREATE */
-
-  if(!f){
-
-    showModal(
-      "Create private folder",
-      '<input id="privateCode" type="password" placeholder="Create a code">',
-      function(){
-
-        const code =
-          document.getElementById(
-            "privateCode"
-          ).value;
-
-
-        if(!code)return;
-
-
-        f = {
-
-          id:uid(),
-
-          name:"Private",
-
-          private:true
-
-        };
-
-
-        data.folders.push(f);
-
-
-        data.privateCode =
-          btoa(code);
-
-
-        data.privateUnlocked =
-          true;
-
-
-        currentFolder =
-          f.id;
-
-
-        save();
-
-        render();
-
-      }
-    );
-
-    return;
-
-  }
-
-
-  /* ALREADY UNLOCKED */
-
-  if(data.privateUnlocked){
-
-    currentFolder =
-      f.id;
-
-    render();
-
-    return;
-
-  }
-
-
-  /* UNLOCK */
-
-  showModal(
-    "Private folder",
-    '<input id="privateCode" type="password" placeholder="Enter code">',
-    function(){
-
-      const code =
-        document.getElementById(
-          "privateCode"
-        ).value;
-
-
-      if(
-        btoa(code) !==
-        data.privateCode
-      ){
-
-        alert(
-          "Wrong code"
-        );
-
-        return;
-
-      }
-
-
-      data.privateUnlocked =
-        true;
-
-
-      currentFolder =
-        f.id;
-
-
-      save();
-
-      render();
-
-    }
-  );
-
-}
-
-
-/* TEMPLATES */
-
-function templates(){
-
-  showModal(
-    "Student templates",
-
-    '<button class="sidebtn" style="width:100%;margin:5px 0" id="lectureTpl">Lecture notes</button>' +
-
-    '<button class="sidebtn" style="width:100%;margin:5px 0" id="examTpl">Exam revision</button>' +
-
-    '<button class="sidebtn" style="width:100%;margin:5px 0" id="projectTpl">Project</button>',
-
-    function(){}
-  );
-
-
-  document.getElementById(
-    "modalConfirm"
-  ).style.display =
-    "none";
-
-
-  document.getElementById(
-    "modalCancel"
-  ).textContent =
-    "Close";
-
-
-  document.getElementById(
-    "lectureTpl"
-  ).onclick =
-    function(){
-
-      useTemplate(
-        "# Lecture notes\n\n" +
-        "## Topic\n\n" +
-        "## Key ideas\n\n" +
-        "## Questions\n\n" +
-        "## Summary"
-      );
-
-    };
-
-
-  document.getElementById(
-    "examTpl"
-  ).onclick =
-    function(){
-
-      useTemplate(
-        "# Exam revision\n\n" +
-        "## What I need to know\n\n" +
-        "## Definitions\n\n" +
-        "## Practice questions\n\n" +
-        "## Last-minute summary"
-      );
-
-    };
-
-
-  document.getElementById(
-    "projectTpl"
-  ).onclick =
-    function(){
-
-      useTemplate(
-        "# Project\n\n" +
-        "## Goal\n\n" +
-        "## Research\n\n" +
-        "## Tasks\n\n" +
-        "## Sources\n\n" +
-        "## Conclusion"
-      );
-
-    };
-
-}
-
-
-/* USE TEMPLATE */
-
-function useTemplate(body){
-
-  closeModal();
-
-  newNote();
-
-
-  document.getElementById(
-    "editor"
-  ).value =
-    body;
-
-
-  document.getElementById(
-    "title"
-  ).value =
-    "New study note";
-
-
-  document.getElementById(
-    "editor"
-  ).dispatchEvent(
-    new Event("input")
-  );
-
-}
-
-
-/* SETTINGS */
-
-function settings(){
-
-  showModal(
-    "Settings",
-
-    "<p style='color:#aaa'>" +
-    "StudyNotes stores your notes locally in this browser." +
-    "</p>" +
-
-    '<button id="export" class="sidebtn" style="width:100%;margin-bottom:8px">' +
-    "Export backup" +
-    "</button>" +
-
-    '<button id="reset" class="sidebtn" style="width:100%">' +
-    "Reset all data" +
-    "</button>",
-
-    function(){}
-  );
-
-
-  document.getElementById(
-    "modalConfirm"
-  ).style.display =
-    "none";
-
-
-  document.getElementById(
-    "modalCancel"
-  ).textContent =
-    "Close";
-
-
-  document.getElementById(
-    "export"
-  ).onclick =
-    function(){
-
-      const blob =
-        new Blob(
-          [
-            JSON.stringify(
-              data,
-              null,
-              2
-            )
-          ],
-          {
-            type:
-              "application/json"
-          }
-        );
-
-
-      const a =
-        document.createElement(
-          "a"
-        );
-
-
-      a.href =
-        URL.createObjectURL(
-          blob
-        );
-
-
-      a.download =
-        "studynotes-backup.json";
-
-
-      a.click();
-
-    };
-
-
-  document.getElementById(
-    "reset"
-  ).onclick =
-    function(){
-
-      if(
-        confirm(
-          "Delete all notes?"
-        )
-      ){
-
-        localStorage.removeItem(
-          KEY
-        );
-
-        location.reload();
-
-      }
-
-    };
-
-}
-
-
-/* HELP */
-
-function help(){
-
-  showModal(
-    "Help & shortcuts",
-
-    "<p><b>Ctrl/Cmd + N</b> — new note</p>" +
-
-    "<p><b>Ctrl/Cmd + F</b> — search</p>" +
-
-    "<p><b>Ctrl/Cmd + I</b> — italic</p>" +
-
-    "<p><b>Ctrl/Cmd + B</b> — bold</p>" +
-
-    "<p>Markdown is supported.</p>" +
-
-    "<p>Everything is saved locally in this browser.</p>",
-
-    function(){}
-  );
-
-
-  document.getElementById(
-    "modalConfirm"
-  ).style.display =
-    "none";
-
-
-  document.getElementById(
-    "modalCancel"
-  ).textContent =
-    "Close";
-
-}
-
-
-/* DRAWING */
-
-const canvas =
-  document.getElementById(
-    "drawCanvas"
-  );
-
-const ctx =
-  canvas.getContext(
-    "2d"
-  );
-
-
-let drawing = false;
-
-let erase = false;
-
-
-function resizeCanvas(){
-
-  canvas.width =
-    window.innerWidth;
-
-  canvas.height =
-    window.innerHeight;
-
-}
-
-
-function openDraw(){
-
-  resizeCanvas();
-
-  canvas.classList.add(
-    "open"
-  );
-
-  document.getElementById(
-    "drawbar"
-  ).classList.add(
-    "open"
-  );
-
-}
-
-
-function closeDraw(){
-
-  canvas.classList.remove(
-    "open"
-  );
-
-  document.getElementById(
-    "drawbar"
-  ).classList.remove(
-    "open"
-  );
-
-}
-
-
-/* DRAW START */
-
-canvas.addEventListener(
-  "pointerdown",
-  function(e){
-
-    drawing = true;
-
-    ctx.beginPath();
-
-    ctx.moveTo(
-      e.clientX,
-      e.clientY
-    );
-
-  }
-);
-
-
-/* DRAW MOVE */
-
-canvas.addEventListener(
-  "pointermove",
-  function(e){
-
-    if(!drawing)return;
-
-
-    ctx.lineWidth =
-      erase
-      ? 22
-      : 4;
-
-
-    ctx.lineCap =
-      "round";
-
-
-    ctx.strokeStyle =
-      erase
-      ? "#fff"
-      : "#000";
-
-
-    ctx.lineTo(
-      e.clientX,
-      e.clientY
-    );
-
-
-    ctx.stroke();
-
-  }
-);
-
-
-canvas.addEventListener(
-  "pointerup",
-  function(){
-
-    drawing = false;
-
-  }
-);
-
-
-canvas.addEventListener(
-  "pointercancel",
-  function(){
-
-    drawing = false;
-
-  }
-);
-
-
-/* START APP */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  function(){
-
-    /*
-      IMPORTANT:
-      This is the startup button.
-      GitHub Pages runs this JavaScript
-      directly in the browser.
-    */
-
-    document.getElementById(
-      "startButton"
-    ).addEventListener(
-      "click",
-      function(){
 
         document.getElementById(
-          "startup"
-        ).style.display =
-          "none";
+            "saveStatus"
+        ).textContent = "Saved just now";
 
+    }
 
-        document.getElementById(
-          "app"
-        ).classList.add(
-          "visible"
-        );
 
+    function loadData() {
 
-        render();
+        try {
 
-      }
-    );
+            const saved =
+                localStorage.getItem(STORAGE_KEY);
 
+            if (saved) {
 
-    /* NEW NOTE */
+                data = JSON.parse(saved);
 
-    document.getElementById(
-      "newNote"
-    ).onclick =
-      newNote;
+            }
 
+        } catch (error) {
 
-    /* NEW FOLDER */
-
-    document.getElementById(
-      "newFolder"
-    ).onclick =
-      newFolder;
-
-
-    /* TEMPLATES */
-
-    document.getElementById(
-      "templates"
-    ).onclick =
-      templates;
-
-
-    /* SETTINGS */
-
-    document.getElementById(
-      "settings"
-    ).onclick =
-      settings;
-
-
-    /* HELP */
-
-    document.getElementById(
-      "help"
-    ).onclick =
-      help;
-
-
-    /* DRAW */
-
-    document.getElementById(
-      "draw"
-    ).onclick =
-      openDraw;
-
-
-    document.getElementById(
-      "closeDraw"
-    ).onclick =
-      closeDraw;
-
-
-    /* CLEAR DRAWING */
-
-    document.getElementById(
-      "clearCanvas"
-    ).onclick =
-      function(){
-
-        ctx.clearRect(
-          0,
-          0,
-          canvas.width,
-          canvas.height
-        );
-
-      };
-
-
-    /* ERASER */
-
-    document.getElementById(
-      "erase"
-    ).onclick =
-      function(){
-
-        erase = true;
-
-      };
-
-
-    /* BLACK PEN */
-
-    document.getElementById(
-      "penBlack"
-    ).onclick =
-      function(){
-
-        erase = false;
-
-        ctx.strokeStyle =
-          "#000";
-
-      };
-
-
-    /* GREY PEN */
-
-    document.getElementById(
-      "penGray"
-    ).onclick =
-      function(){
-
-        erase = false;
-
-        ctx.strokeStyle =
-          "#888";
-
-      };
-
-
-    /* PRIVATE */
-
-    document.getElementById(
-      "private"
-    ).onclick =
-      privateFolder;
-
-
-    /* CLEAR SEARCH */
-
-    document.getElementById(
-      "clearSearch"
-    ).onclick =
-      function(){
-
-        document.getElementById(
-          "search"
-        ).value =
-          "";
-
-        query = "";
-
-        render();
-
-      };
-
-
-    /* TITLE */
-
-    document.getElementById(
-      "title"
-    ).addEventListener(
-      "input",
-      function(e){
-
-        const n =
-          ensureNote();
-
-
-        n.title =
-          e.target.value;
-
-
-        n.updated =
-          Date.now();
-
-
-        save();
-
-        render();
-
-      }
-    );
-
-
-    /* EDITOR */
-
-    document.getElementById(
-      "editor"
-    ).addEventListener(
-      "input",
-      function(e){
-
-        const n =
-          ensureNote();
-
-
-        n.body =
-          e.target.value;
-
-
-        n.updated =
-          Date.now();
-
-
-        save();
-
-        updateStats();
-
-      }
-    );
-
-
-    /* SEARCH */
-
-    document.getElementById(
-      "search"
-    ).addEventListener(
-      "input",
-      function(e){
-
-        query =
-          e.target.value;
-
-        render();
-
-      }
-    );
-
-
-    /* PIN */
-
-    document.getElementById(
-      "pin"
-    ).onclick =
-      function(){
-
-        const n =
-          note();
-
-
-        if(!n)return;
-
-
-        n.pinned =
-          !n.pinned;
-
-
-        n.updated =
-          Date.now();
-
-
-        save();
-
-        render();
-
-      };
-
-
-    /* DUPLICATE */
-
-    document.getElementById(
-      "duplicate"
-    ).onclick =
-      duplicate;
-
-
-    /* MOVE */
-
-    document.getElementById(
-      "move"
-    ).onclick =
-      moveNote;
-
-
-    /* DELETE */
-
-    document.getElementById(
-      "delete"
-    ).onclick =
-      deleteNote;
-
-
-    /* PREVIEW */
-
-    document.getElementById(
-      "previewBtn"
-    ).onclick =
-      function(){
-
-        const p =
-          document.getElementById(
-            "preview"
-          );
-
-        const e =
-          document.getElementById(
-            "editor"
-          );
-
-
-        preview =
-          !preview;
-
-
-        if(preview){
-
-          p.innerHTML =
-            markdown(
-              e.value
-            );
-
-
-          p.classList.add(
-            "show"
-          );
-
-
-          e.style.display =
-            "none";
-
-
-          document.getElementById(
-            "previewBtn"
-          ).textContent =
-            "Edit";
-
-        }
-        else{
-
-          p.classList.remove(
-            "show"
-          );
-
-
-          e.style.display =
-            "block";
-
-
-          document.getElementById(
-            "previewBtn"
-          ).textContent =
-            "Preview";
+            data = null;
 
         }
 
-      };
 
+        if (!data || !Array.isArray(data.notes)) {
 
-    /* TOOLBAR */
+            const firstNoteId = createId();
 
-    document
-      .querySelectorAll(
-        ".tool"
-      )
-      .forEach(
-        function(b){
+            data = {
 
-          b.onclick =
-            function(){
+                folders: [
+                    {
+                        id: "general",
+                        name: "General",
+                        private: false
+                    }
+                ],
 
-              format(
-                b.dataset.fmt
-              );
+                notes: [
+                    {
+                        id: firstNoteId,
+                        title: "Welcome to StudyNotes",
+                        body:
+                            "# Welcome\n\n" +
+                            "This is your first note. Start writing here.",
+                        folder: "general",
+                        pinned: true,
+                        created: Date.now(),
+                        updated: Date.now()
+                    }
+                ],
+
+                privateFolder: null,
+
+                privateUnlocked: false
 
             };
 
         }
-      );
+
+    }
 
 
-    /* KEYBOARD SHORTCUTS */
+    function getCurrentNote() {
 
-    document.addEventListener(
-      "keydown",
-      function(e){
+        return data.notes.find(
+            function (item) {
 
-        if(
-          (e.metaKey || e.ctrlKey)
-          &&
-          e.key.toLowerCase()
-          ===
-          "n"
-        ){
+                return item.id === currentNoteId;
 
-          e.preventDefault();
+            }
+        ) || null;
 
-          newNote();
+    }
+
+
+    function getFolder(id) {
+
+        return data.folders.find(
+            function (folder) {
+
+                return folder.id === id;
+
+            }
+        ) || null;
+
+    }
+
+
+    function getFolderName(id) {
+
+        const folder = getFolder(id);
+
+        return folder
+            ? folder.name
+            : "General";
+
+    }
+
+
+    function formatDate(timestamp) {
+
+        if (!timestamp) return "—";
+
+        return new Date(timestamp).toLocaleString();
+
+    }
+
+
+    function countWords(text) {
+
+        const clean = text.trim();
+
+        if (!clean) return 0;
+
+        return clean.split(/\s+/).length;
+
+    }
+
+
+    /* =========================
+       MARKDOWN
+       ========================= */
+
+    function renderMarkdown(text) {
+
+        let html = escapeHtml(text);
+
+
+        html = html.replace(
+            /```([\s\S]*?)```/g,
+            function (match, code) {
+
+                return "<pre><code>" +
+                    code +
+                    "</code></pre>";
+
+            }
+        );
+
+
+        html = html.replace(
+            /^### (.*)$/gm,
+            "<h3>$1</h3>"
+        );
+
+
+        html = html.replace(
+            /^## (.*)$/gm,
+            "<h2>$1</h2>"
+        );
+
+
+        html = html.replace(
+            /^# (.*)$/gm,
+            "<h1>$1</h1>"
+        );
+
+
+        html = html.replace(
+            /\*\*(.+?)\*\*/g,
+            "<strong>$1</strong>"
+        );
+
+
+        html = html.replace(
+            /\*(.+?)\*/g,
+            "<em>$1</em>"
+        );
+
+
+        html = html.replace(
+            /`([^`]+)`/g,
+            "<code>$1</code>"
+        );
+
+
+        html = html.replace(
+            /^> (.*)$/gm,
+            "<blockquote>$1</blockquote>"
+        );
+
+
+        html = html.replace(
+            /^- $begin:math:display$ $end:math:display$ (.*)$/gm,
+            "☐ $1"
+        );
+
+
+        html = html.replace(
+            /^- $begin:math:display$x$end:math:display$ (.*)$/gmi,
+            "☑ $1"
+        );
+
+
+        html = html.replace(
+            /$begin:math:display$\(\[\^$end:math:display$]+)\]$begin:math:text$\(https\?\:\\\/\\\/\[\^\)\]\+\)$end:math:text$/g,
+            '<a href="$2" target="_blank" rel="noopener">$1</a>'
+        );
+
+
+        html = html.replace(
+            /\n/g,
+            "<br>"
+        );
+
+
+        return html;
+
+    }
+
+
+    /* =========================
+       RENDER
+       ========================= */
+
+    function render() {
+
+        renderFolders();
+
+        renderNotes();
+
+        updateEditor();
+
+        updateStatistics();
+
+    }
+
+
+    function renderFolders() {
+
+        const container =
+            document.getElementById("folders");
+
+        container.innerHTML = "";
+
+
+        const allButton =
+            document.createElement("button");
+
+        allButton.className =
+            "folder" +
+            (
+                currentFolder === "all"
+                    ? " active"
+                    : ""
+            );
+
+        allButton.type = "button";
+
+        allButton.innerHTML =
+            '<span class="folder-dot"></span>' +
+            "All notes";
+
+
+        allButton.addEventListener(
+            "click",
+            function () {
+
+                currentFolder = "all";
+
+                render();
+
+            }
+        );
+
+
+        container.appendChild(allButton);
+
+
+        data.folders.forEach(
+            function (folder) {
+
+                if (
+                    folder.private &&
+                    !data.privateUnlocked
+                ) {
+
+                    return;
+
+                }
+
+
+                const button =
+                    document.createElement("button");
+
+                button.type = "button";
+
+                button.className =
+                    "folder" +
+                    (
+                        currentFolder === folder.id
+                            ? " active"
+                            : ""
+                    );
+
+
+                button.innerHTML =
+                    '<span class="folder-dot ' +
+                    (
+                        folder.private
+                            ? "private-dot"
+                            : ""
+                    ) +
+                    '"></span>' +
+                    escapeHtml(folder.name);
+
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        currentFolder =
+                            folder.id;
+
+                        render();
+
+                    }
+                );
+
+
+                container.appendChild(button);
+
+            }
+        );
+
+    }
+
+
+    function renderNotes() {
+
+        const container =
+            document.getElementById("noteList");
+
+        container.innerHTML = "";
+
+
+        let notes =
+            data.notes.filter(
+                function (item) {
+
+                    const folder =
+                        getFolder(item.folder);
+
+
+                    const correctFolder =
+                        currentFolder === "all" ||
+                        item.folder === currentFolder;
+
+
+                    const visible =
+                        !folder ||
+                        !folder.private ||
+                        data.privateUnlocked;
+
+
+                    return (
+                        correctFolder &&
+                        visible
+                    );
+
+                }
+            );
+
+
+        if (searchQuery) {
+
+            const search =
+                searchQuery.toLowerCase();
+
+
+            notes =
+                notes.filter(
+                    function (item) {
+
+                        return (
+                            item.title +
+                            " " +
+                            item.body
+                        )
+                        .toLowerCase()
+                        .includes(search);
+
+                    }
+                );
 
         }
 
 
-        if(
-          (e.metaKey || e.ctrlKey)
-          &&
-          e.key.toLowerCase()
-          ===
-          "f"
-        ){
+        notes.sort(
+            function (a, b) {
 
-          e.preventDefault();
+                if (a.pinned !== b.pinned) {
 
-          document.getElementById(
-            "search"
-          ).focus();
+                    return b.pinned - a.pinned;
+
+                }
+
+                return b.updated - a.updated;
+
+            }
+        );
+
+
+        if (!notes.length) {
+
+            const empty =
+                document.createElement("div");
+
+            empty.className = "empty";
+
+            empty.textContent =
+                "No notes yet.";
+
+            container.appendChild(empty);
+
+            return;
+
+        }
+
+
+        notes.forEach(
+            function (item) {
+
+                const button =
+                    document.createElement("button");
+
+                button.type = "button";
+
+                button.className = "note-item";
+
+                button.innerHTML =
+                    (
+                        item.pinned
+                            ? "★ "
+                            : ""
+                    ) +
+                    escapeHtml(
+                        item.title ||
+                        "Untitled note"
+                    );
+
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        currentNoteId =
+                            item.id;
+
+                        previewMode = false;
+
+                        updatePreviewState();
+
+                        render();
+
+                    }
+                );
+
+
+                container.appendChild(button);
+
+            }
+        );
+
+    }
+
+
+    function updateEditor() {
+
+        const note =
+            getCurrentNote();
+
+
+        const title =
+            document.getElementById("title");
+
+        const editor =
+            document.getElementById("editor");
+
+
+        if (!note) {
+
+            title.value = "";
+
+            editor.value = "";
+
+            document.getElementById(
+                "pin"
+            ).textContent = "☆";
+
+            return;
 
         }
 
 
-        if(
-          (e.metaKey || e.ctrlKey)
-          &&
-          e.key.toLowerCase()
-          ===
-          "b"
-        ){
+        title.value =
+            note.title;
 
-          e.preventDefault();
 
-          format("bold");
+        editor.value =
+            note.body;
+
+
+        document.getElementById(
+            "pin"
+        ).textContent =
+            note.pinned
+                ? "★"
+                : "☆";
+
+
+        document.getElementById(
+            "infoFolder"
+        ).textContent =
+            getFolderName(note.folder);
+
+
+        document.getElementById(
+            "infoCreated"
+        ).textContent =
+            formatDate(note.created);
+
+
+        document.getElementById(
+            "infoUpdated"
+        ).textContent =
+            formatDate(note.updated);
+
+
+        updateStatistics();
+
+    }
+
+
+    function updateStatistics() {
+
+        const editor =
+            document.getElementById("editor");
+
+        const text =
+            editor.value;
+
+
+        const words =
+            countWords(text);
+
+
+        const minutes =
+            words === 0
+                ? 0
+                : Math.max(
+                    1,
+                    Math.ceil(words / 200)
+                );
+
+
+        document.getElementById(
+            "stats"
+        ).textContent =
+            words +
+            " words · " +
+            text.length +
+            " characters · " +
+            minutes +
+            " min";
+
+
+        document.getElementById(
+            "totalNotes"
+        ).textContent =
+            data.notes.length;
+
+
+        const totalWords =
+            data.notes.reduce(
+                function (total, item) {
+
+                    return total +
+                        countWords(item.body);
+
+                },
+                0
+            );
+
+
+        document.getElementById(
+            "totalWords"
+        ).textContent =
+            totalWords;
+
+    }
+
+
+    /* =========================
+       NOTES
+       ========================= */
+
+    function createNote() {
+
+        const folder =
+            currentFolder !== "all"
+                ? currentFolder
+                : "general";
+
+
+        const item = {
+
+            id: createId(),
+
+            title: "Untitled note",
+
+            body: "",
+
+            folder: folder,
+
+            pinned: false,
+
+            created: Date.now(),
+
+            updated: Date.now()
+
+        };
+
+
+        data.notes.unshift(item);
+
+        currentNoteId =
+            item.id;
+
+
+        saveData();
+
+        render();
+
+
+        document.getElementById(
+            "title"
+        ).focus();
+
+    }
+
+
+    function deleteCurrentNote() {
+
+        const note =
+            getCurrentNote();
+
+
+        if (!note) return;
+
+
+        showModal(
+            "Delete note",
+            "<p>Delete <strong>" +
+            escapeHtml(note.title) +
+            "</strong>?</p>" +
+            "<p style='color:#888'>This cannot be undone.</p>",
+            "Delete",
+            function () {
+
+                data.notes =
+                    data.notes.filter(
+                        function (item) {
+
+                            return item.id !== note.id;
+
+                        }
+                    );
+
+
+                currentNoteId =
+                    data.notes.length
+                        ? data.notes[0].id
+                        : null;
+
+
+                saveData();
+
+                closeModal();
+
+                render();
+
+            }
+        );
+
+    }
+
+
+    function duplicateCurrentNote() {
+
+        const note =
+            getCurrentNote();
+
+
+        if (!note) return;
+
+
+        const duplicate = {
+
+            id: createId(),
+
+            title:
+                (note.title || "Untitled note") +
+                " copy",
+
+            body: note.body,
+
+            folder: note.folder,
+
+            pinned: note.pinned,
+
+            created: Date.now(),
+
+            updated: Date.now()
+
+        };
+
+
+        data.notes.unshift(duplicate);
+
+        currentNoteId =
+            duplicate.id;
+
+
+        saveData();
+
+        render();
+
+    }
+
+
+    function togglePin() {
+
+        const note =
+            getCurrentNote();
+
+
+        if (!note) return;
+
+
+        note.pinned =
+            !note.pinned;
+
+
+        note.updated =
+            Date.now();
+
+
+        saveData();
+
+        render();
+
+    }
+
+
+    function moveCurrentNote() {
+
+        const note =
+            getCurrentNote();
+
+
+        if (!note) return;
+
+
+        let options = "";
+
+
+        data.folders.forEach(
+            function (folder) {
+
+                if (
+                    folder.private &&
+                    !data.privateUnlocked
+                ) {
+
+                    return;
+
+                }
+
+
+                options +=
+                    "<option value='" +
+                    escapeHtml(folder.id) +
+                    "'" +
+                    (
+                        folder.id === note.folder
+                            ? " selected"
+                            : ""
+                    ) +
+                    ">" +
+                    escapeHtml(folder.name) +
+                    "</option>";
+
+            }
+        );
+
+
+        showModal(
+            "Move note",
+            "<select id='moveSelect' class='modal-select'>" +
+            options +
+            "</select>",
+            "Move",
+            function () {
+
+                const select =
+                    document.getElementById(
+                        "moveSelect"
+                    );
+
+
+                note.folder =
+                    select.value;
+
+
+                note.updated =
+                    Date.now();
+
+
+                saveData();
+
+                closeModal();
+
+                render();
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       FOLDERS
+       ========================= */
+
+    function createFolder() {
+
+        showModal(
+            "New folder",
+            "<input id='folderInput' class='modal-input' placeholder='Folder name' autofocus>",
+            "Create",
+            function () {
+
+                const input =
+                    document.getElementById(
+                        "folderInput"
+                    );
+
+
+                const name =
+                    input.value.trim();
+
+
+                if (!name) return;
+
+
+                const folder = {
+
+                    id: createId(),
+
+                    name: name,
+
+                    private: false
+
+                };
+
+
+                data.folders.push(folder);
+
+                currentFolder =
+                    folder.id;
+
+
+                saveData();
+
+                closeModal();
+
+                render();
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       PRIVATE FOLDER
+       ========================= */
+
+    function privateFolder() {
+
+        let folder =
+            data.folders.find(
+                function (item) {
+
+                    return item.private;
+
+                }
+            );
+
+
+        if (!folder) {
+
+            showModal(
+                "Create private folder",
+                "<input id='privateCode' class='modal-input' type='password' placeholder='Create a code'>",
+                "Create",
+                function () {
+
+                    const input =
+                        document.getElementById(
+                            "privateCode"
+                        );
+
+
+                    const code =
+                        input.value;
+
+
+                    if (!code) return;
+
+
+                    folder = {
+
+                        id: createId(),
+
+                        name: "Private",
+
+                        private: true
+
+                    };
+
+
+                    data.folders.push(folder);
+
+
+                    /*
+                       Client-side lock.
+                       This is not secure encryption.
+                    */
+
+                    data.privateCode =
+                        btoa(code);
+
+
+                    data.privateUnlocked =
+                        true;
+
+
+                    currentFolder =
+                        folder.id;
+
+
+                    saveData();
+
+                    closeModal();
+
+                    render();
+
+                }
+            );
+
+
+            return;
 
         }
 
 
-        if(
-          (e.metaKey || e.ctrlKey)
-          &&
-          e.key.toLowerCase()
-          ===
-          "i"
-        ){
+        if (data.privateUnlocked) {
 
-          e.preventDefault();
+            currentFolder =
+                folder.id;
 
-          format("italic");
+            render();
+
+            return;
 
         }
 
-      }
+
+        showModal(
+            "Private folder",
+            "<input id='privateCode' class='modal-input' type='password' placeholder='Enter code'>",
+            "Unlock",
+            function () {
+
+                const input =
+                    document.getElementById(
+                        "privateCode"
+                    );
+
+
+                if (
+                    btoa(input.value) !==
+                    data.privateCode
+                ) {
+
+                    alert("Wrong code");
+
+                    return;
+
+                }
+
+
+                data.privateUnlocked =
+                    true;
+
+
+                currentFolder =
+                    folder.id;
+
+
+                saveData();
+
+                closeModal();
+
+                render();
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       MODAL
+       ========================= */
+
+    function showModal(
+        title,
+        body,
+        confirmText,
+        action
+    ) {
+
+        document.getElementById(
+            "modalTitle"
+        ).textContent =
+            title;
+
+
+        document.getElementById(
+            "modalBody"
+        ).innerHTML =
+            body;
+
+
+        document.getElementById(
+            "modalConfirm"
+        ).textContent =
+            confirmText;
+
+
+        document.getElementById(
+            "modal"
+        ).classList.add("open");
+
+
+        document.getElementById(
+            "modalConfirm"
+        ).onclick =
+            function () {
+
+                action();
+
+            };
+
+
+        document.getElementById(
+            "modalCancel"
+        ).onclick =
+            closeModal;
+
+    }
+
+
+    function closeModal() {
+
+        document.getElementById(
+            "modal"
+        ).classList.remove("open");
+
+    }
+
+
+    /* =========================
+       TEMPLATES
+       ========================= */
+
+    function showTemplates() {
+
+        showModal(
+            "Student templates",
+
+            "<button id='lectureTemplate' class='sidebar-button' style='width:100%;margin-bottom:7px'>Lecture notes</button>" +
+
+            "<button id='examTemplate' class='sidebar-button' style='width:100%;margin-bottom:7px'>Exam revision</button>" +
+
+            "<button id='projectTemplate' class='sidebar-button' style='width:100%'>Project</button>",
+
+            "Close",
+
+            closeModal
+        );
+
+
+        document.getElementById(
+            "lectureTemplate"
+        ).onclick =
+            function () {
+
+                createTemplate(
+                    "Lecture notes",
+                    "# Lecture notes\n\n## Topic\n\n## Key ideas\n\n## Questions\n\n## Summary"
+                );
+
+            };
+
+
+        document.getElementById(
+            "examTemplate"
+        ).onclick =
+            function () {
+
+                createTemplate(
+                    "Exam revision",
+                    "# Exam revision\n\n## What I need to know\n\n## Definitions\n\n## Practice questions\n\n## Last-minute summary"
+                );
+
+            };
+
+
+        document.getElementById(
+            "projectTemplate"
+        ).onclick =
+            function () {
+
+                createTemplate(
+                    "Project",
+                    "# Project\n\n## Goal\n\n## Research\n\n## Tasks\n\n## Sources\n\n## Conclusion"
+                );
+
+            };
+
+    }
+
+
+    function createTemplate(
+        title,
+        body
+    ) {
+
+        const folder =
+            currentFolder !== "all"
+                ? currentFolder
+                : "general";
+
+
+        const item = {
+
+            id: createId(),
+
+            title: title,
+
+            body: body,
+
+            folder: folder,
+
+            pinned: false,
+
+            created: Date.now(),
+
+            updated: Date.now()
+
+        };
+
+
+        data.notes.unshift(item);
+
+        currentNoteId =
+            item.id;
+
+
+        saveData();
+
+        closeModal();
+
+        render();
+
+    }
+
+
+    /* =========================
+       SETTINGS
+       ========================= */
+
+    function showSettings() {
+
+        showModal(
+            "Settings",
+
+            "<p style='color:#999'>Your notes are stored locally in this browser.</p>" +
+
+            "<button id='exportData' class='sidebar-button' style='width:100%;margin-bottom:7px'>Export backup</button>" +
+
+            "<button id='resetData' class='sidebar-button' style='width:100%'>Reset all data</button>",
+
+            "Close",
+
+            closeModal
+        );
+
+
+        document.getElementById(
+            "exportData"
+        ).onclick =
+            exportBackup;
+
+
+        document.getElementById(
+            "resetData"
+        ).onclick =
+            resetData;
+
+    }
+
+
+    function exportBackup() {
+
+        const json =
+            JSON.stringify(
+                data,
+                null,
+                2
+            );
+
+
+        const blob =
+            new Blob(
+                [json],
+                {
+                    type:
+                        "application/json"
+                }
+            );
+
+
+        const url =
+            URL.createObjectURL(blob);
+
+
+        const link =
+            document.createElement("a");
+
+
+        link.href = url;
+
+        link.download =
+            "studynotes-backup.json";
+
+
+        document.body.appendChild(link);
+
+        link.click();
+
+        link.remove();
+
+        URL.revokeObjectURL(url);
+
+    }
+
+
+    function resetData() {
+
+        const confirmed =
+            window.confirm(
+                "Delete all StudyNotes data?"
+            );
+
+
+        if (!confirmed) return;
+
+
+        localStorage.removeItem(
+            STORAGE_KEY
+        );
+
+
+        window.location.reload();
+
+    }
+
+
+    /* =========================
+       HELP
+       ========================= */
+
+    function showHelp() {
+
+        showModal(
+            "Help & shortcuts",
+
+            "<p><strong>Cmd/Ctrl + N</strong> — New note</p>" +
+
+            "<p><strong>Cmd/Ctrl + F</strong> — Search</p>" +
+
+            "<p><strong>Cmd/Ctrl + B</strong> — Bold</p>" +
+
+            "<p><strong>Cmd/Ctrl + I</strong> — Italic</p>" +
+
+            "<p style='color:#888'>Markdown is supported. Notes are saved locally in your browser.</p>",
+
+            "Close",
+
+            closeModal
+        );
+
+    }
+
+
+    /* =========================
+       FORMATTING
+       ========================= */
+
+    function formatSelection(type) {
+
+        const editor =
+            document.getElementById(
+                "editor"
+            );
+
+
+        const start =
+            editor.selectionStart;
+
+
+        const end =
+            editor.selectionEnd;
+
+
+        const selected =
+            editor.value.slice(
+                start,
+                end
+            )
+            || "text";
+
+
+        let before = "";
+
+        let after = "";
+
+
+        if (type === "bold") {
+
+            before = "**";
+            after = "**";
+
+        }
+
+
+        if (type === "italic") {
+
+            before = "*";
+            after = "*";
+
+        }
+
+
+        if (type === "h2") {
+
+            before = "## ";
+
+        }
+
+
+        if (type === "check") {
+
+            before = "- [ ] ";
+
+        }
+
+
+        if (type === "code") {
+
+            before = "`";
+            after = "`";
+
+        }
+
+
+        if (type === "link") {
+
+            before = "[";
+            after = "](https://example.com)";
+
+        }
+
+
+        if (type === "quote") {
+
+            before = "> ";
+
+        }
+
+
+        editor.setRangeText(
+            before +
+            selected +
+            after,
+            start,
+            end,
+            "select"
+        );
+
+
+        editor.dispatchEvent(
+            new Event("input")
+        );
+
+
+        editor.focus();
+
+    }
+
+
+    /* =========================
+       PREVIEW
+       ========================= */
+
+    function updatePreviewState() {
+
+        const editor =
+            document.getElementById(
+                "editor"
+            );
+
+
+        const preview =
+            document.getElementById(
+                "preview"
+            );
+
+
+        const button =
+            document.getElementById(
+                "previewButton"
+            );
+
+
+        if (previewMode) {
+
+            preview.innerHTML =
+                renderMarkdown(
+                    editor.value
+                );
+
+
+            preview.classList.add(
+                "visible"
+            );
+
+
+            editor.style.display =
+                "none";
+
+
+            button.textContent =
+                "Edit";
+
+        } else {
+
+            preview.classList.remove(
+                "visible"
+            );
+
+
+            editor.style.display =
+                "block";
+
+
+            button.textContent =
+                "Preview";
+
+        }
+
+    }
+
+
+    /* =========================
+       DRAWING
+       ========================= */
+
+    const canvas =
+        document.getElementById(
+            "drawingCanvas"
+        );
+
+
+    const ctx =
+        canvas.getContext(
+            "2d"
+        );
+
+
+    function resizeCanvas() {
+
+        canvas.width =
+            window.innerWidth;
+
+        canvas.height =
+            window.innerHeight;
+
+    }
+
+
+    function openDrawing() {
+
+        resizeCanvas();
+
+        drawingMode = true;
+
+        canvas.classList.add(
+            "open"
+        );
+
+
+        document.getElementById(
+            "drawingToolbar"
+        ).classList.add(
+            "open"
+        );
+
+    }
+
+
+    function closeDrawing() {
+
+        drawingMode = false;
+
+        drawing = false;
+
+        canvas.classList.remove(
+            "open"
+        );
+
+
+        document.getElementById(
+            "drawingToolbar"
+        ).classList.remove(
+            "open"
+        );
+
+    }
+
+
+    function getPointerPosition(event) {
+
+        return {
+
+            x: event.clientX,
+
+            y: event.clientY
+
+        };
+
+    }
+
+
+    canvas.addEventListener(
+        "pointerdown",
+        function (event) {
+
+            drawing = true;
+
+            canvas.setPointerCapture(
+                event.pointerId
+            );
+
+
+            const point =
+                getPointerPosition(event);
+
+
+            ctx.beginPath();
+
+            ctx.moveTo(
+                point.x,
+                point.y
+            );
+
+        }
     );
 
 
-    /* INITIAL DATA */
+    canvas.addEventListener(
+        "pointermove",
+        function (event) {
 
-    save();
+            if (!drawing) return;
 
-    render();
 
-  }
-);
+            const point =
+                getPointerPosition(event);
+
+
+            ctx.lineWidth =
+                erasing
+                    ? 25
+                    : 4;
+
+
+            ctx.lineCap =
+                "round";
+
+
+            ctx.strokeStyle =
+                erasing
+                    ? "#ffffff"
+                    : "#000000";
+
+
+            ctx.lineTo(
+                point.x,
+                point.y
+            );
+
+
+            ctx.stroke();
+
+        }
+    );
+
+
+    canvas.addEventListener(
+        "pointerup",
+        function () {
+
+            drawing = false;
+
+        }
+    );
+
+
+    canvas.addEventListener(
+        "pointercancel",
+        function () {
+
+            drawing = false;
+
+        }
+    );
+
+
+    /* =========================
+       INITIALIZE
+       ========================= */
+
+    function initializeApp() {
+
+        loadData();
+
+
+        if (!currentNoteId && data.notes.length) {
+
+            currentNoteId =
+                data.notes[0].id;
+
+        }
+
+
+        /* New note */
+
+        document.getElementById(
+            "newNote"
+        ).addEventListener(
+            "click",
+            createNote
+        );
+
+
+        /* New folder */
+
+        document.getElementById(
+            "newFolder"
+        ).addEventListener(
+            "click",
+            createFolder
+        );
+
+
+        /* Templates */
+
+        document.getElementById(
+            "templates"
+        ).addEventListener(
+            "click",
+            showTemplates
+        );
+
+
+        /* Settings */
+
+        document.getElementById(
+            "settings"
+        ).addEventListener(
+            "click",
+            showSettings
+        );
+
+
+        /* Help */
+
+        document.getElementById(
+            "help"
+        ).addEventListener(
+            "click",
+            showHelp
+        );
+
+
+        /* Drawing */
+
+        document.getElementById(
+            "draw"
+        ).addEventListener(
+            "click",
+            openDrawing
+        );
+
+
+        document.getElementById(
+            "closeDrawing"
+        ).addEventListener(
+            "click",
+            closeDrawing
+        );
+
+
+        document.getElementById(
+            "clearCanvas"
+        ).addEventListener(
+            "click",
+            function () {
+
+                ctx.clearRect(
+                    0,
+                    0,
+                    canvas.width,
+                    canvas.height
+                );
+
+            }
+        );
+
+
+        document.getElementById(
+            "blackPen"
+        ).addEventListener(
+            "click",
+            function () {
+
+                erasing = false;
+
+            }
+        );
+
+
+        document.getElementById(
+            "greyPen"
+        ).addEventListener(
+            "click",
+            function () {
+
+                erasing = false;
+
+                ctx.strokeStyle =
+                    "#888888";
+
+            }
+        );
+
+
+        document.getElementById(
+            "eraser"
+        ).addEventListener(
+            "click",
+            function () {
+
+                erasing = true;
+
+            }
+        );
+
+
+        /* Private */
+
+        document.getElementById(
+            "privateFolder"
+        ).addEventListener(
+            "click",
+            privateFolder
+        );
+
+
+        /* Search */
+
+        document.getElementById(
+            "search"
+        ).addEventListener(
+            "input",
+            function (event) {
+
+                searchQuery =
+                    event.target.value;
+
+                render();
+
+            }
+        );
+
+
+        /* Clear search */
+
+        document.getElementById(
+            "clearSearch"
+        ).addEventListener(
+            "click",
+            function () {
+
+                searchQuery = "";
+
+                document.getElementById(
+                    "search"
+                ).value = "";
+
+                render();
+
+            }
+        );
+
+
+        /* Title */
+
+        document.getElementById(
+            "title"
+        ).addEventListener(
+            "input",
+            function (event) {
+
+                const note =
+                    getCurrentNote();
+
+
+                if (!note) return;
+
+
+                note.title =
+                    event.target.value;
+
+
+                note.updated =
+                    Date.now();
+
+
+                saveData();
+
+                renderNotes();
+
+            }
+        );
+
+
+        /* Editor */
+
+        document.getElementById(
+            "editor"
+        ).addEventListener(
+            "input",
+            function (event) {
+
+                const note =
+                    getCurrentNote();
+
+
+                if (!note) return;
+
+
+                note.body =
+                    event.target.value;
+
+
+                note.updated =
+                    Date.now();
+
+
+                saveData();
+
+                updateStatistics();
+
+            }
+        );
+
+
+        /* Pin */
+
+        document.getElementById(
+            "pin"
+        ).addEventListener(
+            "click",
+            togglePin
+        );
+
+
+        /* Duplicate */
+
+        document.getElementById(
+            "duplicate"
+        ).addEventListener(
+            "click",
+            duplicateCurrentNote
+        );
+
+
+        /* Move */
+
+        document.getElementById(
+            "move"
+        ).addEventListener(
+            "click",
+            moveCurrentNote
+        );
+
+
+        /* Delete */
+
+        document.getElementById(
+            "delete"
+        ).addEventListener(
+            "click",
+            deleteCurrentNote
+        );
+
+
+        /* Preview */
+
+        document.getElementById(
+            "previewButton"
+        ).addEventListener(
+            "click",
+            function () {
+
+                previewMode =
+                    !previewMode;
+
+                updatePreviewState();
+
+            }
+        );
+
+
+        /* Toolbar */
+
+        document
+            .querySelectorAll(".tool")
+            .forEach(
+                function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            formatSelection(
+                                button.dataset.format
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+        /* Keyboard shortcuts */
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                const modifier =
+                    event.ctrlKey ||
+                    event.metaKey;
+
+
+                if (
+                    modifier &&
+                    event.key.toLowerCase() === "n"
+                ) {
+
+                    event.preventDefault();
+
+                    createNote();
+
+                }
+
+
+                if (
+                    modifier &&
+                    event.key.toLowerCase() === "f"
+                ) {
+
+                    event.preventDefault();
+
+                    document.getElementById(
+                        "search"
+                    ).focus();
+
+                }
+
+
+                if (
+                    modifier &&
+                    event.key.toLowerCase() === "b"
+                ) {
+
+                    event.preventDefault();
+
+                    formatSelection("bold");
+
+                }
+
+
+                if (
+                    modifier &&
+                    event.key.toLowerCase() === "i"
+                ) {
+
+                    event.preventDefault();
+
+                    formatSelection("italic");
+
+                }
+
+            }
+        );
+
+
+        /* Modal background */
+
+        document.getElementById(
+            "modal"
+        ).addEventListener(
+            "click",
+            function (event) {
+
+                if (
+                    event.target ===
+                    document.getElementById("modal")
+                ) {
+
+                    closeModal();
+
+                }
+
+            }
+        );
+
+
+        /* Resize drawing canvas */
+
+        window.addEventListener(
+            "resize",
+            function () {
+
+                if (drawingMode) {
+
+                    resizeCanvas();
+
+                }
+
+            }
+        );
+
+
+        /* First render */
+
+        render();
+
+    }
+
+
+    /* =========================
+       START
+       ========================= */
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        initializeApp
+    );
 
 })();
+
 </script>
 
 </body>

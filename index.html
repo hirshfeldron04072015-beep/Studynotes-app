@@ -2,575 +2,534 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0b0b0d">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>StudyNotes</title>
 
 <style>
-:root{
---bg:#0b0b0d;
---panel:#111114;
---panel2:#17171b;
---line:#2a2a30;
---text:#f5f5f5;
---muted:#92929a;
---soft:#c7c7cc;
---fs:17px
-}
-
 *{box-sizing:border-box}
 
 html,body{
 margin:0;
+padding:0;
 width:100%;
 height:100%;
-background:var(--bg);
-color:var(--text);
-font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","Segoe UI",sans-serif
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+background:#080808;
+color:#f5f5f5;
 }
 
-button,input,textarea{font:inherit}
-button{cursor:pointer;color:inherit}
+button,input,textarea{
+font:inherit;
+}
 
-.app{
+button{
+cursor:pointer;
+}
+
+#startup{
+position:fixed;
+inset:0;
+z-index:9999;
+background:#080808;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+transition:opacity .8s ease,visibility .8s ease;
+}
+
+#startup.hidden{
+opacity:0;
+visibility:hidden;
+pointer-events:none;
+}
+
+.startup-content{
+animation:intro .9s ease;
+}
+
+@keyframes intro{
+0%{opacity:0;transform:translateY(25px) scale(.96)}
+100%{opacity:1;transform:translateY(0) scale(1)}
+}
+
+.logo{
+width:150px;
+height:150px;
+margin:auto;
+animation:logoFloat 3s ease-in-out infinite;
+}
+
+@keyframes logoFloat{
+0%,100%{transform:translateY(0)}
+50%{transform:translateY(-8px)}
+}
+
+.startup-title{
+font-size:44px;
+font-weight:700;
+letter-spacing:-2px;
+margin-top:22px;
+}
+
+.startup-subtitle{
+color:#858585;
+margin-top:8px;
+margin-bottom:30px;
+}
+
+.start-button{
+background:#fff;
+color:#000;
+border:0;
+border-radius:14px;
+padding:15px 30px;
+font-size:17px;
+font-weight:700;
+transition:transform .2s ease,opacity .2s ease;
+}
+
+.start-button:hover{
+transform:scale(1.04);
+}
+
+.start-button:active{
+transform:scale(.97);
+}
+
+#app{
+display:none;
 height:100vh;
+overflow:hidden;
+}
+
+#app.visible{
 display:grid;
-grid-template-columns:290px 1fr;
-overflow:hidden
+grid-template-columns:280px 1fr;
 }
 
 .sidebar{
-background:#0d0d10;
-border-right:1px solid var(--line);
+background:#101010;
+border-right:1px solid #292929;
 display:flex;
 flex-direction:column;
-min-width:0
+min-width:0;
 }
 
 .brand{
-padding:22px 20px 14px;
-display:flex;
-align-items:center;
-gap:11px;
-font-weight:750;
-font-size:20px
-}
-
-.brand-mark{
-width:31px;
-height:31px;
-border:1px solid #777;
-border-radius:50%;
-position:relative
-}
-
-.brand-mark:before,
-.brand-mark:after{
-content:"";
-position:absolute;
-inset:6px -2px;
-border:1px solid #aaa;
-border-radius:50%;
-transform:rotate(60deg)
-}
-
-.brand-mark:after{
-transform:rotate(-60deg)
-}
-
-.search{
-margin:0 14px 14px;
-background:var(--panel2);
-border:1px solid var(--line);
-border-radius:12px;
-padding:10px 12px;
-display:flex;
-gap:8px
-}
-
-.search input{
-width:100%;
-background:none;
-border:0;
-outline:0;
-color:var(--text)
-}
-
-.nav{padding:0 10px}
-
-.nav button,
-.folder-row{
-width:100%;
-border:0;
-background:transparent;
-padding:10px 11px;
-border-radius:11px;
-text-align:left;
+padding:22px;
+font-size:21px;
+font-weight:700;
 display:flex;
 align-items:center;
 gap:10px;
-color:var(--soft)
 }
 
-.nav button:hover,
-.folder-row:hover{
-background:#18181c
+.mini-logo{
+width:30px;
+height:30px;
 }
 
-.nav button.active,
-.folder-row.active{
-background:#202024;
-color:#fff
+.search-box{
+margin:0 14px 15px;
+background:#191919;
+border:1px solid #292929;
+border-radius:12px;
+padding:10px 12px;
 }
 
-.folder-row{cursor:pointer}
+.search-box input{
+width:100%;
+border:0;
+outline:0;
+background:transparent;
+color:#fff;
+}
+
+.nav{
+padding:0 10px;
+}
+
+.nav-button{
+width:100%;
+border:0;
+background:transparent;
+color:#aaa;
+padding:11px;
+border-radius:10px;
+text-align:left;
+margin-bottom:3px;
+}
+
+.nav-button:hover,
+.nav-button.active{
+background:#222;
+color:#fff;
+}
+
+.section-title{
+font-size:11px;
+color:#666;
+text-transform:uppercase;
+letter-spacing:2px;
+padding:18px 14px 8px;
+}
+
+.folder{
+display:flex;
+align-items:center;
+gap:10px;
+padding:10px 12px;
+margin:0 10px 3px;
+border-radius:10px;
+color:#aaa;
+cursor:pointer;
+}
+
+.folder:hover,
+.folder.active{
+background:#222;
+color:#fff;
+}
 
 .folder-dot{
 width:10px;
 height:10px;
 border-radius:50%;
-border:1px solid #777;
-background:#555;
-flex:none
+background:#777;
 }
 
-.folder-dot.light{background:#aaa}
-.folder-dot.white{background:#eee}
-.folder-dot.dark{background:#333}
+.notes-list{
+overflow:auto;
+padding:8px 10px;
+flex:1;
+}
 
-.section-label{
+.note{
+padding:11px;
+border-radius:11px;
+margin-bottom:3px;
+cursor:pointer;
+}
+
+.note:hover{
+background:#191919;
+}
+
+.note.active{
+background:#252525;
+}
+
+.note-title{
+font-weight:600;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+.note-info{
 font-size:11px;
-text-transform:uppercase;
-letter-spacing:.12em;
 color:#666;
-padding:18px 12px 7px
+margin-top:4px;
 }
 
-.sidebar-bottom{
-margin-top:auto;
+.bottom-buttons{
 padding:10px;
-display:grid;
-gap:6px
+border-top:1px solid #292929;
 }
 
-.small-btn{
+.bottom-button{
+width:100%;
 background:transparent;
-border:1px solid transparent;
-border-radius:10px;
-padding:9px 11px;
+border:0;
+color:#888;
 text-align:left;
-color:var(--muted)
+padding:10px;
+border-radius:9px;
 }
 
-.small-btn:hover{
-background:#17171a;
-color:#fff
+.bottom-button:hover{
+background:#1b1b1b;
+color:#fff;
 }
 
 .main{
 min-width:0;
 display:flex;
-flex-direction:column
+flex-direction:column;
 }
 
 .topbar{
-height:66px;
-border-bottom:1px solid var(--line);
+height:67px;
+border-bottom:1px solid #292929;
 display:flex;
 align-items:center;
 justify-content:space-between;
-padding:0 22px;
-gap:10px
+padding:0 20px;
 }
 
-.title-wrap{min-width:0}
-
-.title{
+.current-title{
 font-size:20px;
 font-weight:700;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis
 }
 
-.sub{
-font-size:12px;
-color:var(--muted);
-margin-top:2px
+.current-info{
+font-size:11px;
+color:#666;
+margin-top:3px;
 }
 
 .actions{
 display:flex;
-gap:7px
+gap:6px;
 }
 
-.icon-btn{
+.action{
 height:38px;
 min-width:38px;
-padding:0 11px;
-border:1px solid var(--line);
-background:var(--panel2);
-border-radius:11px
+border:1px solid #303030;
+background:#171717;
+color:#ccc;
+border-radius:10px;
 }
 
-.icon-btn:hover{background:#242428}
+.action:hover{
+background:#252525;
+color:#fff;
+}
 
-.editor-shell{
+.editor-area{
+display:grid;
+grid-template-columns:1fr 1fr;
 flex:1;
 min-height:0;
-display:grid;
-grid-template-columns:1fr 1fr
 }
 
-.editor-pane,
-.preview-pane{
+.editor-side{
+border-right:1px solid #292929;
 min-width:0;
-overflow:auto
-}
-
-.editor-pane{
-border-right:1px solid var(--line)
+display:flex;
+flex-direction:column;
 }
 
 .toolbar{
-position:sticky;
-top:0;
-z-index:4;
-background:rgba(11,11,13,.94);
-backdrop-filter:blur(12px);
-border-bottom:1px solid var(--line);
-padding:8px 12px;
+padding:8px 10px;
+border-bottom:1px solid #292929;
 display:flex;
-gap:5px;
-flex-wrap:wrap
+gap:4px;
+flex-wrap:wrap;
 }
 
 .tool{
-border:1px solid transparent;
 background:transparent;
-border-radius:8px;
+border:0;
+color:#aaa;
+border-radius:7px;
 padding:7px 9px;
-color:var(--soft)
 }
 
 .tool:hover{
-background:#1d1d21;
-color:#fff
+background:#222;
+color:#fff;
 }
 
-textarea#editor{
-display:block;
+#editor{
+flex:1;
 width:100%;
-min-height:calc(100% - 55px);
-height:100%;
 resize:none;
-background:transparent;
 border:0;
 outline:0;
-color:var(--text);
-padding:28px 30px 100px;
-font-size:var(--fs);
-line-height:1.65;
-letter-spacing:.01em
-}
-
-.preview-pane{
-padding:30px 34px 100px
-}
-
-.markdown{
-max-width:820px;
-margin:auto;
-font-size:var(--fs);
+background:#080808;
+color:#eee;
+padding:28px;
+font-size:17px;
 line-height:1.7;
-color:#e5e5e8
 }
 
-.markdown h1{
-font-size:2em;
-line-height:1.15
+.preview{
+overflow:auto;
+padding:30px;
 }
 
-.markdown h2{font-size:1.45em}
-.markdown h3{font-size:1.15em}
-
-.markdown code{
-background:#1c1c20;
-padding:2px 6px;
-border-radius:6px
+.preview-content{
+max-width:800px;
+margin:auto;
+line-height:1.7;
 }
 
-.markdown pre{
-background:#111114;
-border:1px solid var(--line);
-padding:15px;
+.preview-content h1{
+font-size:34px;
+}
+
+.preview-content h2{
+font-size:25px;
+}
+
+.preview-content code{
+background:#1c1c1c;
+padding:3px 6px;
+border-radius:5px;
+}
+
+.preview-content pre{
+background:#151515;
+border:1px solid #292929;
 border-radius:12px;
-overflow:auto
+padding:15px;
+overflow:auto;
 }
 
-.markdown blockquote{
+.preview-content blockquote{
 border-left:3px solid #666;
 padding-left:15px;
-color:#aaa
+color:#aaa;
 }
 
-.markdown a{
-color:#fff
-}
-
-.markdown mark{
+.preview-content mark{
 background:#555;
 color:#fff;
-padding:0 2px;
-border-radius:2px
 }
 
-.status{
+.stats{
 position:fixed;
+right:15px;
 bottom:12px;
-right:18px;
-background:#111114;
-border:1px solid var(--line);
-border-radius:10px;
-padding:6px 10px;
-color:#777;
 font-size:11px;
-pointer-events:none
+color:#666;
+background:#121212;
+border:1px solid #292929;
+border-radius:9px;
+padding:6px 9px;
 }
 
-.empty{
-height:100%;
-display:grid;
-place-items:center;
-text-align:center;
-color:var(--muted);
-padding:40px
+.help-button{
+position:fixed;
+right:15px;
+bottom:50px;
+width:34px;
+height:34px;
+border-radius:50%;
+border:1px solid #333;
+background:#181818;
+color:#aaa;
 }
 
-.empty strong{
-display:block;
-color:#eee;
-font-size:20px;
-margin-bottom:7px
-}
-
-.notes-list{
-overflow:auto;
-padding:4px 10px;
-min-height:80px
-}
-
-.note-item{
-padding:11px;
-border-radius:12px;
-cursor:pointer;
-border:1px solid transparent
-}
-
-.note-item:hover{background:#161619}
-
-.note-item.active{
-background:#202024;
-border-color:#2c2c31
-}
-
-.note-name{
-font-weight:650;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis
-}
-
-.note-meta{
-font-size:11px;
-color:#777;
-margin-top:4px;
-white-space:nowrap;
-overflow:hidden;
-text-overflow:ellipsis
-}
-
-.modal-back{
+.modal-background{
 position:fixed;
 inset:0;
-background:rgba(0,0,0,.72);
+z-index:5000;
+background:rgba(0,0,0,.75);
 display:none;
-place-items:center;
-z-index:100;
-backdrop-filter:blur(7px)
+align-items:center;
+justify-content:center;
+padding:20px;
 }
 
-.modal-back.show{display:grid}
+.modal-background.show{
+display:flex;
+}
 
 .modal{
-width:min(460px,calc(100% - 30px));
-background:#151519;
-border:1px solid #303036;
+width:min(440px,100%);
+background:#171717;
+border:1px solid #333;
 border-radius:20px;
-padding:24px;
-box-shadow:0 25px 80px #000
+padding:25px;
 }
 
-.modal h2{margin:0 0 8px}
+.modal h2{
+margin-top:0;
+}
 
 .modal p{
 color:#aaa;
-line-height:1.5
+line-height:1.6;
 }
 
 .modal input{
 width:100%;
-padding:12px;
-border-radius:11px;
-border:1px solid #38383e;
-background:#0d0d10;
+background:#0c0c0c;
+border:1px solid #383838;
 color:#fff;
+border-radius:10px;
+padding:12px;
 outline:0;
-margin:9px 0
+margin:8px 0;
 }
 
-.modal-actions{
+.modal-buttons{
 display:flex;
 justify-content:flex-end;
 gap:8px;
-margin-top:14px;
-flex-wrap:wrap
+margin-top:15px;
 }
 
-.primary{
-background:#f5f5f5;
-color:#080808;
-border:0;
-border-radius:11px;
+.cancel{
+background:#222;
+border:1px solid #333;
+color:#ddd;
 padding:10px 16px;
-font-weight:700
+border-radius:10px;
 }
 
-.secondary{
-background:#222227;
-border:1px solid #38383e;
-border-radius:11px;
-padding:10px 16px
-}
-
-.launch{
-position:fixed;
-inset:0;
-background:#080809;
-z-index:200;
-display:grid;
-place-items:center;
-transition:opacity .55s ease,visibility .55s
-}
-
-.launch.hide{
-opacity:0;
-visibility:hidden;
-pointer-events:none
-}
-
-.launch-card{
-text-align:center;
-animation:rise .8s ease
-}
-
-.launch-logo{
-width:150px;
-height:150px;
-object-fit:contain;
-filter:grayscale(1);
-margin-bottom:22px
-}
-
-.launch h1{
-font-size:42px;
-letter-spacing:-.04em;
-margin:0
-}
-
-.launch p{
-color:#888;
-margin:9px 0 28px
-}
-
-.start{
-padding:13px 28px;
-border-radius:13px;
-border:1px solid #fff;
+.confirm{
 background:#fff;
 color:#000;
-font-weight:750;
-font-size:16px
+border:0;
+padding:10px 16px;
+border-radius:10px;
+font-weight:700;
 }
 
-.start:hover{
-transform:translateY(-1px)
+.empty{
+height:100%;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+color:#777;
+padding:30px;
 }
 
-@keyframes rise{
-from{
-opacity:0;
-transform:translateY(18px) scale(.97)
-}
-to{
-opacity:1;
-transform:none
-}
+.empty strong{
+display:block;
+font-size:20px;
+color:#eee;
+margin-bottom:8px;
 }
 
-.help{
-position:fixed;
-right:15px;
-bottom:42px;
-width:34px;
-height:34px;
-border-radius:50%;
-background:#17171b;
-border:1px solid #333;
-color:#aaa;
-z-index:20
+@media(max-width:850px){
+
+#app.visible{
+grid-template-columns:230px 1fr;
 }
 
-@media(max-width:900px){
-
-.app{
-grid-template-columns:240px 1fr
+.editor-area{
+grid-template-columns:1fr;
 }
 
-.editor-shell{
-grid-template-columns:1fr
-}
-
-.preview-pane{
-display:none
+.preview{
+display:none;
 }
 
 }
 
-@media(max-width:650px){
+@media(max-width:600px){
 
-.app{
-grid-template-columns:1fr
+#app.visible{
+grid-template-columns:1fr;
 }
 
 .sidebar{
-display:none
+display:none;
+}
+
+.startup-title{
+font-size:36px;
 }
 
 .topbar{
-padding:0 13px
-}
-
-.editor-pane{
-border:0
-}
-
-textarea#editor{
-padding:22px 18px 100px
-}
-
-.launch h1{
-font-size:34px
+padding:0 12px;
 }
 
 }
@@ -579,30 +538,18 @@ font-size:34px
 
 <body>
 
-<div class="launch" id="launch">
+<!-- STARTUP SCREEN -->
 
-<div class="launch-card">
+<div id="startup">
 
-<div
-style="
-width:150px;
-height:150px;
-margin:0 auto 22px;
-display:flex;
-align-items:center;
-justify-content:center;
-">
+<div class="startup-content">
 
-<svg
-viewBox="0 0 160 160"
-width="150"
-height="150"
-aria-label="StudyNotes logo">
+<svg class="logo" viewBox="0 0 160 160">
 
 <circle
 cx="80"
 cy="80"
-r="14"
+r="13"
 fill="none"
 stroke="#ddd"
 stroke-width="2"/>
@@ -610,8 +557,8 @@ stroke-width="2"/>
 <ellipse
 cx="80"
 cy="80"
-rx="67"
-ry="27"
+rx="68"
+ry="28"
 fill="none"
 stroke="#aaa"
 stroke-width="2"
@@ -620,8 +567,8 @@ transform="rotate(25 80 80)"/>
 <ellipse
 cx="80"
 cy="80"
-rx="67"
-ry="27"
+rx="68"
+ry="28"
 fill="none"
 stroke="#aaa"
 stroke-width="2"
@@ -630,8 +577,8 @@ transform="rotate(-25 80 80)"/>
 <ellipse
 cx="80"
 cy="80"
-rx="27"
-ry="67"
+rx="28"
+ry="68"
 fill="none"
 stroke="#aaa"
 stroke-width="2"
@@ -645,46 +592,89 @@ fill="#fff"/>
 
 </svg>
 
+<div class="startup-title">
+StudyNotes
 </div>
 
-<h1>StudyNotes</h1>
-
-<p>
+<div class="startup-subtitle">
 A focused space for learning, thinking and writing.
-</p>
+</div>
 
 <button
-class="start"
-id="startBtn"
+id="startButton"
+class="start-button"
 type="button">
+
 Start studying
+
 </button>
 
 </div>
+
 </div>
 
 
-<div class="app">
+<!-- APPLICATION -->
+
+<div id="app">
 
 <aside class="sidebar">
 
 <div class="brand">
 
-<div class="brand-mark"></div>
+<svg class="mini-logo" viewBox="0 0 160 160">
 
-<span>StudyNotes</span>
+<circle
+cx="80"
+cy="80"
+r="13"
+fill="none"
+stroke="#ddd"
+stroke-width="2"/>
+
+<ellipse
+cx="80"
+cy="80"
+rx="68"
+ry="28"
+fill="none"
+stroke="#aaa"
+stroke-width="2"
+transform="rotate(25 80 80)"/>
+
+<ellipse
+cx="80"
+cy="80"
+rx="68"
+ry="28"
+fill="none"
+stroke="#aaa"
+stroke-width="2"
+transform="rotate(-25 80 80)"/>
+
+<ellipse
+cx="80"
+cy="80"
+rx="28"
+ry="68"
+fill="none"
+stroke="#aaa"
+stroke-width="2"
+transform="rotate(25 80 80)"/>
+
+</svg>
+
+StudyNotes
 
 </div>
 
 
-<div class="search">
-
-⌕
+<div class="search-box">
 
 <input
 id="search"
 type="search"
-placeholder="Search notes…">
+placeholder="Search notes...">
 
 </div>
 
@@ -692,47 +682,42 @@ placeholder="Search notes…">
 <div class="nav">
 
 <button
-id="allBtn"
-class="active"
+id="allNotes"
+class="nav-button active"
 type="button">
 
-▤ &nbsp;All notes
+▤ &nbsp; All notes
 
 </button>
 
 <button
-id="pinnedBtn"
+id="pinnedNotes"
+class="nav-button"
 type="button">
 
-☆ &nbsp;Pinned
+☆ &nbsp; Pinned
 
 </button>
 
 </div>
 
 
-<div class="section-label">
+<div class="section-title">
 Folders
 </div>
 
 
-<div
-class="nav"
-id="folders">
-</div>
+<div id="folders"></div>
 
 
-<div
-class="notes-list"
-id="notesList">
-</div>
+<div id="notesList" class="notes-list"></div>
 
 
-<div class="sidebar-bottom">
+<div class="bottom-buttons">
 
 <button
-class="small-btn"
-id="newFolderBtn"
+id="newFolder"
+class="bottom-button"
 type="button">
 
 ＋ New folder
@@ -740,8 +725,8 @@ type="button">
 </button>
 
 <button
-class="small-btn"
-id="templateBtn"
+id="templates"
+class="bottom-button"
 type="button">
 
 ▣ Templates
@@ -749,8 +734,8 @@ type="button">
 </button>
 
 <button
-class="small-btn"
-id="settingsBtn"
+id="settings"
+class="bottom-button"
 type="button">
 
 ⚙ Settings
@@ -766,18 +751,22 @@ type="button">
 
 <header class="topbar">
 
-<div class="title-wrap">
+<div>
 
 <div
-class="title"
-id="noteTitle">
+id="currentTitle"
+class="current-title">
+
 Select a note
+
 </div>
 
 <div
-class="sub"
-id="noteSub">
+id="currentInfo"
+class="current-info">
+
 StudyNotes
+
 </div>
 
 </div>
@@ -786,50 +775,45 @@ StudyNotes
 <div class="actions">
 
 <button
-class="icon-btn"
-id="pinBtn"
-type="button"
-title="Pin">
+id="pin"
+class="action"
+type="button">
 
 ☆
 
 </button>
 
 <button
-class="icon-btn"
-id="duplicateBtn"
-type="button"
-title="Duplicate">
+id="duplicate"
+class="action"
+type="button">
 
 ⧉
 
 </button>
 
 <button
-class="icon-btn"
-id="moveBtn"
-type="button"
-title="Move">
+id="move"
+class="action"
+type="button">
 
 ⇥
 
 </button>
 
 <button
-class="icon-btn"
-id="deleteBtn"
-type="button"
-title="Delete">
+id="delete"
+class="action"
+type="button">
 
 ⌫
 
 </button>
 
 <button
-class="icon-btn"
-id="newBtn"
-type="button"
-title="New note">
+id="newNote"
+class="action"
+type="button">
 
 ＋
 
@@ -840,136 +824,72 @@ title="New note">
 </header>
 
 
-<section class="editor-shell">
+<div class="editor-area">
 
 
-<div class="editor-pane">
-
+<div class="editor-side">
 
 <div class="toolbar">
 
-<button
-class="tool"
-data-cmd="bold"
-type="button">
+<button class="tool" data-format="bold" type="button"><b>B</b></button>
 
-<b>B</b>
+<button class="tool" data-format="italic" type="button"><i>I</i></button>
 
-</button>
+<button class="tool" data-format="h1" type="button">H1</button>
 
-<button
-class="tool"
-data-cmd="italic"
-type="button">
+<button class="tool" data-format="h2" type="button">H2</button>
 
-<i>I</i>
+<button class="tool" data-format="check" type="button">☑</button>
 
-</button>
+<button class="tool" data-format="bullet" type="button">•</button>
 
-<button
-class="tool"
-data-cmd="h1"
-type="button">
+<button class="tool" data-format="number" type="button">1.</button>
 
-H1
+<button class="tool" data-format="code" type="button">&lt;/&gt;</button>
 
-</button>
+<button class="tool" data-format="quote" type="button">❝</button>
 
-<button
-class="tool"
-data-cmd="h2"
-type="button">
+<button class="tool" data-format="link" type="button">↗</button>
 
-H2
-
-</button>
-
-<button
-class="tool"
-data-cmd="check"
-type="button">
-
-☑
-
-</button>
-
-<button
-class="tool"
-data-cmd="bullet"
-type="button">
-
-•
-
-</button>
-
-<button
-class="tool"
-data-cmd="number"
-type="button">
-
-1.
-
-</button>
-
-<button
-class="tool"
-data-cmd="code"
-type="button">
-
-&lt;/&gt;
-
-</button>
-
-<button
-class="tool"
-data-cmd="quote"
-type="button">
-
-❝
-
-</button>
-
-<button
-class="tool"
-data-cmd="link"
-type="button">
-
-↗
-
-</button>
-
-<button
-class="tool"
-data-cmd="highlight"
-type="button">
-
-▰
-
-</button>
+<button class="tool" data-format="highlight" type="button">▰</button>
 
 </div>
 
 
 <textarea
 id="editor"
-spellcheck="true"
-placeholder="Start writing…">
+placeholder="Start writing...">
 </textarea>
 
 </div>
 
 
-<div class="preview-pane">
+<div class="preview">
 
-<article
-class="markdown"
-id="preview">
-</article>
+<div
+id="preview"
+class="preview-content">
+
+<div class="empty">
+
+<div>
+
+<strong>
+Choose a note
+</strong>
+
+Select a note from the sidebar.
+
+</div>
+
+</div>
+
+</div>
 
 </div>
 
 
-</section>
+</div>
 
 </main>
 
@@ -977,17 +897,18 @@ id="preview">
 
 
 <div
-class="status"
-id="status">
+id="stats"
+class="stats">
+
 0 words · 0 chars · 0 min
+
 </div>
 
 
 <button
-class="help"
-id="helpBtn"
-type="button"
-title="Help">
+id="help"
+class="help-button"
+type="button">
 
 ?
 
@@ -995,12 +916,13 @@ title="Help">
 
 
 <div
-class="modal-back"
-id="modalBack">
+id="modalBackground"
+class="modal-background">
 
 <div
-class="modal"
-id="modal">
+id="modal"
+class="modal">
+
 </div>
 
 </div>
@@ -1008,211 +930,254 @@ id="modal">
 
 <script>
 
-const KEY = "studynotes.v6.notes";
-const FKEY = "studynotes.v6.folders";
-const PKEY = "studynotes.v6.privateCode";
-const SKEY = "studynotes.v6.settings";
+(function(){
+
+"use strict";
 
 
-let notes =
+const NOTES_KEY =
+"studynotes_notes";
+
+const FOLDERS_KEY =
+"studynotes_folders";
+
+const PRIVATE_KEY =
+"studynotes_private_code";
+
+
+let notes;
+
+let folders;
+
+try{
+
+notes =
 JSON.parse(
-localStorage.getItem(KEY) || "null"
-) || [
+localStorage.getItem(NOTES_KEY)
+);
 
+}catch(error){
+
+notes=null;
+
+}
+
+
+try{
+
+folders =
+JSON.parse(
+localStorage.getItem(FOLDERS_KEY)
+);
+
+}catch(error){
+
+folders=null;
+
+}
+
+
+if(!Array.isArray(notes)){
+
+notes=[
 {
-id:crypto.randomUUID(),
+id:"welcome",
 title:"Welcome to StudyNotes",
 content:
 "# Welcome to StudyNotes\n\n"+
-"This is your focused space for studying.\n\n"+
+"Your focused space for studying.\n\n"+
 "- Create notes\n"+
-"- Organize them into folders\n"+
+"- Organize folders\n"+
 "- Pin important notes\n"+
-"- Use Markdown and the live preview\n\n"+
-"**Tip:** Press ⌘/Ctrl + N to create a new note.",
+"- Use Markdown\n\n"+
+"Press **＋** to create a note.",
 folder:"General",
 pinned:false,
-created:Date.now(),
 updated:Date.now()
 }
-
 ];
 
+}
 
-let folders =
-JSON.parse(
-localStorage.getItem(FKEY) || "null"
-) || [
+
+if(!Array.isArray(folders)){
+
+folders=[
 "General",
 "School",
 "Ideas"
 ];
 
-
-let settings =
-JSON.parse(
-localStorage.getItem(SKEY) || "null"
-) || {
-font:17
-};
+}
 
 
-let state = {
+let activeId =
+notes.length
+? notes[0].id
+: null;
 
-activeId:
-notes[0]?.id || null,
 
-filter:"all",
+let activeFolder = null;
 
-folder:null,
+let filter = "all";
 
-search:"",
+let searchText = "";
 
-privateUnlocked:false
-
-};
+let privateUnlocked = false;
 
 
 function save(){
 
 localStorage.setItem(
-KEY,
+NOTES_KEY,
 JSON.stringify(notes)
 );
 
 localStorage.setItem(
-FKEY,
+FOLDERS_KEY,
 JSON.stringify(folders)
 );
 
-localStorage.setItem(
-SKEY,
-JSON.stringify(settings)
+}
+
+
+function getCurrent(){
+
+return notes.find(
+note => note.id === activeId
 );
 
 }
 
 
-function esc(value){
+function escapeHTML(text){
 
-return String(value).replace(
-/[&<>"']/g,
-
-function(char){
-
-const map = {
-
-"&":"&amp;",
-"<":"&lt;",
-">":"&gt;",
-'"':"&quot;",
-"'":"&#39;"
-
-};
-
-return map[char];
-
-}
-);
+return String(text)
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
 
 }
 
 
-function md(source){
+function markdown(text){
 
-let s = esc(source || "");
+let html =
+escapeHTML(text || "");
 
 
-s = s.replace(
+html =
+html.replace(
 /```([\s\S]*?)```/g,
 "<pre><code>$1</code></pre>"
 );
 
 
-s = s.replace(
+html =
+html.replace(
 /^### (.*)$/gm,
 "<h3>$1</h3>"
 );
 
-s = s.replace(
+html =
+html.replace(
 /^## (.*)$/gm,
 "<h2>$1</h2>"
 );
 
-s = s.replace(
+html =
+html.replace(
 /^# (.*)$/gm,
 "<h1>$1</h1>"
 );
 
 
-s = s.replace(
+html =
+html.replace(
 /^> (.*)$/gm,
 "<blockquote>$1</blockquote>"
 );
 
 
-s = s.replace(
-/^\- \[ \] (.*)$/gm,
+html =
+html.replace(
+/^- \[ \] (.*)$/gm,
 "<div>☐ $1</div>"
 );
 
-s = s.replace(
-/^\- \[x\] (.*)$/gim,
+html =
+html.replace(
+/^- \[x\] (.*)$/gim,
 "<div>☑ $1</div>"
 );
 
 
-s = s.replace(
-/^\- (.*)$/gm,
+html =
+html.replace(
+/^- (.*)$/gm,
 "<div>• $1</div>"
 );
 
 
-s = s.replace(
+html =
+html.replace(
 /^\d+\. (.*)$/gm,
 "<div>$&</div>"
 );
 
 
-s = s.replace(
+html =
+html.replace(
 /\*\*(.+?)\*\*/g,
 "<strong>$1</strong>"
 );
 
-s = s.replace(
+
+html =
+html.replace(
 /\*(.+?)\*/g,
 "<em>$1</em>"
 );
 
 
-s = s.replace(
+html =
+html.replace(
 /`([^`]+)`/g,
 "<code>$1</code>"
 );
 
 
-s = s.replace(
+html =
+html.replace(
 /==(.+?)==/g,
 "<mark>$1</mark>"
 );
 
 
-s = s.replace(
+html =
+html.replace(
 /$begin:math:display$\(\[\^$end:math:display$]+)\]$begin:math:text$\(https\?\:\\\/\\\/\[\^\)\]\+\)$end:math:text$/g,
 '<a href="$2" target="_blank" rel="noopener">$1</a>'
 );
 
 
-return s
-.split(/\n{2,}/)
+return html
+.split(/\n\n+/)
 .map(function(block){
 
 if(
-block.match(
-/^<(h[1-3]|pre|blockquote|div)/
-)
+block.startsWith("<h1>") ||
+block.startsWith("<h2>") ||
+block.startsWith("<h3>") ||
+block.startsWith("<pre>") ||
+block.startsWith("<blockquote>") ||
+block.startsWith("<div>")
 ){
+
 return block;
+
 }
 
 return "<p>"+
@@ -1225,43 +1190,35 @@ block.replace(/\n/g,"<br>")+
 }
 
 
-function current(){
-
-return notes.find(
-function(note){
-return note.id === state.activeId;
-}
-);
-
-}
-
-
 function visibleNotes(){
 
-let result = [...notes];
+let result =
+notes.slice();
 
 
-if(state.filter === "pinned"){
+if(filter === "pinned"){
 
-result = result.filter(
+result =
+result.filter(
 note => note.pinned
 );
 
 }
 
 
-if(state.folder){
+if(activeFolder){
 
-result = result.filter(
-note => note.folder === state.folder
+result =
+result.filter(
+note => note.folder === activeFolder
 );
 
 }
 
 
 if(
-state.folder === "private" &&
-!state.privateUnlocked
+activeFolder === "Private" &&
+!privateUnlocked
 ){
 
 return [];
@@ -1269,54 +1226,56 @@ return [];
 }
 
 
-if(state.search){
+if(searchText){
 
-const query =
-state.search.toLowerCase();
+const q =
+searchText.toLowerCase();
 
-result = result.filter(
+result =
+result.filter(
 note =>
 (
-note.title +
-" " +
+note.title+
+" "+
 note.content
 )
 .toLowerCase()
-.includes(query)
+.includes(q)
 );
 
 }
 
 
-return result.sort(
-(a,b) =>
-(b.pinned - a.pinned) ||
-((b.updated || 0) -
-(b.updated || 0))
+result.sort(
+(a,b)=>
+(b.pinned?1:0) -
+(a.pinned?1:0) ||
+(b.updated-a.updated)
 );
+
+
+return result;
 
 }
 
 
 function renderFolders(){
 
-const box =
+const container =
 document.getElementById("folders");
 
-box.innerHTML = "";
+container.innerHTML = "";
 
 
-[...folders,"private"].forEach(
+folders.forEach(
 function(folder,index){
 
-const button =
-document.createElement("button");
+const row =
+document.createElement("div");
 
-button.type = "button";
-
-button.className =
-"folder-row" +
-(state.folder === folder
+row.className =
+"folder"+
+(activeFolder === folder
 ? " active"
 : "");
 
@@ -1325,72 +1284,105 @@ const dot =
 document.createElement("span");
 
 dot.className =
-"folder-dot " +
-["light","white","dark"][index % 3];
+"folder-dot";
 
 
-button.appendChild(dot);
+dot.style.background =
+["#555","#888","#bbb"][index%3];
 
-button.appendChild(
-document.createTextNode(
-folder === "private"
-? "▣ Private"
-: folder
-)
+
+row.appendChild(dot);
+
+row.appendChild(
+document.createTextNode(folder)
 );
 
 
-button.addEventListener(
+row.addEventListener(
 "click",
 function(){
 
-if(folder === "private"){
-
-openPrivate();
-
-}else{
-
-state.folder = folder;
-state.filter = "all";
-state.activeId = null;
+activeFolder=folder;
+filter="all";
+activeId=null;
 
 render();
 
 }
+);
+
+
+container.appendChild(row);
 
 }
 );
 
 
-box.appendChild(button);
+const privateRow =
+document.createElement("div");
 
-}
+privateRow.className =
+"folder"+
+(activeFolder === "Private"
+? " active"
+: "");
+
+
+const privateDot =
+document.createElement("span");
+
+privateDot.className =
+"folder-dot";
+
+privateDot.style.background =
+"#333";
+
+
+privateRow.appendChild(
+privateDot
+);
+
+privateRow.appendChild(
+document.createTextNode(
+"▣ Private"
+)
+);
+
+
+privateRow.addEventListener(
+"click",
+openPrivate
+);
+
+
+container.appendChild(
+privateRow
 );
 
 }
 
 
-function renderList(){
+function renderNotes(){
 
-const box =
+const list =
 document.getElementById("notesList");
 
 const result =
 visibleNotes();
 
-box.innerHTML = "";
+list.innerHTML = "";
 
 
 if(
-state.folder === "private" &&
-!state.privateUnlocked
+activeFolder === "Private" &&
+!privateUnlocked
 ){
 
-box.innerHTML =
+list.innerHTML =
 '<div class="empty">'+
 '<div>'+
 '<strong>Private is locked</strong>'+
-'Unlock it to see your notes.'+
+'Enter your code to open it.'+
 '</div>'+
 '</div>';
 
@@ -1399,9 +1391,9 @@ return;
 }
 
 
-if(!result.length){
+if(result.length === 0){
 
-box.innerHTML =
+list.innerHTML =
 '<div class="empty">'+
 '<div>'+
 '<strong>No notes</strong>'+
@@ -1421,46 +1413,46 @@ const item =
 document.createElement("div");
 
 item.className =
-"note-item" +
-(note.id === state.activeId
+"note"+
+(note.id === activeId
 ? " active"
 : "");
 
 
-const name =
+const title =
 document.createElement("div");
 
-name.className =
-"note-name";
+title.className =
+"note-title";
 
-name.textContent =
-(note.pinned ? "★ " : "") +
+title.textContent =
+(note.pinned ? "★ " : "")+
 (note.title || "Untitled");
 
 
-const meta =
+const info =
 document.createElement("div");
 
-meta.className =
-"note-meta";
+info.className =
+"note-info";
 
-meta.textContent =
-note.folder +
-" · " +
+info.textContent =
+note.folder+
+" · "+
 new Date(
 note.updated
 ).toLocaleDateString();
 
 
-item.appendChild(name);
-item.appendChild(meta);
+item.appendChild(title);
+item.appendChild(info);
 
 
 item.addEventListener(
 "click",
 function(){
 
-state.activeId = note.id;
+activeId=note.id;
 
 render();
 
@@ -1468,7 +1460,7 @@ render();
 );
 
 
-box.appendChild(item);
+list.appendChild(item);
 
 }
 );
@@ -1478,7 +1470,8 @@ box.appendChild(item);
 
 function renderEditor(){
 
-const note = current();
+const note =
+getCurrent();
 
 const editor =
 document.getElementById("editor");
@@ -1490,22 +1483,22 @@ document.getElementById("preview");
 if(!note){
 
 document.getElementById(
-"noteTitle"
+"currentTitle"
 ).textContent =
 "Select a note";
 
 document.getElementById(
-"noteSub"
+"currentInfo"
 ).textContent =
 "StudyNotes";
 
-editor.value = "";
+editor.value="";
 
 preview.innerHTML =
 '<div class="empty">'+
 '<div>'+
 '<strong>Choose a note</strong>'+
-'Select one from the sidebar or create a new one.'+
+'Select a note from the sidebar.'+
 '</div>'+
 '</div>';
 
@@ -1515,35 +1508,38 @@ return;
 
 
 document.getElementById(
-"noteTitle"
+"currentTitle"
 ).textContent =
 note.title || "Untitled";
 
 
 document.getElementById(
-"noteSub"
+"currentInfo"
 ).textContent =
-note.folder +
-" · Updated " +
-new Date(note.updated)
-.toLocaleString();
+note.folder+
+" · "+
+new Date(
+note.updated
+).toLocaleString();
 
 
 editor.value =
-note.content;
+note.content || "";
 
 
 preview.innerHTML =
-md(note.content);
+markdown(note.content);
 
 
 document.getElementById(
-"pinBtn"
+"pin"
 ).textContent =
 note.pinned ? "★" : "☆";
 
 
-updateStats(note.content);
+updateStats(
+note.content || ""
+);
 
 }
 
@@ -1551,27 +1547,24 @@ updateStats(note.content);
 function updateStats(text){
 
 const words =
-(text.trim().match(/\S+/g) || [])
+(text.trim().match(/\S+/g)||[])
 .length;
 
 const chars =
 text.length;
 
 const minutes =
-Math.max(
-0,
-Math.ceil(words / 200)
-);
+Math.ceil(words/200);
 
 
 document.getElementById(
-"status"
+"stats"
 ).textContent =
-words +
-" words · " +
-chars +
-" chars · " +
-minutes +
+words+
+" words · "+
+chars+
+" chars · "+
+minutes+
 " min";
 
 }
@@ -1580,59 +1573,40 @@ minutes +
 function render(){
 
 renderFolders();
-renderList();
+renderNotes();
 renderEditor();
-
-
-document.getElementById(
-"allBtn"
-).classList.toggle(
-"active",
-state.filter === "all" &&
-!state.folder
-);
-
-
-document.getElementById(
-"pinnedBtn"
-).classList.toggle(
-"active",
-state.filter === "pinned"
-);
 
 }
 
 
-function newNote(){
+function createNote(){
 
 if(
-state.folder === "private" &&
-!state.privateUnlocked
+activeFolder === "Private" &&
+!privateUnlocked
 ){
 
 openPrivate();
+
 return;
 
 }
 
 
-const folder =
-state.folder || "General";
+const note={
 
-
-const note = {
-
-id:crypto.randomUUID(),
+id:
+Date.now().toString()+
+Math.random().toString(16),
 
 title:"Untitled note",
 
 content:"",
 
-folder:folder,
+folder:
+activeFolder || "General",
 
 pinned:false,
-
-created:Date.now(),
 
 updated:Date.now()
 
@@ -1641,8 +1615,7 @@ updated:Date.now()
 
 notes.unshift(note);
 
-state.activeId =
-note.id;
+activeId=note.id;
 
 save();
 render();
@@ -1651,10 +1624,9 @@ render();
 setTimeout(
 function(){
 
-const editor =
-document.getElementById("editor");
-
-editor.focus();
+document
+.getElementById("editor")
+.focus();
 
 },
 50
@@ -1665,59 +1637,77 @@ editor.focus();
 
 function deleteNote(){
 
-const note = current();
+const note =
+getCurrent();
 
 if(!note)return;
 
 
 if(
-confirm("Delete this note?")
-){
+!confirm(
+"Delete this note?"
+)
+)return;
+
 
 notes =
 notes.filter(
 item => item.id !== note.id
 );
 
-state.activeId =
-visibleNotes()[0]?.id || null;
+
+activeId =
+notes[0]?.id || null;
 
 save();
 render();
 
 }
 
-}
 
+function duplicateNote(){
 
-function duplicate(){
-
-const note = current();
+const note =
+getCurrent();
 
 if(!note)return;
 
 
-const copy = {
-
+const copy={
 ...note,
-
-id:crypto.randomUUID(),
-
+id:
+Date.now().toString()+
+Math.random().toString(16),
 title:
-(note.title || "Untitled") +
+(note.title||"Untitled")+
 " copy",
-
-created:Date.now(),
-
 updated:Date.now()
-
 };
 
 
 notes.unshift(copy);
 
-state.activeId =
-copy.id;
+activeId=copy.id;
+
+save();
+render();
+
+}
+
+
+function pinNote(){
+
+const note =
+getCurrent();
+
+if(!note)return;
+
+
+note.pinned =
+!note.pinned;
+
+note.updated =
+Date.now();
 
 save();
 render();
@@ -1727,39 +1717,38 @@ render();
 
 function moveNote(){
 
-const note = current();
+const note =
+getCurrent();
 
 if(!note)return;
 
 
-let choices =
-folders.filter(
-folder => folder !== "private"
-);
+const choices =
+folders.slice();
 
 
-if(state.privateUnlocked){
-
-choices.push("private");
-
-}
+if(privateUnlocked)
+choices.push("Private");
 
 
-const target =
+const destination =
 prompt(
-"Move to folder:\n" +
+"Type the folder name:\n\n"+
 choices.join("\n"),
 note.folder
 );
 
 
 if(
-target &&
-choices.includes(target)
+destination &&
+choices.includes(destination)
 ){
 
-note.folder = target;
-note.updated = Date.now();
+note.folder =
+destination;
+
+note.updated =
+Date.now();
 
 save();
 render();
@@ -1769,13 +1758,53 @@ render();
 }
 
 
+function addFolder(){
+
+const name =
+prompt(
+"New folder name:"
+);
+
+
+if(!name)return;
+
+
+const clean =
+name.trim();
+
+
+if(
+!clean ||
+folders.includes(clean) ||
+clean === "Private"
+){
+
+alert(
+"That folder name cannot be used."
+);
+
+return;
+
+}
+
+
+folders.push(clean);
+
+save();
+render();
+
+}
+
+
 function openPrivate(){
 
-const savedCode =
-localStorage.getItem(PKEY);
+const saved =
+localStorage.getItem(
+PRIVATE_KEY
+);
 
 
-if(!savedCode){
+if(!saved){
 
 showModal(
 
@@ -1794,22 +1823,22 @@ Remember it — it cannot be recovered.
 </p>
 
 <input
-id="modalInput"
+id="privateInput"
 type="password"
-placeholder="Create code">
+placeholder="Create your code">
 
-<div class="modal-actions">
+<div class="modal-buttons">
 
 <button
-class="secondary"
 id="modalCancel"
+class="cancel"
 type="button">
 Cancel
 </button>
 
 <button
-class="primary"
-id="modalOK"
+id="modalConfirm"
+class="confirm"
 type="button">
 Create code
 </button>
@@ -1819,19 +1848,16 @@ Create code
 
 function(){
 
-const input =
-document.getElementById(
-"modalInput"
-);
-
 const value =
-input.value.trim();
+document.getElementById(
+"privateInput"
+).value.trim();
 
 
 if(!value){
 
 alert(
-"Please enter a code."
+"Please create a code."
 );
 
 return false;
@@ -1840,18 +1866,27 @@ return false;
 
 
 localStorage.setItem(
-PKEY,
+PRIVATE_KEY,
 value
 );
 
-state.privateUnlocked = true;
-state.folder = "private";
-state.filter = "all";
 
-state.activeId =
+privateUnlocked=true;
+activeFolder="Private";
+filter="all";
+
+
+const privateNote =
 notes.find(
-note => note.folder === "private"
-)?.id || null;
+note => note.folder === "Private"
+);
+
+
+activeId =
+privateNote
+? privateNote.id
+: null;
+
 
 save();
 render();
@@ -1859,6 +1894,7 @@ render();
 return true;
 
 }
+
 );
 
 return;
@@ -1876,22 +1912,22 @@ Enter your private code to continue.
 </p>
 
 <input
-id="modalInput"
+id="privateInput"
 type="password"
 placeholder="Private code">
 
-<div class="modal-actions">
+<div class="modal-buttons">
 
 <button
-class="secondary"
 id="modalCancel"
+class="cancel"
 type="button">
 Cancel
 </button>
 
 <button
-class="primary"
-id="modalOK"
+id="modalConfirm"
+class="confirm"
 type="button">
 Unlock
 </button>
@@ -1903,11 +1939,11 @@ function(){
 
 const value =
 document.getElementById(
-"modalInput"
+"privateInput"
 ).value;
 
 
-if(value !== savedCode){
+if(value !== saved){
 
 alert(
 "Incorrect code."
@@ -1918,89 +1954,103 @@ return false;
 }
 
 
-state.privateUnlocked = true;
-state.folder = "private";
-state.filter = "all";
+privateUnlocked=true;
+activeFolder="Private";
+filter="all";
 
-state.activeId =
+
+const privateNote =
 notes.find(
-note => note.folder === "private"
-)?.id || null;
+note => note.folder === "Private"
+);
+
+
+activeId =
+privateNote
+? privateNote.id
+: null;
+
 
 render();
 
 return true;
 
 }
+
 );
 
 }
 
 
-let modalAction = null;
-
-
 function showModal(
 title,
-body,
+content,
 action
 ){
 
+const background =
+document.getElementById(
+"modalBackground"
+);
+
 const modal =
-document.getElementById("modal");
+document.getElementById(
+"modal"
+);
 
 
 modal.innerHTML =
-"<h2>" +
-title +
-"</h2>" +
-body;
+"<h2>"+
+title+
+"</h2>"+
+content;
 
 
+background.classList.add(
+"show"
+);
+
+
+const confirmButton =
 document.getElementById(
-"modalBack"
-).classList.add("show");
+"modalConfirm"
+);
 
 
-modalAction = action;
+if(confirmButton){
 
-
-const ok =
-document.getElementById("modalOK");
-
-
-if(ok){
-
-ok.addEventListener(
+confirmButton.addEventListener(
 "click",
 function(){
 
-if(
-modalAction &&
-modalAction() !== false
-){
+const result =
+action();
+
+if(result !== false){
 
 closeModal();
 
 }
 
-}
+},
+{once:true}
 );
 
 }
 
 
-const cancel =
+const cancelButton =
 document.getElementById(
 "modalCancel"
 );
 
 
-if(cancel){
+if(cancelButton){
 
-cancel.addEventListener(
+cancelButton.addEventListener(
 "click",
-closeModal
+closeModal,
+{once:true}
 );
 
 }
@@ -2011,13 +2061,13 @@ function(){
 
 const input =
 document.getElementById(
-"modalInput"
+"privateInput"
 );
 
 if(input)input.focus();
 
 },
-50
+100
 );
 
 }
@@ -2025,158 +2075,58 @@ if(input)input.focus();
 
 function closeModal(){
 
-document.getElementById(
-"modalBack"
-).classList.remove("show");
-
-modalAction = null;
-
-}
-
-
-function addFolder(){
-
-let folder =
-prompt(
-"New folder name:"
-);
-
-
-if(!folder)return;
-
-
-folder =
-folder.trim();
-
-
-if(
-folder &&
-!folders.includes(folder) &&
-folder !== "private"
-){
-
-folders.push(folder);
-
-save();
-render();
-
-}
-
-}
-
-
-function templates(){
-
-showModal(
-
-"Student templates",
-
-`
-<p>
-Choose a template to add as a new note.
-</p>
-
-<div class="modal-actions">
-
-<button
-class="secondary"
-type="button"
-data-template="Lecture notes">
-Lecture notes
-</button>
-
-<button
-class="secondary"
-type="button"
-data-template="Book summary">
-Book summary
-</button>
-
-<button
-class="secondary"
-type="button"
-data-template="Exam revision">
-Exam revision
-</button>
-
-<button
-class="secondary"
-type="button"
-data-template="Project plan">
-Project plan
-</button>
-
-</div>
-`
-
-);
-
-
 document
-.querySelectorAll(
-"[data-template]"
+.getElementById(
+"modalBackground"
 )
-.forEach(
-button => {
-
-button.addEventListener(
-"click",
-function(){
-
-templateMake(
-button.dataset.template
-);
-
-}
-);
-
-}
-);
+.classList.remove("show");
 
 }
 
 
-function templateMake(title){
+function createTemplate(title){
 
-const templates = {
+const templates={
 
 "Lecture notes":
 "# Lecture notes\n\n"+
 "## Topic\n\n"+
-"## Key ideas\n"+
+"## Key ideas\n\n"+
 "- \n\n"+
-"## Questions\n"+
+"## Questions\n\n"+
 "- \n",
 
 "Book summary":
 "# Book summary\n\n"+
 "## Main idea\n\n"+
-"## Important points\n"+
+"## Important points\n\n"+
 "- \n\n"+
 "## My thoughts\n",
 
 "Exam revision":
 "# Exam revision\n\n"+
-"## What I need to know\n"+
+"## What I need to know\n\n"+
 "- [ ] \n\n"+
-"## Difficult topics\n"+
+"## Difficult topics\n\n"+
 "- \n\n"+
-"## Quick questions\n"+
+"## Questions\n\n"+
 "1. \n",
 
 "Project plan":
 "# Project plan\n\n"+
 "## Goal\n\n"+
-"## Tasks\n"+
+"## Tasks\n\n"+
 "- [ ] \n\n"+
 "## Deadline\n"
 
 };
 
 
-const note = {
+const note={
 
-id:crypto.randomUUID(),
+id:
+Date.now().toString()+
+Math.random().toString(16),
 
 title:title,
 
@@ -2184,11 +2134,9 @@ content:
 templates[title],
 
 folder:
-state.folder || "General",
+activeFolder || "General",
 
 pinned:false,
-
-created:Date.now(),
 
 updated:Date.now()
 
@@ -2197,10 +2145,7 @@ updated:Date.now()
 
 notes.unshift(note);
 
-state.activeId =
-note.id;
-
-closeModal();
+activeId=note.id;
 
 save();
 render();
@@ -2208,7 +2153,87 @@ render();
 }
 
 
-function settingsModal(){
+function showTemplates(){
+
+showModal(
+
+"Student templates",
+
+`
+<p>
+Choose a template.
+</p>
+
+<div class="modal-buttons">
+
+<button
+class="cancel template-choice"
+data-name="Lecture notes"
+type="button">
+Lecture notes
+</button>
+
+<button
+class="cancel template-choice"
+data-name="Book summary"
+type="button">
+Book summary
+</button>
+
+<button
+class="cancel template-choice"
+data-name="Exam revision"
+type="button">
+Exam revision
+</button>
+
+<button
+class="cancel template-choice"
+data-name="Project plan"
+type="button">
+Project plan
+</button>
+
+</div>
+`,
+
+function(){
+
+return true;
+
+}
+
+);
+
+
+document
+.querySelectorAll(
+".template-choice"
+)
+.forEach(
+function(button){
+
+button.addEventListener(
+"click",
+function(){
+
+const name =
+button.dataset.name;
+
+closeModal();
+
+createTemplate(name);
+
+}
+);
+
+}
+);
+
+}
+
+
+function showSettings(){
 
 showModal(
 
@@ -2220,24 +2245,24 @@ Editor font size
 </p>
 
 <input
-id="fontInput"
+id="fontSize"
 type="number"
 min="13"
 max="28"
-value="${settings.font}">
+value="17">
 
-<div class="modal-actions">
+<div class="modal-buttons">
 
 <button
-class="secondary"
 id="modalCancel"
+class="cancel"
 type="button">
-Close
+Cancel
 </button>
 
 <button
-class="primary"
-id="modalOK"
+id="modalConfirm"
+class="confirm"
 type="button">
 Save
 </button>
@@ -2247,53 +2272,47 @@ Save
 
 function(){
 
-let value =
+let size =
 parseInt(
 document.getElementById(
-"fontInput"
+"fontSize"
 ).value,
 10
 );
 
 
 if(
-Number.isNaN(value)
-){
-
-value = 17;
-
-}
+Number.isNaN(size)
+)size=17;
 
 
-settings.font =
+size =
 Math.max(
 13,
 Math.min(
 28,
-value
+size
 )
 );
 
 
-document.documentElement
+document
+.getElementById("editor")
 .style
-.setProperty(
-"--fs",
-settings.font + "px"
-);
+.fontSize =
+size+"px";
 
-
-save();
 
 return true;
 
 }
+
 );
 
 }
 
 
-function help(){
+function showHelp(){
 
 showModal(
 
@@ -2301,48 +2320,32 @@ showModal(
 
 `
 <p>
-
-<b>⌘/Ctrl + N</b>
-&nbsp; New note
-
-<br><br>
-
-<b>⌘/Ctrl + S</b>
-&nbsp; Save
-
-<br><br>
-
-<b>⌘/Ctrl + F</b>
-&nbsp; Search
-
-<br><br>
-
-<b>⌘/Ctrl + B</b>
-&nbsp; Bold
-
-<br><br>
-
-<b>⌘/Ctrl + I</b>
-&nbsp; Italic
-
+<b>⌘/Ctrl + N</b> — New note
 </p>
 
 <p>
-Use Markdown in the editor and see
-the live preview on the right.
+<b>⌘/Ctrl + S</b> — Save
 </p>
 
 <p>
-Private notes are protected by the
-code you create the first time you
-open Private.
+<b>⌘/Ctrl + F</b> — Search
 </p>
 
-<div class="modal-actions">
+<p>
+Use the toolbar to format your notes.
+</p>
+
+<p>
+Private creates a code the first time
+you open it, then requires that code
+on future visits.
+</p>
+
+<div class="modal-buttons">
 
 <button
-class="primary"
-id="modalOK"
+id="modalConfirm"
+class="confirm"
 type="button">
 Done
 </button>
@@ -2364,9 +2367,15 @@ return true;
 function format(command){
 
 const editor =
-document.getElementById("editor");
+document.getElementById(
+"editor"
+);
 
-if(!current())return;
+const note =
+getCurrent();
+
+
+if(!note)return;
 
 
 const start =
@@ -2376,73 +2385,65 @@ const end =
 editor.selectionEnd;
 
 const selected =
-editor.value.slice(
+editor.value.substring(
 start,
 end
 );
 
 
-let replacement =
+let result =
 selected;
 
 
-if(command === "bold")
-replacement =
-"**" + selected + "**";
+if(command==="bold")
+result="**"+selected+"**";
 
 
-if(command === "italic")
-replacement =
-"*" + selected + "*";
+if(command==="italic")
+result="*"+selected+"*";
 
 
-if(command === "h1")
-replacement =
-"# " + selected;
+if(command==="h1")
+result="# "+selected;
 
 
-if(command === "h2")
-replacement =
-"## " + selected;
+if(command==="h2")
+result="## "+selected;
 
 
-if(command === "check")
-replacement =
-"- [ ] " + selected;
+if(command==="check")
+result="- [ ] "+selected;
 
 
-if(command === "bullet")
-replacement =
-"- " + selected;
+if(command==="bullet")
+result="- "+selected;
 
 
-if(command === "number")
-replacement =
-"1. " + selected;
+if(command==="number")
+result="1. "+selected;
 
 
-if(command === "code")
-replacement =
-"`" + selected + "`";
+if(command==="code")
+result="`"+selected+"`";
 
 
-if(command === "quote")
-replacement =
-"> " + selected;
+if(command==="quote")
+result="> "+selected;
 
 
-if(command === "link")
-replacement =
-"[" + selected + "](https://example.com)";
+if(command==="link")
+result=
+"["+selected+
+"](https://example.com)";
 
 
-if(command === "highlight")
-replacement =
-"==" + selected + "==";
+if(command==="highlight")
+result=
+"=="+selected+"==";
 
 
 editor.setRangeText(
-replacement,
+result,
 start,
 end,
 "end"
@@ -2456,35 +2457,32 @@ saveEditor();
 
 function saveEditor(){
 
-const note = current();
+const note =
+getCurrent();
 
 if(!note)return;
 
 
 const editor =
-document.getElementById("editor");
+document.getElementById(
+"editor"
+);
 
 
 note.content =
 editor.value;
 
 
-const firstLine =
+const first =
 editor.value
 .split("\n")[0]
-.replace(
-/^#+\s*/,
-""
-)
+.replace(/^#+\s*/,"")
 .trim();
 
 
 note.title =
-(
-firstLine ||
-"Untitled note"
-)
-.slice(0,80);
+(first || "Untitled")
+.substring(0,80);
 
 
 note.updated =
@@ -2494,202 +2492,210 @@ Date.now();
 save();
 
 
-document.getElementById(
-"noteTitle"
-).textContent =
-note.title;
-
-
-document.getElementById(
-"noteSub"
-).textContent =
-note.folder +
-" · Just now";
-
-
-document.getElementById(
-"preview"
-).innerHTML =
-md(note.content);
-
-
-updateStats(
-note.content
-);
-
-
-renderList();
+renderEditor();
+renderNotes();
 
 }
 
 
-document.getElementById(
-"startBtn"
-).addEventListener(
+/* START BUTTON */
+
+document
+.getElementById("startButton")
+.addEventListener(
 "click",
 function(){
 
+const startup =
 document.getElementById(
-"launch"
-).classList.add("hide");
+"startup"
+);
+
+const app =
+document.getElementById(
+"app"
+);
+
+
+/* Show the actual app first */
+
+app.classList.add("visible");
+
+
+/* Then animate startup away */
+
+startup.classList.add("hidden");
 
 }
 );
 
 
-document.getElementById(
-"editor"
-).addEventListener(
-"input",
-saveEditor
-);
+/* NEW NOTE */
 
-
-document.getElementById(
-"search"
-).addEventListener(
-"input",
-function(event){
-
-state.search =
-event.target.value;
-
-renderList();
-
-}
-);
-
-
-document.getElementById(
-"allBtn"
-).addEventListener(
+document
+.getElementById("newNote")
+.addEventListener(
 "click",
-function(){
-
-state.filter = "all";
-state.folder = null;
-state.activeId = null;
-
-render();
-
-}
+createNote
 );
 
 
-document.getElementById(
-"pinnedBtn"
-).addEventListener(
-"click",
-function(){
+/* DELETE */
 
-state.filter = "pinned";
-state.folder = null;
-state.activeId = null;
-
-render();
-
-}
-);
-
-
-document.getElementById(
-"newBtn"
-).addEventListener(
-"click",
-newNote
-);
-
-
-document.getElementById(
-"deleteBtn"
-).addEventListener(
+document
+.getElementById("delete")
+.addEventListener(
 "click",
 deleteNote
 );
 
 
-document.getElementById(
-"duplicateBtn"
-).addEventListener(
+/* DUPLICATE */
+
+document
+.getElementById("duplicate")
+.addEventListener(
 "click",
-duplicate
+duplicateNote
 );
 
 
-document.getElementById(
-"moveBtn"
-).addEventListener(
+/* PIN */
+
+document
+.getElementById("pin")
+.addEventListener(
+"click",
+pinNote
+);
+
+
+/* MOVE */
+
+document
+.getElementById("move")
+.addEventListener(
 "click",
 moveNote
 );
 
 
-document.getElementById(
-"pinBtn"
-).addEventListener(
+/* ALL NOTES */
+
+document
+.getElementById("allNotes")
+.addEventListener(
 "click",
 function(){
 
-const note = current();
+filter="all";
+activeFolder=null;
+activeId=null;
 
-if(!note)return;
-
-note.pinned =
-!note.pinned;
-
-note.updated =
-Date.now();
-
-save();
 render();
 
 }
 );
 
 
-document.getElementById(
-"newFolderBtn"
-).addEventListener(
+/* PINNED */
+
+document
+.getElementById("pinnedNotes")
+.addEventListener(
+"click",
+function(){
+
+filter="pinned";
+activeFolder=null;
+activeId=null;
+
+render();
+
+}
+);
+
+
+/* SEARCH */
+
+document
+.getElementById("search")
+.addEventListener(
+"input",
+function(event){
+
+searchText =
+event.target.value;
+
+renderNotes();
+
+}
+);
+
+
+/* NEW FOLDER */
+
+document
+.getElementById("newFolder")
+.addEventListener(
 "click",
 addFolder
 );
 
 
-document.getElementById(
-"templateBtn"
-).addEventListener(
+/* TEMPLATES */
+
+document
+.getElementById("templates")
+.addEventListener(
 "click",
-templates
+showTemplates
 );
 
 
-document.getElementById(
-"settingsBtn"
-).addEventListener(
+/* SETTINGS */
+
+document
+.getElementById("settings")
+.addEventListener(
 "click",
-settingsModal
+showSettings
 );
 
 
-document.getElementById(
-"helpBtn"
-).addEventListener(
+/* HELP */
+
+document
+.getElementById("help")
+.addEventListener(
 "click",
-help
+showHelp
 );
 
+
+/* EDITOR */
+
+document
+.getElementById("editor")
+.addEventListener(
+"input",
+saveEditor
+);
+
+
+/* FORMATTING */
 
 document
 .querySelectorAll(".tool")
 .forEach(
-button => {
+function(button){
 
 button.addEventListener(
 "click",
 function(){
 
 format(
-button.dataset.cmd
+button.dataset.format
 );
 
 }
@@ -2699,15 +2705,17 @@ button.dataset.cmd
 );
 
 
-document.getElementById(
-"modalBack"
-).addEventListener(
+/* MODAL BACKGROUND */
+
+document
+.getElementById("modalBackground")
+.addEventListener(
 "click",
 function(event){
 
 if(
 event.target.id ===
-"modalBack"
+"modalBackground"
 ){
 
 closeModal();
@@ -2718,30 +2726,32 @@ closeModal();
 );
 
 
+/* KEYBOARD SHORTCUTS */
+
 document.addEventListener(
 "keydown",
 function(event){
 
 const shortcut =
-event.metaKey ||
-event.ctrlKey;
+event.ctrlKey ||
+event.metaKey;
 
 
 if(
 shortcut &&
-event.key.toLowerCase() === "n"
+event.key.toLowerCase()==="n"
 ){
 
 event.preventDefault();
 
-newNote();
+createNote();
 
 }
 
 
 if(
 shortcut &&
-event.key.toLowerCase() === "s"
+event.key.toLowerCase()==="s"
 ){
 
 event.preventDefault();
@@ -2753,21 +2763,21 @@ saveEditor();
 
 if(
 shortcut &&
-event.key.toLowerCase() === "f"
+event.key.toLowerCase()==="f"
 ){
 
 event.preventDefault();
 
-document.getElementById(
-"search"
-).focus();
+document
+.getElementById("search")
+.focus();
 
 }
 
 
 if(
 shortcut &&
-event.key.toLowerCase() === "b" &&
+event.key.toLowerCase()==="b" &&
 document.activeElement ===
 document.getElementById("editor")
 ){
@@ -2781,7 +2791,7 @@ format("bold");
 
 if(
 shortcut &&
-event.key.toLowerCase() === "i" &&
+event.key.toLowerCase()==="i" &&
 document.activeElement ===
 document.getElementById("editor")
 ){
@@ -2796,15 +2806,13 @@ format("italic");
 );
 
 
-document.documentElement
-.style
-.setProperty(
-"--fs",
-settings.font + "px"
-);
+/* INITIAL RENDER */
 
+save();
 
 render();
+
+})();
 
 </script>
 
